@@ -1,10 +1,26 @@
-"""בדיקת עבר של האסטרטגיה על S&P 500 (5 שנים). הרצה: python backtest.py"""
+"""בדיקת עבר (5 שנים, S&P 500) כולל תקרת פוזיציות והחלקות. הרצה: python backtest.py"""
+import os
+
 import numpy as np
 import pandas as pd
 
 import config as C
 from data import download, get_sp500
+from notify import send_telegram
 from strategy import add_indicators, compute_signals, simulate
+
+
+def stats(df, col):
+    r = df[col]
+    if r.empty:
+        return None
+    wins, losses = r[r > 0], r[r <= 0]
+    pf = wins.sum() / abs(losses.sum()) if len(losses) and losses.sum() != 0 else float("inf")
+    curve = df.sort_values("exit_date")[col].cumsum()
+    return {
+        "n": len(r), "win": len(wins) / len(r) * 100, "exp": r.mean(), "pf": pf,
+        "sum": r.sum(), "dd": (curve - curve.cummax()).min(),
+    }
 
 
 def main():
@@ -26,52 +42,84 @@ def main():
                 continue
             m = s["mom"].iloc[i]
             cands.append((d, t, float(m) if pd.notna(m) else -1.0, int(i)))
-
     if not cands:
         print("לא נמצאו סיגנלים.")
         return
     cdf = pd.DataFrame(cands, columns=["date", "ticker", "mom", "i"])
-    cdf = cdf.sort_values(["date", "mom"], ascending=[True, False])
-    cdf = cdf.groupby("date").head(C.MAX_SIGNALS_PER_DAY)
+    cdf = cdf.sort_values(["date", "mom"], ascending=[True, False]).groupby("date").head(C.MAX_SIGNALS_PER_DAY)
 
-    trades = []
-    for t, g in cdf.groupby("ticker"):
+    busy_until, active, trades = {}, [], []
+    skipped_cap = expired = unfinished = 0
+    for row in cdf.sort_values(["date", "mom"], ascending=[True, False]).itertuples():
+        t, d = row.ticker, row.date
+        if t in busy_until and d <= busy_until[t]:
+            continue
         s = sigs[t]
-        busy_until = None
-        for row in g.sort_values("date").itertuples():
-            if busy_until is not None and row.date <= busy_until:
-                continue
-            sig = s.iloc[row.i]
-            future = s.iloc[row.i + 1 :]
-            res = simulate(future, float(sig["entry"]), float(sig["stop"]), float(sig["target"]))
-            if res["status"] in ("pending", "open"):
-                break
-            if res["status"] == "expired":
-                busy_until = future.index[min(C.ORDER_VALID_DAYS, len(future)) - 1]
-            else:
-                busy_until = res["exit_date"]
-            trades.append({"ticker": t, "signal_date": row.date, **res})
+        sig = s.iloc[row.i]
+        future = s.iloc[row.i + 1:]
+        res = simulate(future, float(sig["entry"]), float(sig["stop"]), float(sig["target"]))
+        st = res["status"]
+        if st == "pending":
+            continue
+        if st == "expired":
+            end = future.index[min(C.ORDER_VALID_DAYS, len(future)) - 1]
+        elif st == "open":
+            end = future.index[-1]
+        else:
+            end = res["exit_date"]
+        if sum(1 for a, b in active if a <= d <= b) >= C.MAX_OPEN_POSITIONS:
+            skipped_cap += 1
+            continue
+        active.append((d, end))
+        busy_until[t] = end
+        if st == "expired":
+            expired += 1
+            continue
+        if st == "open":
+            unfinished += 1
+            continue
+        fill, risk = res["fill_price"], float(sig["entry"]) - float(sig["stop"])
+        cost = 2 * C.BT_SLIPPAGE_PCT * fill + (C.BT_STOP_SLIPPAGE_PCT * fill if st == "stopped" else 0)
+        trades.append({
+            "ticker": t, "signal_date": d, "status": st, "fill_date": res["fill_date"],
+            "exit_date": res["exit_date"], "r_gross": res["r"], "r_net": res["r"] - cost / risk,
+        })
 
     tdf = pd.DataFrame(trades)
-    filled = tdf[tdf["status"].isin(["target", "stopped", "timeout"])].copy()
-    n_exp = int((tdf["status"] == "expired").sum())
-    r = filled["r"]
-    wins, losses = r[r > 0], r[r <= 0]
-    pf = wins.sum() / abs(losses.sum()) if len(losses) and losses.sum() != 0 else float("inf")
-    curve = filled.sort_values("exit_date")["r"].cumsum()
-    max_dd = (curve - curve.cummax()).min()
+    if tdf.empty:
+        print("אין עסקאות סגורות.")
+        return
+    g, n = stats(tdf, "r_gross"), stats(tdf, "r_net")
+    hold = (pd.to_datetime(tdf["exit_date"]) - pd.to_datetime(tdf["fill_date"])).dt.days.mean()
+    first, last = pd.to_datetime(tdf["fill_date"]).min(), pd.to_datetime(tdf["exit_date"]).max()
+    spy_ret = (spy["Close"].asof(last) / spy["Close"].asof(first) - 1) * 100
+    approx = n["sum"] * C.RISK_PER_TRADE_PCT  # סיכון 0.5% לעסקה, בלי ריבית דריבית
 
-    print("=" * 40)
-    print(f"סיגנלים שהתמלאו: {len(filled)} | הוראות שפגו: {n_exp}")
-    print(f"יעד: {(filled.status == 'target').sum()} | סטופ: {(filled.status == 'stopped').sum()} | timeout: {(filled.status == 'timeout').sum()}")
-    print(f"אחוז הצלחה: {len(wins) / len(filled) * 100:.1f}%")
-    print(f"ממוצע לעסקה (expectancy): {r.mean():+.3f}R")
-    print(f"Profit factor: {pf:.2f}")
-    print(f"סה\"כ: {r.sum():+.1f}R | משיכה מקסימלית (בסכום R): {max_dd:.1f}R")
-    print("=" * 40)
-    print("שים לב: הבדיקה על המרכיבים הנוכחיים של S&P 500 (survivorship bias),")
-    print("בלי עמלות/החלקות, ובלי מגבלת פוזיציות במקביל. התוצאות אופטימיות מהמציאות.")
-    filled.to_csv("backtest_trades.csv", index=False)
+    L = [f"📊 בקטסט S&P 500 — {first:%d.%m.%Y} עד {last:%d.%m.%Y}", f"תקרת פוזיציות: {C.MAX_OPEN_POSITIONS}", ""]
+    L.append(f"עסקאות סגורות: {n['n']} | הוראות שפגו: {expired} | נדחו בגלל התקרה: {skipped_cap}")
+    L.append(f"יעד: {(tdf.status == 'target').sum()} | סטופ: {(tdf.status == 'stopped').sum()} | timeout: {(tdf.status == 'timeout').sum()}")
+    L.append(f"ממוצע ימי החזקה: {hold:.1f}")
+    L.append("")
+    L.append(f"לפני החלקות: הצלחה {g['win']:.0f}% | ממוצע {g['exp']:+.3f}R | PF {g['pf']:.2f} | סה\"כ {g['sum']:+.0f}R")
+    L.append(f"אחרי החלקות: הצלחה {n['win']:.0f}% | ממוצע {n['exp']:+.3f}R | PF {n['pf']:.2f} | סה\"כ {n['sum']:+.0f}R")
+    L.append(f"משיכה מקסימלית (סכום R, אחרי החלקות): {n['dd']:.1f}R")
+    L.append("")
+    L.append(f"הערכה גסה: סיכון {C.RISK_PER_TRADE_PCT}% לעסקה ≈ {approx:+.0f}% סך הכל (בלי ריבית דריבית), מול SPY באותה תקופה {spy_ret:+.0f}%")
+    L.append("")
+    tdf["year"] = pd.to_datetime(tdf["exit_date"]).dt.year
+    L.append("לפי שנה (אחרי החלקות):")
+    for y, part in tdf.groupby("year"):
+        s_ = stats(part, "r_net")
+        L.append(f"{y}: {s_['n']} עסקאות | הצלחה {s_['win']:.0f}% | ממוצע {s_['exp']:+.2f}R | סה\"כ {s_['sum']:+.0f}R")
+    L += ["", "מגבלות: המדד הנוכחי בלבד (survivorship bias), בלי פילטר אנליסטים/דוחות (אין נתוני עבר אמינים),",
+          "החלקות מוערכות. תוצאות עבר אינן תחזית."]
+    text = "\n".join(L)
+    print(text)
+    with open("backtest_report.txt", "w", encoding="utf-8") as f:
+        f.write(text + "\n")
+    tdf.drop(columns=["year"]).to_csv("backtest_trades.csv", index=False)
+    if os.getenv("TELEGRAM_BOT_TOKEN"):
+        send_telegram(text)
 
 
 if __name__ == "__main__":

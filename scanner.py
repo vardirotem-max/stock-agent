@@ -255,6 +255,10 @@ def main():
         regime_ok = bool(spy["Close"].iloc[-1] > spy["sma200"].iloc[-1])
 
     new = []
+    busy = {r["ticker"] for r in rows if r["status"] in OPEN}
+    limit = max(0, min(C.MAX_SIGNALS_PER_DAY, C.MAX_OPEN_POSITIONS - len(busy)))
+    if regime_ok and limit == 0:
+        data_note = (data_note + "\n" if data_note else "") + f"⏸ תקרת פוזיציות: {len(busy)}/{C.MAX_OPEN_POSITIONS} — אין סיגנלים חדשים עד שיתפנה מקום"
     info = {"cands": 0, "checked": 0, "no_data": 0, "rejected": 0, "earn_blocked": 0, "earn_no_data": 0}
     if regime_ok:
         busy = {r["ticker"] for r in rows if r["status"] in OPEN}
@@ -273,6 +277,8 @@ def main():
         info["cands"] = len(cands)
         cands.sort(key=lambda x: x["mom"], reverse=True)
         pool = cands[: C.ANALYST_CHECK_TOP] if C.USE_ANALYST_FILTER else cands[: C.MAX_SIGNALS_PER_DAY]
+        if limit == 0:
+            pool = []
         new = []
         for c in pool:
             if C.USE_ANALYST_FILTER:
@@ -293,7 +299,7 @@ def main():
                     continue
                 c["earnings"] = ed
             new.append(c)
-            if len(new) >= C.MAX_SIGNALS_PER_DAY:
+            if len(new) >= limit:
                 break
         for s in new:
             s["shares"] = position_size(s["entry"], s["stop"])
@@ -311,7 +317,8 @@ def main():
         f"crosscheck_ok={ok_n}/3", f"regime_ok={regime_ok}", f"technical_candidates={info['cands']}",
         f"analyst_checked={info['checked']}", f"analyst_no_data={info['no_data']}",
         f"analyst_rejected={info['rejected']}", f"earnings_blocked={info['earn_blocked']}",
-        f"earnings_no_data={info['earn_no_data']}", f"signals_sent={len(new)}", *events,
+        f"earnings_no_data={info['earn_no_data']}", f"open_slots_used={len(busy)}/{C.MAX_OPEN_POSITIONS}",
+        f"signals_sent={len(new)}", *events,
     ])
     send_telegram(build_message(last_str, regime_ok, new, events, stats_line(rows), data_note))
 
