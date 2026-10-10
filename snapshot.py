@@ -1,8 +1,10 @@
 """תמונת מצב של החשבון לקובץ JSON (משמש את דף ה-Dashboard): יתרה, פוזיציות, הוראות ממתינות, עקומת שווי מול SPY."""
+import csv
 import json
 from datetime import datetime, timezone
 
 import broker
+import config as C
 import state as st
 
 
@@ -19,6 +21,18 @@ def spy_series(start_ts):
     except Exception as e:
         print("spy failed", e)
         return {}
+
+
+def levels():
+    """סטופ ויעד לפי הלוג, לפי טיקר (השורה האחרונה לכל טיקר)."""
+    out = {}
+    try:
+        with open("signals_log.csv", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                out[r["ticker"]] = {"stop": float(r["stop"]), "target": float(r["target"])}
+    except Exception as e:
+        print("levels failed", e)
+    return out
 
 
 def build():
@@ -40,15 +54,16 @@ def build():
     for p in hist:
         p["spy"] = round(start_eq * spy[p["d"]] / base, 2) if base and p["d"] in spy else None
     s = st.load()
+    lv = levels()
     return {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "equity": equity, "cash": float(acc["cash"]), "buying_power": float(acc.get("buying_power") or 0),
         "day_pl": equity - last_eq, "day_pct": (equity - last_eq) / last_eq * 100 if last_eq else 0,
-        "peak": float(s.get("peak_equity") or equity), "paused": bool(s.get("paused")),
+        "peak": float(s.get("peak_equity") or equity), "paused": bool(s.get("paused")), "dd_limit": C.MAX_DRAWDOWN_PCT,
         "positions": [{"symbol": p["symbol"], "qty": float(p["qty"]), "entry": float(p["avg_entry_price"]),
                        "price": float(p["current_price"]), "pl": float(p["unrealized_pl"]),
-                       "plpc": float(p["unrealized_plpc"]) * 100} for p in pos],
-        "pending": [{"symbol": o["symbol"], "qty": o["qty"], "limit": float(o["limit_price"])}
+                       "plpc": float(p["unrealized_plpc"]) * 100, **lv.get(p["symbol"], {})} for p in pos],
+        "pending": [{"symbol": o["symbol"], "qty": o["qty"], "limit": float(o["limit_price"]), **lv.get(o["symbol"], {})}
                     for o in orders if o["side"] == "buy" and o["type"] == "limit"],
         "history": hist,
     }
