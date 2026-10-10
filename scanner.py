@@ -4,6 +4,7 @@ import sys
 
 import pandas as pd
 
+import broker
 import config as C
 from data import download, get_sp500
 from notify import send_telegram
@@ -12,7 +13,7 @@ from strategy import add_indicators, compute_signals, simulate
 LOG = "signals_log.csv"
 FIELDS = [
     "signal_date", "ticker", "entry", "stop", "target", "shares", "status",
-    "fill_date", "fill_price", "exit_date", "exit_price", "r",
+    "fill_date", "fill_price", "exit_date", "exit_price", "r", "order_id", "broker_done",
 ]
 OPEN = ("pending", "open")
 FILLED_CLOSED = ("target", "stopped", "timeout")
@@ -91,6 +92,39 @@ def position_size(entry, stop):
     return max(0, min(by_risk, by_cap))
 
 
+def broker_sync(rows):
+    """משקף את הלוג מול חשבון הדמה ב-Alpaca. אידמפוטנטי: בטוח להריץ כמה פעמים."""
+    if not broker.enabled():
+        return []
+    ev = []
+    for r in rows:
+        t, oid = r["ticker"], r.get("order_id") or ""
+        try:
+            if r["status"] == "pending" and not oid:
+                qty = int(float(r.get("shares") or 0))
+                if qty < 1:
+                    r["order_id"] = "skipped"
+                    ev.append(f"⚠️ {t}: כמות 0 - לא נשלחה הוראה")
+                    continue
+                r["order_id"] = broker.place_bracket(
+                    t, qty, float(r["entry"]), float(r["stop"]), float(r["target"]),
+                    client_id=f"{r['signal_date']}-{t}",
+                )
+                ev.append(f"📨 {t}: נשלחה הוראה לחשבון הדמה ({qty} מניות)")
+            elif oid not in ("", "skipped") and not r.get("broker_done"):
+                if r["status"] == "expired":
+                    broker.cancel(oid)
+                    r["broker_done"] = "1"
+                elif r["status"] == "timeout":
+                    broker.close(t, oid)
+                    r["broker_done"] = "1"
+                    ev.append(f"🔒 {t}: הפוזיציה נסגרה בחשבון הדמה")
+        except Exception as e:
+            ev.append(f"⚠️ {t}: שגיאת Alpaca: {str(e)[:100]}")
+            print("alpaca error", t, e)
+    return ev
+
+
 def build_message(date_str, regime_ok, new, events, stats):
     lines = [f"📊 סורק סווינג — {date_str}"]
     if not regime_ok:
@@ -137,7 +171,11 @@ def main():
 
     if any(r["signal_date"] == last_str for r in rows):
         print(f"{last_str} כבר נסרק. מעדכן לוג בלבד.")
+        events += broker_sync(rows)
         save_log(rows)
+        if events:
+            extra = stats_line(rows)
+            send_telegram("🔄 עדכון\n" + "\n".join(events) + (f"\n\n{extra}" if extra else ""))
         return
 
     regime_ok = True
@@ -169,6 +207,7 @@ def main():
                 "status": "pending",
             })
 
+    events += broker_sync(rows)
     save_log(rows)
     send_telegram(build_message(last_str, regime_ok, new, events, stats_line(rows)))
 
