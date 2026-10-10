@@ -1,4 +1,4 @@
 signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_date,exit_price,r,order_id,broker_done
-2026-10-09,IQV,259.88,248.74,282.16,4,pending,,,,,,fef28749-49d4-472e-b4a7-12cd39f4002a,
-2026-10-09,EG,368.37,357.58,389.95,4,pending,,,,,,e914806b-1047-41bf-99e5-dcdbd961c9bf,
-2026-10-09,ROK,431.9,415.7,464.28,3,pending,,,,,,2041c2f1-01db-4dae-a81f-49232d7e21a3,
+2026-10-09,IQV,259.88,248.74,282.16,4,pending,,,,,,32104a17-fc0d-44c0-b24d-eb13a94f9395,
+2026-10-09,EG,368.37,357.58,389.95,4,pending,,,,,,177d852e-cfb0-4864-a4b3-77f2f6a148c0,
+2026-10-09,ROK,431.9,415.7,464.28,3,pending,,,,,,7ab17873-ed7d-491a-845f-2895a6967e92,
