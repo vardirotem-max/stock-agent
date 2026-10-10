@@ -1,0 +1,40 @@
+name: Weekly summary
+
+on:
+  schedule:
+    # יום ראשון 05:00 UTC (08:00 בקיץ / 07:00 בחורף בישראל)
+    - cron: "0 5 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      ALPACA_KEY_ID: ${{ secrets.ALPACA_KEY_ID }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python weekly_report.py
+      - name: Save report (manual runs only)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "stock-bot"
+          git config user.email "stock-bot@users.noreply.github.com"
+          git add weekly_report.txt
+          git diff --cached --quiet || (git commit -m "weekly report sample" && git push)
+      - name: Alert on failure
+        if: failure()
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d "chat_id=${TELEGRAM_CHAT_ID}" \
+            --data-urlencode "text=⚠️ הסיכום השבועי נכשל: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"

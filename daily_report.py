@@ -5,6 +5,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 import broker
+import state as st
 from notify import send_telegram
 
 IL = ZoneInfo("Asia/Jerusalem")
@@ -48,6 +49,10 @@ def main():
     lines.append(f"💰 שווי החשבון: {money(equity)}")
     lines.append(f"💵 מזומן פנוי: {money(cash)}")
     lines.append(f"{arrow(day_pl)} רווח/הפסד יומי: {money(day_pl, True)} ({day_pct:+.2f}%)")
+    peak = float(st.load().get("peak_equity") or 0)
+    if peak:
+        dd = max(0.0, (peak - equity) / peak * 100)
+        lines.append(f"📉 ירידה מהשיא ({peak:,.0f}$): {dd:.1f}%" + (" ⛔ הבוט מושהה" if st.load().get("paused") else ""))
     if market_open is False:
         lines.append("ℹ️ השוק סגור כרגע; השינוי היומי הוא מאז הסגירה האחרונה.")
 

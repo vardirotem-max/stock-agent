@@ -115,3 +115,31 @@ def audit():
         if tp < qty or sl < qty:
             problems.append(f"🚨 {sym}: פוזיציה של {qty:g} מניות בלי הגנה מלאה (יעד {tp:g}, סטופ {sl:g})")
     return problems, len(p.json())
+
+
+def equity():
+    """שווי החשבון הנוכחי, או None אם נכשל."""
+    try:
+        r = _req("GET", "/v2/account")
+        return float(r.json()["equity"]) if r.ok else None
+    except Exception as e:
+        print("equity failed", e)
+        return None
+
+
+def last_sell_fill(symbol, after_iso):
+    """מחיר מילוי ממוצע של הוראת מכירה אחרונה שמולאה על הסימבול אחרי זמן המילוי של הקנייה."""
+    r = _req("GET", "/v2/orders", params={"status": "closed", "symbols": symbol, "direction": "desc", "limit": 20})
+    if not r.ok:
+        return None
+    for o in r.json():
+        if o.get("side") == "sell" and o.get("filled_avg_price") and (not after_iso or (o.get("filled_at") or "") >= after_iso):
+            return float(o["filled_avg_price"])
+    return None
+
+
+def portfolio_history(period="all"):
+    r = _req("GET", "/v2/account/portfolio/history", params={"period": period, "timeframe": "1D"})
+    if not r.ok:
+        raise RuntimeError(f"history {r.status_code} {r.text[:150]}")
+    return r.json()

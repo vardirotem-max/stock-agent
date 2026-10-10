@@ -9,6 +9,7 @@ import analysts
 import broker
 import earnings
 import config as C
+import state as st
 from data import download, get_sp500
 from notify import send_telegram
 from strategy import add_indicators, compute_signals, simulate
@@ -17,6 +18,7 @@ LOG = "signals_log.csv"
 FIELDS = [
     "signal_date", "ticker", "entry", "stop", "target", "shares", "status",
     "fill_date", "fill_price", "exit_date", "exit_price", "r", "order_id", "broker_done",
+    "actual_fill", "actual_exit", "actual_r",
 ]
 OPEN = ("pending", "open")
 FILLED_CLOSED = ("target", "stopped", "timeout")
@@ -83,7 +85,9 @@ def stats_line(rows):
     if not rs:
         return ""
     wins = sum(1 for x in rs if x > 0)
-    return f"📈 היסטוריית הבוט: {len(rs)} עסקאות סגורות | הצלחה {wins / len(rs) * 100:.0f}% | ממוצע {sum(rs) / len(rs):+.2f}R"
+    n_act = sum(1 for r in rows if r.get("actual_r"))
+    return (f"📈 היסטוריית הבוט: {len(rs)} עסקאות סגורות | הצלחה {wins / len(rs) * 100:.0f}% | ממוצע {sum(rs) / len(rs):+.2f}R"
+            + (f" | מהן לפי מילוי בפועל: {n_act}" if n_act else ""))
 
 
 def position_size(entry, stop):
@@ -173,6 +177,47 @@ def cross_check(data, last_date):
     return warns, ok
 
 
+def reconcile_actuals(rows):
+    """משווה את הלוג למילויים האמיתיים ב-Alpaca. מילוי בפועל גובר על הסימולציה. כשל = נשארים עם הסימולציה."""
+    if not broker.enabled():
+        return []
+    ev = []
+    for r in rows:
+        oid = r.get("order_id") or ""
+        if oid in ("", "skipped") or r.get("actual_r"):
+            continue
+        try:
+            o = broker.get_order(oid)
+            fill = o.get("filled_avg_price")
+            if not fill:
+                continue
+            fill = float(fill)
+            r["actual_fill"] = round(fill, 2)
+            risk = float(r["entry"]) - float(r["stop"])
+            leg = next((l for l in (o.get("legs") or []) if l.get("status") == "filled" and l.get("filled_avg_price")), None)
+            exit_px = kind = None
+            if leg:
+                exit_px = float(leg["filled_avg_price"])
+                kind = "target" if leg.get("type") == "limit" else "stopped"
+            elif r["status"] == "timeout":
+                exit_px = broker.last_sell_fill(r["ticker"], o.get("filled_at"))
+                kind = "timeout"
+            if exit_px is None or risk <= 0:
+                continue
+            was_open = r["status"] in OPEN
+            r["actual_exit"] = round(exit_px, 2)
+            r["actual_r"] = round((exit_px - fill) / risk, 2)
+            r["status"], r["r"] = kind, r["actual_r"]
+            r["fill_price"], r["exit_price"] = r["actual_fill"], r["actual_exit"]
+            if leg and leg.get("filled_at"):
+                r["exit_date"] = leg["filled_at"][:10]
+            if was_open:
+                ev.append(f"✅ {r['ticker']}: נסגר בפועל ({kind}) {r['actual_r']:+.1f}R")
+        except Exception as e:
+            print("reconcile failed", r["ticker"], e)
+    return ev
+
+
 def write_report(lines):
     with open("last_run.txt", "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
@@ -236,11 +281,26 @@ def main():
     rows = load_log()
     events = update_outcomes(rows, data)
 
+    state = st.load()
+    equity = broker.equity() if broker.enabled() else None
+    dd = 0.0
+    if equity:
+        state["peak_equity"] = max(float(state.get("peak_equity") or 0), equity)
+        dd = (state["peak_equity"] - equity) / state["peak_equity"] * 100
+        if not state.get("paused") and dd >= C.MAX_DRAWDOWN_PCT:
+            state["paused"], state["paused_at"] = True, last_str
+            events.append(
+                f"⛔ עצירה אוטומטית: החשבון ירד {dd:.1f}% מהשיא ({state['peak_equity']:,.0f}$ → {equity:,.0f}$). "
+                "אין הוראות חדשות עד שתריץ 'Resume after auto-pause' ב-GitHub. פוזיציות קיימות נשארות עם הסטופ והיעד."
+            )
+
     if any(r["signal_date"] == last_str for r in rows):
         print(f"{last_str} כבר נסרק. מעדכן לוג בלבד.")
         events += broker_sync(rows)
+        events += reconcile_actuals(rows)
         events += safe_audit()
         save_log(rows)
+        st.save(state)
         write_report([
             f"run_utc={pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}", f"last_bar={last_str}", "mode=already_scanned",
             f"crosscheck_ok={ok_n}/3", f"events={len(events)}", *events,
@@ -257,7 +317,10 @@ def main():
     new = []
     busy = {r["ticker"] for r in rows if r["status"] in OPEN}
     limit = max(0, min(C.MAX_SIGNALS_PER_DAY, C.MAX_OPEN_POSITIONS - len(busy)))
-    if regime_ok and limit == 0:
+    if state.get("paused"):
+        limit = 0
+        data_note = (data_note + "\n" if data_note else "") + f"⛔ הבוט מושהה (ירידה {dd:.1f}% מהשיא). אין סיגנלים חדשים עד Resume."
+    elif regime_ok and limit == 0:
         data_note = (data_note + "\n" if data_note else "") + f"⏸ תקרת פוזיציות: {len(busy)}/{C.MAX_OPEN_POSITIONS} — אין סיגנלים חדשים עד שיתפנה מקום"
     info = {"cands": 0, "checked": 0, "no_data": 0, "rejected": 0, "earn_blocked": 0, "earn_no_data": 0}
     if regime_ok:
@@ -310,15 +373,17 @@ def main():
             })
 
     events += broker_sync(rows)
+    events += reconcile_actuals(rows)
     events += safe_audit()
     save_log(rows)
+    st.save(state)
     write_report([
         f"run_utc={pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}", f"last_bar={last_str}", "mode=full_scan",
         f"crosscheck_ok={ok_n}/3", f"regime_ok={regime_ok}", f"technical_candidates={info['cands']}",
         f"analyst_checked={info['checked']}", f"analyst_no_data={info['no_data']}",
         f"analyst_rejected={info['rejected']}", f"earnings_blocked={info['earn_blocked']}",
         f"earnings_no_data={info['earn_no_data']}", f"open_slots_used={len(busy)}/{C.MAX_OPEN_POSITIONS}",
-        f"signals_sent={len(new)}", *events,
+        f"paused={state.get('paused')}", f"drawdown_pct={dd:.2f}", f"signals_sent={len(new)}", *events,
     ])
     send_telegram(build_message(last_str, regime_ok, new, events, stats_line(rows), data_note))
 
