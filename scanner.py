@@ -172,6 +172,11 @@ def cross_check(data, last_date):
     return warns, ok
 
 
+def write_report(lines):
+    with open("last_run.txt", "w", encoding="utf-8") as f:
+        f.write("\n".join(lines) + "\n")
+
+
 def build_message(date_str, regime_ok, new, events, stats, data_note=""):
     lines = [f"📊 סורק סווינג — {date_str}"]
     if data_note:
@@ -233,6 +238,10 @@ def main():
         events += broker_sync(rows)
         events += safe_audit()
         save_log(rows)
+        write_report([
+            f"run_utc={pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}", f"last_bar={last_str}", "mode=already_scanned",
+            f"crosscheck_ok={ok_n}/3", f"events={len(events)}", *events,
+        ])
         if events:
             extra = stats_line(rows)
             send_telegram("🔄 עדכון\n" + "\n".join(events) + (f"\n\n{extra}" if extra else ""))
@@ -243,6 +252,7 @@ def main():
         regime_ok = bool(spy["Close"].iloc[-1] > spy["sma200"].iloc[-1])
 
     new = []
+    info = {"cands": 0, "checked": 0, "no_data": 0, "rejected": 0}
     if regime_ok:
         busy = {r["ticker"] for r in rows if r["status"] in OPEN}
         cands = []
@@ -257,13 +267,18 @@ def main():
                     "risk_pct": float(last["risk_pct"]), "rsi": float(last["rsi"]),
                     "mom": float(last["mom"]) if pd.notna(last["mom"]) else -1.0,
                 })
+        info["cands"] = len(cands)
         cands.sort(key=lambda x: x["mom"], reverse=True)
         pool = cands[: C.ANALYST_CHECK_TOP] if C.USE_ANALYST_FILTER else cands[: C.MAX_SIGNALS_PER_DAY]
         new = []
         for c in pool:
             if C.USE_ANALYST_FILTER:
                 a = analysts.get_analyst(c["ticker"])
+                info["checked"] += 1
+                if a is None or a["n"] < C.ANALYST_MIN_OPINIONS:
+                    info["no_data"] += 1
                 if not analysts.passes(a, c["close"]):
+                    info["rejected"] += 1
                     continue
                 c["analyst"] = a
             new.append(c)
@@ -280,6 +295,12 @@ def main():
     events += broker_sync(rows)
     events += safe_audit()
     save_log(rows)
+    write_report([
+        f"run_utc={pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}", f"last_bar={last_str}", "mode=full_scan",
+        f"crosscheck_ok={ok_n}/3", f"regime_ok={regime_ok}", f"technical_candidates={info['cands']}",
+        f"analyst_checked={info['checked']}", f"analyst_no_data={info['no_data']}",
+        f"analyst_rejected={info['rejected']}", f"signals_sent={len(new)}", *events,
+    ])
     send_telegram(build_message(last_str, regime_ok, new, events, stats_line(rows), data_note))
 
 

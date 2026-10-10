@@ -56,6 +56,8 @@ def main():
     lines.append(f"נבדקו {n} הוראות פעילות, {n_pos} פוזיציות פתוחות. " + ("הכל תקין ✅" if not bad and not problems else "יש בעיות ⚠️"))
     text = "\n".join(lines)
     print(text)
+    with open("verify_report.txt", "w", encoding="utf-8") as f:
+        f.write(text + "\n")
     send_telegram(text)
 
 
