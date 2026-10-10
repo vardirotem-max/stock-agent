@@ -1,0 +1,43 @@
+name: Daily account report
+
+on:
+  schedule:
+    # 20:00 שעון ישראל: 17:00 UTC בקיץ (UTC+3), 18:00 UTC בחורף (UTC+2).
+    # הסקריפט שולח רק בהרצה שבה השעה בישראל היא 20, כך שמגיעה הודעה אחת ביום.
+    - cron: "0 17 * * *"
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      ALPACA_KEY_ID: ${{ secrets.ALPACA_KEY_ID }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      FORCE: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Send report
+        run: python daily_report.py
+      - name: Save report (manual runs only)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config user.name "stock-bot"
+          git config user.email "stock-bot@users.noreply.github.com"
+          git add daily_report.txt
+          git diff --cached --quiet || (git commit -m "daily report sample" && git push)
+      - name: Alert on failure
+        if: failure()
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d "chat_id=${TELEGRAM_CHAT_ID}" \
+            --data-urlencode "text=⚠️ הדוח היומי נכשל: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
