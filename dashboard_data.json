@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-10 12:52 UTC",
+ "updated": "2026-10-10 20:21 UTC",
  "equity": 100000.0,
  "cash": 100000.0,
  "buying_power": 396191.27,
@@ -7,22 +7,29 @@
  "day_pct": 0.0,
  "peak": 100000.0,
  "paused": false,
+ "dd_limit": 5.0,
  "positions": [],
  "pending": [
   {
    "symbol": "ROK",
    "qty": "3",
-   "limit": 431.9
+   "limit": 431.9,
+   "stop": 415.7,
+   "target": 464.28
   },
   {
    "symbol": "EG",
    "qty": "4",
-   "limit": 368.37
+   "limit": 368.37,
+   "stop": 357.58,
+   "target": 389.95
   },
   {
    "symbol": "IQV",
    "qty": "4",
-   "limit": 259.88
+   "limit": 259.88,
+   "stop": 248.74,
+   "target": 282.16
   }
  ],
  "history": [
