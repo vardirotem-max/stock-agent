@@ -37,3 +37,8 @@ REQUIRE_ANALYST_DATA = False      # True = לדלג על מניות בלי נת�
 
 # --- אימות נתונים מול מקור שני (Alpaca) ---
 DATA_CROSSCHECK_TOLERANCE = 0.015 # סטייה מותרת במחיר סגירה בין Yahoo ל-Alpaca
+
+# --- פילטר דוחות רבעוניים (מקור: Yahoo Finance) ---
+USE_EARNINGS_FILTER = True        # לדלג על מניות שהדוח הרבעוני שלהן קרוב
+EARNINGS_BLOCK_DAYS = 14          # ימים בלוח שנה (בערך 10 ימי מסחר) קדימה
+REQUIRE_EARNINGS_DATA = False     # True = לדלג גם על מניות בלי תאריך דוח ידוע

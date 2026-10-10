@@ -7,6 +7,7 @@ import pandas as pd
 
 import analysts
 import broker
+import earnings
 import config as C
 from data import download, get_sp500
 from notify import send_telegram
@@ -196,6 +197,8 @@ def build_message(date_str, regime_ok, new, events, stats, data_note=""):
         ]
         if C.USE_ANALYST_FILTER:
             lines.append(analysts.describe(s.get("analyst"), s["close"]))
+        if C.USE_EARNINGS_FILTER:
+            lines.append(earnings.describe(s.get("earnings")))
     if new:
         lines += ["", f"ההוראות תקפות ל-{C.ORDER_VALID_DAYS} ימי מסחר. אחרי מילוי - הצב סטופ ויעד."]
     if events:
@@ -252,7 +255,7 @@ def main():
         regime_ok = bool(spy["Close"].iloc[-1] > spy["sma200"].iloc[-1])
 
     new = []
-    info = {"cands": 0, "checked": 0, "no_data": 0, "rejected": 0}
+    info = {"cands": 0, "checked": 0, "no_data": 0, "rejected": 0, "earn_blocked": 0, "earn_no_data": 0}
     if regime_ok:
         busy = {r["ticker"] for r in rows if r["status"] in OPEN}
         cands = []
@@ -281,6 +284,14 @@ def main():
                     info["rejected"] += 1
                     continue
                 c["analyst"] = a
+            if C.USE_EARNINGS_FILTER:
+                ed = earnings.next_earnings(c["ticker"])
+                if ed is None:
+                    info["earn_no_data"] += 1
+                if earnings.blocked(ed):
+                    info["earn_blocked"] += 1
+                    continue
+                c["earnings"] = ed
             new.append(c)
             if len(new) >= C.MAX_SIGNALS_PER_DAY:
                 break
@@ -299,7 +310,8 @@ def main():
         f"run_utc={pd.Timestamp.now('UTC'):%Y-%m-%d %H:%M}", f"last_bar={last_str}", "mode=full_scan",
         f"crosscheck_ok={ok_n}/3", f"regime_ok={regime_ok}", f"technical_candidates={info['cands']}",
         f"analyst_checked={info['checked']}", f"analyst_no_data={info['no_data']}",
-        f"analyst_rejected={info['rejected']}", f"signals_sent={len(new)}", *events,
+        f"analyst_rejected={info['rejected']}", f"earnings_blocked={info['earn_blocked']}",
+        f"earnings_no_data={info['earn_no_data']}", f"signals_sent={len(new)}", *events,
     ])
     send_telegram(build_message(last_str, regime_ok, new, events, stats_line(rows), data_note))
 
