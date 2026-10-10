@@ -26,3 +26,14 @@ USE_MARKET_FILTER = True          # לא לתת סיגנלים חדשים כש-S
 ACCOUNT_SIZE = 10_000             # גודל החשבון בדולרים - עדכן לפי שלך
 RISK_PER_TRADE_PCT = 0.5          # אחוז מהחשבון שמסכנים בעסקה
 MAX_POSITION_PCT = 20             # מקסימום אחוז מהחשבון בפוזיציה אחת
+
+# --- פילטר אנליסטים (מקור: Yahoo Finance, קונצנזוס) ---
+USE_ANALYST_FILTER = True         # לסנן סיגנלים לפי המלצות אנליסטים
+ANALYST_CHECK_TOP = 15            # כמה מהמועמדים החזקים ביותר לבדוק מול אנליסטים
+ANALYST_MIN_OPINIONS = 5          # מינימום אנליסטים כדי שהקונצנזוס ייחשב
+ANALYST_MAX_MEAN = 2.5            # ציון קונצנזוס מקסימלי (1=קנייה חזקה ... 5=מכירה)
+ANALYST_MIN_UPSIDE = 0.05         # מחיר יעד ממוצע של אנליסטים לפחות 5% מעל המחיר
+REQUIRE_ANALYST_DATA = False      # True = לדלג על מניות בלי נתוני אנליסטים
+
+# --- אימות נתונים מול מקור שני (Alpaca) ---
+DATA_CROSSCHECK_TOLERANCE = 0.015 # סטייה מותרת במחיר סגירה בין Yahoo ל-Alpaca

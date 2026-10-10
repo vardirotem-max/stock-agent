@@ -58,3 +58,51 @@ def close(symbol, order_id):
     r = _req("DELETE", f"/v2/positions/{symbol}")
     if r.status_code not in (200, 204, 404):
         raise RuntimeError(f"close {r.status_code} {r.text[:150]}")
+
+
+DATA_BASE = "https://data.alpaca.markets"
+ACTIVE = {"new", "accepted", "held", "pending_new", "partially_filled", "pending_replace"}
+
+
+def get_order(order_id):
+    r = _req("GET", f"/v2/orders/{order_id}", params={"nested": "true"})
+    if not r.ok:
+        raise RuntimeError(f"get_order {r.status_code} {r.text[:150]}")
+    return r.json()
+
+
+def snapshots(symbols):
+    """תמונת מצב יומית ממקור שני (IEX) - לאימות נתוני Yahoo."""
+    headers = {
+        "APCA-API-KEY-ID": os.getenv("ALPACA_KEY_ID", ""),
+        "APCA-API-SECRET-KEY": os.getenv("ALPACA_SECRET_KEY", ""),
+    }
+    r = requests.get(
+        DATA_BASE + "/v2/stocks/snapshots",
+        headers=headers, params={"symbols": ",".join(symbols), "feed": "iex"}, timeout=30,
+    )
+    if not r.ok:
+        raise RuntimeError(f"snapshots {r.status_code} {r.text[:150]}")
+    j = r.json()
+    return j.get("snapshots", j)
+
+
+def audit():
+    """בודק שלכל פוזיציה פתוחה יש הוראת יעד (limit sell) והוראת סטופ פעילות. מחזיר רשימת בעיות."""
+    p = _req("GET", "/v2/positions")
+    o = _req("GET", "/v2/orders", params={"status": "all", "nested": "true", "limit": 500, "direction": "desc"})
+    if not p.ok or not o.ok:
+        raise RuntimeError(f"audit {p.status_code}/{o.status_code}")
+    flat = []
+    for order in o.json():
+        flat.append(order)
+        flat.extend(order.get("legs") or [])
+    problems = []
+    for pos in p.json():
+        sym, qty = pos["symbol"], float(pos["qty"])
+        sells = [x for x in flat if x["symbol"] == sym and x["side"] == "sell" and x["status"] in ACTIVE]
+        tp = sum(float(x["qty"]) for x in sells if x["type"] == "limit")
+        sl = sum(float(x["qty"]) for x in sells if x["type"] in ("stop", "stop_limit"))
+        if tp < qty or sl < qty:
+            problems.append(f"🚨 {sym}: פוזיציה של {qty:g} מניות בלי הגנה מלאה (יעד {tp:g}, סטופ {sl:g})")
+    return problems, len(p.json())

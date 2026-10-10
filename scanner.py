@@ -1,9 +1,11 @@
 import csv
 import os
 import sys
+from datetime import timedelta
 
 import pandas as pd
 
+import analysts
 import broker
 import config as C
 from data import download, get_sp500
@@ -125,8 +127,55 @@ def broker_sync(rows):
     return ev
 
 
-def build_message(date_str, regime_ok, new, events, stats):
+def safe_audit():
+    if not broker.enabled():
+        return []
+    try:
+        problems, _ = broker.audit()
+        return problems
+    except Exception as e:
+        print("audit failed", e)
+        return []
+
+
+def expected_session(now_utc):
+    """תאריך יום המסחר האחרון שצריך להיות זמין (לפי שעון ניו יורק, אחרי 17:00)."""
+    et = now_utc.tz_convert("America/New_York")
+    d = et.date()
+    if et.hour < 17:
+        d -= timedelta(days=1)
+    while d.weekday() >= 5:
+        d -= timedelta(days=1)
+    return d
+
+
+def cross_check(data, last_date):
+    """משווה מחיר סגירה של Yahoo מול Alpaca (מקור שני). מחזיר (אזהרות, מספר אימותים)."""
+    if not broker.enabled():
+        return [], 0
+    refs = [t for t in ("AAPL", "MSFT", "JPM") if t in data]
+    try:
+        snap = broker.snapshots(refs)
+    except Exception as e:
+        print("cross-check unavailable", e)
+        return [], 0
+    warns, ok = [], 0
+    for t in refs:
+        bar = (snap.get(t) or {}).get("dailyBar")
+        if not bar or str(bar.get("t", ""))[:10] != fmt_date(last_date):
+            continue
+        y, a = float(data[t]["Close"].iloc[-1]), float(bar["c"])
+        if abs(y - a) / a > C.DATA_CROSSCHECK_TOLERANCE:
+            warns.append(f"⚠️ אי-התאמה בנתונים: {t} ב-Yahoo {y:.2f} מול Alpaca {a:.2f}")
+        else:
+            ok += 1
+    return warns, ok
+
+
+def build_message(date_str, regime_ok, new, events, stats, data_note=""):
     lines = [f"📊 סורק סווינג — {date_str}"]
+    if data_note:
+        lines.append(data_note)
     if not regime_ok:
         lines.append("⚠️ SPY מתחת לממוצע 200 — אין סיגנלים חדשים (פילטר שוק)")
     elif not new:
@@ -140,6 +189,8 @@ def build_message(date_str, regime_ok, new, events, stats):
             f"🎯 Target: {s['target']:.2f}",
             f"סיכון {s['risk_pct'] * 100:.1f}% | RSI {s['rsi']:.0f} | כמות מוצעת: {s['shares']}",
         ]
+        if C.USE_ANALYST_FILTER:
+            lines.append(analysts.describe(s.get("analyst"), s["close"]))
     if new:
         lines += ["", f"ההוראות תקפות ל-{C.ORDER_VALID_DAYS} ימי מסחר. אחרי מילוי - הצב סטופ ויעד."]
     if events:
@@ -160,10 +211,18 @@ def main():
         sys.exit(1)
 
     last_date = max(d.index[-1] for d in data.values())
-    age = (pd.Timestamp.now("UTC").tz_localize(None) - last_date).days
-    if age > 5:
-        send_telegram(f"⚠️ הנתונים ישנים (נר אחרון {fmt_date(last_date)}). בדוק את מקור הנתונים.")
+    expected = expected_session(pd.Timestamp.now("UTC"))
+    if last_date.date() < expected:
+        send_telegram(
+            f"⚠️ אין עדיין נתוני מסחר של {expected} (נר אחרון {fmt_date(last_date)}). "
+            "חג בבורסה או עיכוב במקור הנתונים. לא בוצעה סריקה."
+        )
+        return
+    warns, ok_n = cross_check(data, last_date)
+    if warns:
+        send_telegram("\n".join(warns) + "\nלא בוצעה סריקה עד שהנתונים יתאמו.")
         sys.exit(1)
+    data_note = f"✅ נתוני השוק אומתו מול מקור שני ({ok_n}/3)" if ok_n >= 2 else ""
     last_str = fmt_date(last_date)
 
     rows = load_log()
@@ -172,6 +231,7 @@ def main():
     if any(r["signal_date"] == last_str for r in rows):
         print(f"{last_str} כבר נסרק. מעדכן לוג בלבד.")
         events += broker_sync(rows)
+        events += safe_audit()
         save_log(rows)
         if events:
             extra = stats_line(rows)
@@ -198,7 +258,17 @@ def main():
                     "mom": float(last["mom"]) if pd.notna(last["mom"]) else -1.0,
                 })
         cands.sort(key=lambda x: x["mom"], reverse=True)
-        new = cands[: C.MAX_SIGNALS_PER_DAY]
+        pool = cands[: C.ANALYST_CHECK_TOP] if C.USE_ANALYST_FILTER else cands[: C.MAX_SIGNALS_PER_DAY]
+        new = []
+        for c in pool:
+            if C.USE_ANALYST_FILTER:
+                a = analysts.get_analyst(c["ticker"])
+                if not analysts.passes(a, c["close"]):
+                    continue
+                c["analyst"] = a
+            new.append(c)
+            if len(new) >= C.MAX_SIGNALS_PER_DAY:
+                break
         for s in new:
             s["shares"] = position_size(s["entry"], s["stop"])
             rows.append({
@@ -208,8 +278,9 @@ def main():
             })
 
     events += broker_sync(rows)
+    events += safe_audit()
     save_log(rows)
-    send_telegram(build_message(last_str, regime_ok, new, events, stats_line(rows)))
+    send_telegram(build_message(last_str, regime_ok, new, events, stats_line(rows), data_note))
 
 
 if __name__ == "__main__":
