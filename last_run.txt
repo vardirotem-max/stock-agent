@@ -1,0 +1,5 @@
+run_utc=2026-10-10 10:23
+last_bar=2026-10-09
+mode=already_scanned
+crosscheck_ok=3/3
+events=0
