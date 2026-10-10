@@ -1,0 +1,5 @@
+cancel_all_http=207
+open_orders_after=0
+open_positions=0
+log_archived_to=signals_log_archive_2026-10-10.csv
+fresh_log=ok
