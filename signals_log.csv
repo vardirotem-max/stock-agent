@@ -1,0 +1,6 @@
+signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_date,exit_price,r
+2026-10-09,IQV,259.88,248.74,282.16,4,pending,,,,,
+2026-10-09,BBY,87.01,82.65,95.74,11,pending,,,,,
+2026-10-09,QCOM,175.5,164.5,197.5,4,pending,,,,,
+2026-10-09,EG,368.37,357.58,389.95,4,pending,,,,,
+2026-10-09,ROK,431.9,415.7,464.28,3,pending,,,,,
