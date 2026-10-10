@@ -1,5 +1,4 @@
-cancel_all_http=207
-open_orders_after=0
-open_positions=0
-log_archived_to=signals_log_archive_2026-10-10.csv
-fresh_log=ok
+פוזיציות פתוחות: 0 (לא נסגרות באיפוס)
+בוטלו 0 הוראות מתוך 0 שנמצאו
+הוראות פתוחות אחרי הביטול: 0
+הלוג הישן נשמר בארכיון: signals_log_archive_20261010.csv

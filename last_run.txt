@@ -1,5 +1,13 @@
-run_utc=2026-10-10 10:23
+run_utc=2026-10-10 10:48
 last_bar=2026-10-09
-mode=already_scanned
+mode=full_scan
 crosscheck_ok=3/3
-events=0
+regime_ok=True
+technical_candidates=5
+analyst_checked=5
+analyst_no_data=0
+analyst_rejected=2
+signals_sent=3
+📨 IQV: נשלחה הוראה לחשבון הדמה (4 מניות)
+📨 EG: נשלחה הוראה לחשבון הדמה (4 מניות)
+📨 ROK: נשלחה הוראה לחשבון הדמה (3 מניות)
