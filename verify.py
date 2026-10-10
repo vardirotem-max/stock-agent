@@ -13,6 +13,8 @@ def check_row(r):
     tp = [l for l in legs if l["side"] == "sell" and l["type"] == "limit"]
     sl = [l for l in legs if l["side"] == "sell" and l["type"] in ("stop", "stop_limit")]
     issues = []
+    if o["status"] not in broker.ACTIVE and o["status"] not in ("filled",):
+        issues.append(f"ההוראה לא פעילה ({o['status']})")
     if o.get("order_class") != "bracket":
         issues.append("לא Bracket")
     if o.get("limit_price") is None or abs(float(o["limit_price"]) - float(r["entry"])) > 0.005:

@@ -1,5 +1,6 @@
 """חיבור ל-Alpaca - מסחר דמה (Paper) בלבד. הכתובת קבועה בכוונה ואי אפשר לשנות אותה בהגדרות."""
 import os
+import time
 
 import requests
 
@@ -35,10 +36,18 @@ def place_bracket(symbol, qty, entry, stop, target, client_id):
     r = _req("POST", "/v2/orders", json=body)
     if r.status_code in (200, 201):
         return r.json()["id"]
-    if r.status_code == 422 and "client_order_id" in r.text:  # כבר נשלחה בעבר
+    if r.status_code == 422 and "client_order_id" in r.text:  # מזהה כבר קיים
         g = _req("GET", "/v2/orders:by_client_order_id", params={"client_order_id": client_id})
         if g.ok:
-            return g.json()["id"]
+            old = g.json()
+            if old.get("status") in ACTIVE or old.get("status") in ("filled", "partially_filled"):
+                return old["id"]  # הוראה חיה או מומלאת - לא שולחים כפולה
+            # ההוראה הישנה בוטלה/פגה/נדחתה - שולחים חדשה במזהה חדש
+            body["client_order_id"] = f"{client_id}-r{int(time.time())}"
+            r2 = _req("POST", "/v2/orders", json=body)
+            if r2.status_code in (200, 201):
+                return r2.json()["id"]
+            raise RuntimeError(f"resend {r2.status_code} {r2.text[:200]}")
     raise RuntimeError(f"{r.status_code} {r.text[:200]}")
 
 

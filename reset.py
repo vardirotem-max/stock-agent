@@ -33,7 +33,7 @@ left = broker._req("GET", "/v2/orders", params={"status": "open", "limit": 100})
 lines.append(f"הוראות פתוחות אחרי הביטול: {len(left.json()) if left.ok else '?'}")
 
 if os.path.exists("signals_log.csv"):
-    name = f"signals_log_archive_{dt.date.today():%Y%m%d}.csv"
+    name = f"signals_log_archive_{dt.datetime.now():%Y%m%d_%H%M%S}.csv"
     shutil.move("signals_log.csv", name)
     lines.append(f"הלוג הישן נשמר בארכיון: {name}")
 
