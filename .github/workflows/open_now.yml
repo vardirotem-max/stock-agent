@@ -36,5 +36,5 @@ jobs:
         run: |
           git config user.name "stock-bot"
           git config user.email "stock-bot@users.noreply.github.com"
-          git add open_now_report.txt signals_log.csv
+          git add open_now_report.txt signals_log.csv 2>/dev/null || true
           git diff --cached --quiet || (git commit -m "open now" && git pull --rebase -q && git push)

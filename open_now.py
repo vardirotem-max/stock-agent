@@ -177,4 +177,10 @@ def finish():
 
 
 if __name__ == "__main__":
-    main()
+    import traceback
+    try:
+        main()
+    except Exception:
+        out("שגיאה:\n" + traceback.format_exc())
+        finish()
+        sys.exit(1)
