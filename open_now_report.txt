@@ -1,0 +1,15 @@
+פוזיציות פתוחות 0, הוראות קנייה ממתינות 3, מקומות פנויים 12, מבקש 4
+פילטר שוק: SPY מעל ל-SMA200
+אחרי מגמה ונזילות: 174 מניות
+שגיאה:
+Traceback (most recent call last):
+  File "/home/runner/work/stock-agent/stock-agent/open_now.py", line 182, in <module>
+    main()
+  File "/home/runner/work/stock-agent/stock-agent/open_now.py", line 82, in main
+    snaps.update(broker.snapshots(pre[i:i + 100]))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/stock-agent/stock-agent/broker.py", line 94, in snapshots
+    raise RuntimeError(f"snapshots {r.status_code} {r.text[:150]}")
+RuntimeError: snapshots 400 {"message":"code=400, message=invalid symbol: BRK-B"}
+
+
