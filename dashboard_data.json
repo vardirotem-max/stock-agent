@@ -1,14 +1,55 @@
 {
- "updated": "2026-10-12 14:40 UTC",
- "equity": 100000.0,
- "cash": 100000.0,
- "buying_power": 396191.27,
- "day_pl": 0.0,
- "day_pct": 0.0,
+ "updated": "2026-10-12 15:08 UTC",
+ "equity": 99967.86,
+ "cash": 49380.93,
+ "buying_power": 335358.4,
+ "day_pl": -32.13999999999942,
+ "day_pct": -0.03213999999999942,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
- "positions": [],
+ "positions": [
+  {
+   "symbol": "AMAT",
+   "qty": 18.0,
+   "entry": 497.57,
+   "price": 496.52,
+   "pl": -18.9,
+   "plpc": -0.211,
+   "stop": 470.86,
+   "target": 552.16
+  },
+  {
+   "symbol": "DVA",
+   "qty": 71.0,
+   "entry": 181.46,
+   "price": 181.35,
+   "pl": -7.81,
+   "plpc": -0.061,
+   "stop": 174.77,
+   "target": 195.62
+  },
+  {
+   "symbol": "NVDA",
+   "qty": 60.0,
+   "entry": 225.97,
+   "price": 225.9,
+   "pl": -4.2,
+   "plpc": -0.031,
+   "stop": 218.17,
+   "target": 242.98
+  },
+  {
+   "symbol": "SJM",
+   "qty": 127.0,
+   "entry": 119.85,
+   "price": 119.845,
+   "pl": -0.635,
+   "plpc": -0.004,
+   "stop": 116.15,
+   "target": 127.88
+  }
+ ],
  "pending": [
   {
    "symbol": "IQV",
