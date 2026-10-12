@@ -138,7 +138,18 @@ def main():
         if len(chosen) >= 12:
             break
     chosen.sort(key=lambda c: (c["tier"], -c["score"]))
-    chosen = chosen[:want]
+    # פיזור: לא יותר מ-2 מניות מאותו סקטור, כדי שלא ייפלו כולן יחד
+    picked, per_sector = [], {}
+    for c in chosen:
+        sec = c["analyst"].get("sector") or c["ticker"]
+        if per_sector.get(sec, 0) >= 2:
+            out(f"  דילוג על {c['ticker']}: כבר 2 מניות מסקטור {sec}")
+            continue
+        per_sector[sec] = per_sector.get(sec, 0) + 1
+        picked.append(c)
+        if len(picked) >= want:
+            break
+    chosen = picked
     out("")
     out(f"נדחו אחרי בדיקת אנליסטים/דוחות ({len(rejected)}):")
     for r in rejected[:12]:

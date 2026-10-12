@@ -21,6 +21,7 @@ def get_analyst(ticker):
             "n": int(n),
             "target": float(tp) if tp else None,
             "key": info.get("recommendationKey") or "",
+            "sector": info.get("sector") or "",
         }
     except Exception as e:
         print(f"analyst data failed for {ticker}: {e}")
