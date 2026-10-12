@@ -1,0 +1,180 @@
+"""פתיחת פוזיציות חדשות עכשיו, בזמן שהשוק פתוח (חשבון דמה). DRY=1 מדפיס בלבד ולא שולח הוראות.
+
+שלבים: מגמה ונזילות מהנרות היומיים -> מחיר חי מ-Alpaca -> תנאי כניסה על המחיר החי ->
+קונצנזוס אנליסטים (כולל יעד המחיר של האנליסטים מעל היעד שלנו) -> דוחות רבעוניים -> הוראות bracket.
+"""
+import os
+import sys
+import time
+
+import pandas as pd
+
+import analysts
+import broker
+import config as C
+import earnings
+import state as st
+from data import download, get_sp500
+from notify import send_telegram
+from scanner import load_log, position_size, save_log
+from strategy import add_indicators
+
+N_NEW = int(os.getenv("N_NEW", "4"))
+DRY = os.getenv("DRY") == "1"
+L = []
+
+
+def out(s=""):
+    print(s)
+    L.append(s)
+
+
+def main():
+    if not broker.enabled():
+        sys.exit("אין מפתחות Alpaca")
+    clock = broker._req("GET", "/v2/clock").json()
+    if not clock.get("is_open"):
+        out("השוק סגור - לא שולח הוראות.")
+        return finish()
+    state = st.load()
+    if state.get("paused"):
+        out("הבוט מושהה - לא שולח הוראות.")
+        return finish()
+
+    # פוזיציות והוראות קיימות (מקור אמת: Alpaca)
+    pos = {p["symbol"] for p in broker._req("GET", "/v2/positions").json()}
+    open_orders = broker._req("GET", "/v2/orders", params={"status": "open", "limit": 200, "nested": "false"}).json()
+    pending = {o["symbol"] for o in open_orders if o["side"] == "buy"}
+    busy = pos | pending
+    slots = C.MAX_OPEN_POSITIONS - len(busy)
+    want = min(N_NEW, slots)
+    out(f"פוזיציות פתוחות {len(pos)}, הוראות קנייה ממתינות {len(pending)}, מקומות פנויים {slots}, מבקש {want}")
+    if want <= 0:
+        return finish()
+
+    raw = download(get_sp500() + ["SPY"])
+    data = {t: add_indicators(d) for t, d in raw.items()}
+    spy = data.pop("SPY")
+    today = pd.Timestamp.now("America/New_York").tz_localize(None).normalize()
+    spy_ok = bool(spy["Close"].iloc[-1] > spy["sma200"].iloc[-1]) if len(spy) else True
+    out(f"פילטר שוק: SPY {'מעל' if spy_ok else 'מתחת'} ל-SMA200")
+    if C.USE_MARKET_FILTER and not spy_ok:
+        out("שוק בלתי מתאים - לא נפתחות פוזיציות.")
+        return finish()
+
+    # שלב 1: מגמה ונזילות לפי הנרות השלמים (בלי נר היום)
+    pre = []
+    for t, df in data.items():
+        if t in busy:
+            continue
+        d = df[df.index < today]
+        if len(d) < 210:
+            continue
+        r = d.iloc[-1]
+        if (r["Close"] >= C.MIN_PRICE and r["dollar_vol"] >= C.MIN_DOLLAR_VOLUME and r["Close"] > r["sma200"]
+                and r["sma50"] > r["sma200"] and r["sma200_up"] and r["rsi"] <= 66 and r["Close"] <= r["sma20"] * 1.07):
+            pre.append(t)
+    out(f"אחרי מגמה ונזילות: {len(pre)} מניות")
+
+    # שלב 2: מחיר חי ובדיקת תנאי כניסה עליו
+    snaps = {}
+    for i in range(0, len(pre), 100):
+        snaps.update(broker.snapshots(pre[i:i + 100]))
+    cands = []
+    for t in pre:
+        s = snaps.get(t) or {}
+        live = (s.get("latestTrade") or {}).get("p")
+        prev = (s.get("prevDailyBar") or {}).get("c")
+        if not live or not prev:
+            continue
+        d = data[t][data[t].index < today]
+        yday = float(d["Close"].iloc[-1])
+        if abs(prev / yday - 1) > C.DATA_CROSSCHECK_TOLERANCE:
+            continue  # פער בין המקורות: לא סומכים
+        chg = live / prev - 1
+        if chg < -0.04 or chg > 0.03:
+            continue  # נפילה חדה (חדשות?) או ריצה שכבר קרתה
+        row = pd.DataFrame({"Open": [live], "High": [live], "Low": [live], "Close": [live], "Volume": [d["Volume"].iloc[-1]]},
+                           index=[today])
+        e = add_indicators(pd.concat([d[["Open", "High", "Low", "Close", "Volume"]], row])).iloc[-1]
+        atr = float(e["atr"])
+        entry = round(live * 1.002, 2)  # לימיט צמוד לשוק: מתמלא מיד
+        stop = round(entry - C.STOP_ATR * atr, 2)
+        risk = entry - stop
+        rp = risk / entry
+        if not (C.MIN_RISK_PCT <= rp <= C.MAX_RISK_PCT):
+            continue
+        near20 = live <= e["sma20"] * 1.01
+        strict = near20 and e["rsi"] <= C.RSI_MAX and live >= e["sma50"] * C.MIN_VS_SMA50
+        relaxed = live <= e["sma20"] * 1.03 and e["rsi"] <= 55 and live >= e["sma50"] * 0.98
+        if not (strict or relaxed):
+            continue
+        cands.append({"ticker": t, "live": live, "entry": entry, "stop": stop, "target": round(entry + C.RR * risk, 2),
+                      "rsi": float(e["rsi"]), "mom": float(e["mom"]) if pd.notna(e["mom"]) else -1.0,
+                      "tier": 1 if strict else 2, "chg": chg})
+    out(f"עומדות בתנאי כניסה על המחיר החי: {len(cands)} (חמורות: {sum(c['tier'] == 1 for c in cands)})")
+    cands.sort(key=lambda c: (c["tier"], -c["mom"]))
+
+    # שלב 3: אנליסטים ודוחות
+    chosen, rejected = [], []
+    for c in cands[:40]:
+        a = analysts.get_analyst(c["ticker"])
+        if a is None or a["n"] < C.ANALYST_MIN_OPINIONS:
+            rejected.append(f"{c['ticker']}: אין מספיק אנליסטים")
+            continue
+        if not analysts.passes(a, c["entry"]):
+            rejected.append(f"{c['ticker']}: קונצנזוס/יעד אנליסטים לא מספיק ({analysts.describe(a, c['entry'])})")
+            continue
+        if not a["target"] or a["target"] < c["target"]:
+            rejected.append(f"{c['ticker']}: יעד האנליסטים {a['target']} נמוך מהיעד שלנו {c['target']}")
+            continue
+        ed = earnings.next_earnings(c["ticker"])
+        if earnings.blocked(ed):
+            rejected.append(f"{c['ticker']}: {earnings.describe(ed)} - חסום")
+            continue
+        c["analyst"], c["earn"] = a, ed
+        c["score"] = (a["target"] / c["entry"] - 1) * 100 - a["mean"] * 3 + c["mom"] * 10
+        chosen.append(c)
+        if len(chosen) >= 12:
+            break
+    chosen.sort(key=lambda c: (c["tier"], -c["score"]))
+    chosen = chosen[:want]
+    out("")
+    out(f"נדחו אחרי בדיקת אנליסטים/דוחות ({len(rejected)}):")
+    for r in rejected[:12]:
+        out("  - " + r)
+    out("")
+    if not chosen:
+        out("לא נמצאה מניה שעוברת את כל הבדיקות. לא נשלחו הוראות.")
+        return finish()
+
+    rows = load_log()
+    msg = [f"⚡ פתיחת פוזיציות עכשיו (השוק פתוח) — {len(chosen)} מניות", ""]
+    for c in chosen:
+        qty = position_size(c["entry"], c["stop"])
+        c["qty"] = qty
+        out(f"{c['ticker']}: חי {c['live']:.2f} | כניסה {c['entry']} סטופ {c['stop']} יעד {c['target']} | {qty} מניות | "
+            f"שכבה {c['tier']} RSI {c['rsi']:.0f} | {analysts.describe(c['analyst'], c['entry'])} | {earnings.describe(c['earn'])}")
+        if qty < 1:
+            continue
+        oid = "DRY"
+        if not DRY:
+            oid = broker.place_bracket(c["ticker"], qty, c["entry"], c["stop"], c["target"],
+                                       client_id=f"now-{today:%Y%m%d}-{c['ticker']}-{int(time.time())}")
+            rows.append({"signal_date": f"{today:%Y-%m-%d}", "ticker": c["ticker"], "entry": c["entry"], "stop": c["stop"],
+                         "target": c["target"], "shares": qty, "status": "pending", "order_id": oid, "source": "now"})
+        msg.append(f"{'🧪' if DRY else '📨'} {c['ticker']}: {qty} מניות | כניסה {c['entry']} | סטופ {c['stop']} | יעד {c['target']}\n"
+                   f"   {analysts.describe(c['analyst'], c['entry'])}\n   {earnings.describe(c['earn'])}")
+    msg.append("\nמסחר דמה בלבד. לא ייעוץ השקעות.")
+    if not DRY:
+        save_log(rows)
+        send_telegram("\n".join(msg))
+    return finish()
+
+
+def finish():
+    open("open_now_report.txt", "w", encoding="utf-8").write("\n".join(L) + "\n")
+
+
+if __name__ == "__main__":
+    main()

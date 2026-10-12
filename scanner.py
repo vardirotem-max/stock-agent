@@ -18,7 +18,7 @@ LOG = "signals_log.csv"
 FIELDS = [
     "signal_date", "ticker", "entry", "stop", "target", "shares", "status",
     "fill_date", "fill_price", "exit_date", "exit_price", "r", "order_id", "broker_done",
-    "actual_fill", "actual_exit", "actual_r",
+    "actual_fill", "actual_exit", "actual_r", "source",
 ]
 OPEN = ("pending", "open")
 FILLED_CLOSED = ("target", "stopped", "timeout")
@@ -294,7 +294,7 @@ def main():
                 "אין הוראות חדשות עד שתריץ 'Resume after auto-pause' ב-GitHub. פוזיציות קיימות נשארות עם הסטופ והיעד."
             )
 
-    if any(r["signal_date"] == last_str for r in rows):
+    if any(r["signal_date"] == last_str and r.get("source") != "now" for r in rows):
         print(f"{last_str} כבר נסרק. מעדכן לוג בלבד.")
         events += broker_sync(rows)
         events += reconcile_actuals(rows)
