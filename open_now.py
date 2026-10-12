@@ -65,7 +65,7 @@ def main():
     # שלב 1: מגמה ונזילות לפי הנרות השלמים (בלי נר היום)
     pre = []
     for t, df in data.items():
-        if t in busy:
+        if t in busy or "-" in t:  # סימבולים עם מקף (BRK-B) לא נתמכים אחיד ב-Alpaca
             continue
         d = df[df.index < today]
         if len(d) < 210:
