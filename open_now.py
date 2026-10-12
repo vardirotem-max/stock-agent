@@ -29,7 +29,8 @@ def out(s=""):
     L.append(s)
 
 
-def main():
+def main(n_new=None, exclude=()):
+    L.clear()
     if not broker.enabled():
         sys.exit("אין מפתחות Alpaca")
     clock = broker._req("GET", "/v2/clock").json()
@@ -45,9 +46,9 @@ def main():
     pos = {p["symbol"] for p in broker._req("GET", "/v2/positions").json()}
     open_orders = broker._req("GET", "/v2/orders", params={"status": "open", "limit": 200, "nested": "false"}).json()
     pending = {o["symbol"] for o in open_orders if o["side"] == "buy"}
-    busy = pos | pending
+    busy = pos | pending | set(exclude)
     slots = C.MAX_OPEN_POSITIONS - len(busy)
-    want = min(N_NEW, slots)
+    want = min(n_new or N_NEW, slots)
     out(f"פוזיציות פתוחות {len(pos)}, הוראות קנייה ממתינות {len(pending)}, מקומות פנויים {slots}, מבקש {want}")
     if want <= 0:
         return finish()
@@ -160,6 +161,7 @@ def main():
         return finish()
 
     rows = load_log()
+    placed = 0
     msg = [f"⚡ פתיחת פוזיציות עכשיו (השוק פתוח) — {len(chosen)} מניות", ""]
     for c in chosen:
         qty = position_size(c["entry"], c["stop"])
@@ -168,6 +170,7 @@ def main():
             f"שכבה {c['tier']} RSI {c['rsi']:.0f} | {analysts.describe(c['analyst'], c['entry'])} | {earnings.describe(c['earn'])}")
         if qty < 1:
             continue
+        placed += 1
         oid = "DRY"
         if not DRY:
             oid = broker.place_bracket(c["ticker"], qty, c["entry"], c["stop"], c["target"],
@@ -180,11 +183,13 @@ def main():
     if not DRY:
         save_log(rows)
         send_telegram("\n".join(msg))
-    return finish()
+    finish()
+    return placed
 
 
 def finish():
     open("open_now_report.txt", "w", encoding="utf-8").write("\n".join(L) + "\n")
+    return 0
 
 
 if __name__ == "__main__":
