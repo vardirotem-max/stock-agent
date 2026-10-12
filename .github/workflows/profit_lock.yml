@@ -1,0 +1,46 @@
+name: Daily profit lock
+
+on:
+  schedule:
+    # כל 10 דקות בשעות המסחר (13-21 UTC מכסה שעון קיץ וחורף). הסקריפט בודק בעצמו אם השוק פתוח.
+    - cron: "*/10 13-21 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "1 = בדיקה בלי לסגור כלום"
+        default: "1"
+      force_test:
+        description: "1 = (רק עם dry) להתעלם מהיעד ולהציג מה היה נסגר"
+        default: "0"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profit-lock
+  cancel-in-progress: false
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      ALPACA_KEY_ID: ${{ secrets.ALPACA_KEY_ID }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      DRY: ${{ github.event.inputs.dry || '0' }}
+      FORCE_TEST: ${{ github.event.inputs.force_test || '0' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests pandas yfinance
+      - run: python profit_lock.py
+      - name: Save (only when something changed)
+        if: always()
+        run: |
+          git config user.name "stock-bot"
+          git config user.email "stock-bot@users.noreply.github.com"
+          git add signals_log.csv state.json
+          git diff --cached --quiet || (git commit -m "profit lock" && git pull --rebase -q && git push)
