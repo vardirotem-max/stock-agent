@@ -62,7 +62,27 @@ def liquidate(day_log_note):
         row["broker_done"] = "1"
     reconcile_actuals(rows)
     save_log(rows)
-    return [p["symbol"] for p in pos], len(orders)
+    return pos, len(orders)
+
+
+def celebrate(gain, lock, pos_closed, n, after, last_eq):
+    """הודעת החגיגה בטלגרם בסיום כל מחזור שהגיע ליעד."""
+    day_total = float(after["equity"]) - last_eq
+    lines = [f"🎉🥳 יאללה! הגענו ליעד הרווח! (מחזור {lock['cycles']})", "",
+             f"💰 רווח במחזור הזה: +{gain:,.2f}$ (היעד היה {C.DAILY_PROFIT_TARGET:,.0f}$)"]
+    if pos_closed:
+        lines += ["", "🏁 הפוזיציות שנסגרו:"]
+        for p in sorted(pos_closed, key=lambda x: float(x["unrealized_pl"]), reverse=True):
+            u, pc = float(p["unrealized_pl"]), float(p["unrealized_plpc"]) * 100
+            lines.append(f"{'🟢' if u >= 0 else '🔴'} {p['symbol']}: {u:+,.2f}$ ({pc:+.1f}%)")
+    lines += ["", f"📈 שווי החשבון: {lock['baseline']:,.2f}$ | מזומן {float(after['cash']):,.2f}$",
+              f"📅 רווח מצטבר היום: {day_total:+,.2f}$", f"🔁 מחזורים היום: {lock['cycles']}/{C.DAILY_MAX_CYCLES}"]
+    if n:
+        lines.append(f"(בוטלו {n} הוראות פתוחות)")
+    lines += ["", "🔎 מחפש 4 פוזיציות חדשות לסיבוב הבא..." if lock["reentry"]
+              else f"🛑 הגענו למקסימום {C.DAILY_MAX_CYCLES} מחזורים היום. נחגוג ונמשיך מחר בפתיחת השוק!",
+              "", "מסחר דמה בלבד. לא ייעוץ השקעות."]
+    return "\n".join(lines)
 
 
 def main():
@@ -101,7 +121,8 @@ def main():
         out("הגבלת הפסד יומי הופעלה.")
         if DRY:
             return
-        syms, n = liquidate("הגבלת הפסד יומי")
+        pos_closed, n = liquidate("הגבלת הפסד יומי")
+        syms = [p["symbol"] for p in pos_closed]
         lock["stopped"] = True
         save()
         after = float(broker._req("GET", "/v2/account").json()["equity"])
@@ -122,7 +143,8 @@ def main():
         out(f"DRY: היו נשלחות {placed} הוראות חדשות. פירוט ב-open_now_report.txt")
         return
 
-    syms, n = liquidate("נעילת רווח")
+    pos_closed, n = liquidate("נעילת רווח")
+    syms = [p["symbol"] for p in pos_closed]
     after = broker._req("GET", "/v2/account").json()
     lock["baseline"] = float(after["equity"])
     lock["cycles"] += 1
@@ -130,12 +152,7 @@ def main():
     lock["reentry"] = lock["cycles"] < C.DAILY_MAX_CYCLES
     lock["stopped"] = not lock["reentry"]
     save()
-    send_telegram(
-        f"🔒 נעילת רווח (מחזור {lock['cycles']}): +{gain:,.2f}$ (יעד {C.DAILY_PROFIT_TARGET:,.0f}$).\n"
-        f"נסגרו {len(syms)} פוזיציות ובוטלו {n} הוראות. שווי: {lock['baseline']:,.2f}$.\n"
-        + ("מחפש 4 פוזיציות חדשות..." if lock["reentry"] else f"הגעת למקסימום {C.DAILY_MAX_CYCLES} מחזורים היום. עוצר עד מחר.")
-        + "\nמסחר דמה בלבד."
-    )
+    send_telegram(celebrate(gain, lock, pos_closed, n, after, last_eq))
     if lock["reentry"]:
         reenter(lock, left_min, save)
 
