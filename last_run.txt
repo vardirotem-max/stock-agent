@@ -1,5 +1,19 @@
-run_utc=2026-10-10 11:53
-last_bar=2026-10-09
-mode=already_scanned
+run_utc=2026-10-13 03:10
+last_bar=2026-10-12
+mode=full_scan
 crosscheck_ok=3/3
-events=0
+regime_ok=True
+technical_candidates=6
+analyst_checked=6
+analyst_no_data=0
+analyst_rejected=2
+earnings_blocked=2
+earnings_no_data=0
+open_slots_used=7/15
+paused=False
+drawdown_pct=0.30
+signals_sent=2
+✅ IQV: הלימיט התמלא ב-259.88
+✅ ROK: הלימיט התמלא ב-431.9
+📨 MU: נשלחה הוראה לחשבון הדמה (7 מניות)
+📨 MPWR: נשלחה הוראה לחשבון הדמה (5 מניות)
