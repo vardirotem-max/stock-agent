@@ -1,19 +1,22 @@
-run_utc=2026-10-13 03:10
-last_bar=2026-10-12
+run_utc=2026-10-15 00:47
+last_bar=2026-10-14
 mode=full_scan
 crosscheck_ok=3/3
 regime_ok=True
-technical_candidates=6
-analyst_checked=6
+technical_candidates=4
+analyst_checked=4
 analyst_no_data=0
-analyst_rejected=2
-earnings_blocked=2
+analyst_rejected=1
+earnings_blocked=1
 earnings_no_data=0
-open_slots_used=7/15
+open_slots_used=6/15
 paused=False
-drawdown_pct=0.30
+drawdown_pct=0.96
 signals_sent=2
-✅ IQV: הלימיט התמלא ב-259.88
-✅ ROK: הלימיט התמלא ב-431.9
-📨 MU: נשלחה הוראה לחשבון הדמה (7 מניות)
-📨 MPWR: נשלחה הוראה לחשבון הדמה (5 מניות)
+✅ NVDA: הלימיט התמלא ב-224.34
+🛑 AMAT: הסטופ הופעל (-0.5R)
+✅ DVA: הלימיט התמלא ב-181.72
+🛑 MU: הסטופ הופעל (-0.2R)
+🛑 MPWR: הסטופ הופעל (-0.7R)
+📨 AMD: נשלחה הוראה לחשבון הדמה (13 מניות)
+📨 DE: נשלחה הוראה לחשבון הדמה (17 מניות)
