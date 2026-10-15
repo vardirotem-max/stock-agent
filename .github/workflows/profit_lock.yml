@@ -4,6 +4,8 @@ on:
   schedule:
     # כל 10 דקות בשעות המסחר (13-21 UTC מכסה שעון קיץ וחורף). הסקריפט בודק בעצמו אם השוק פתוח.
     - cron: "*/10 13-21 * * 1-5"
+    - cron: "20 13 * * 1-5"
+    - cron: "20 14 * * 1-5"
   workflow_dispatch:
     inputs:
       dry:
@@ -40,7 +42,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: if [ "${{ github.event.inputs.loop }}" = "1" ]; then python profit_loop.py; else python profit_lock.py; fi
+      - run: if [ "${{ github.event.inputs.loop }}" = "1" ] || [ "${{ github.event.schedule }}" = "20 13 * * 1-5" ] || [ "${{ github.event.schedule }}" = "20 14 * * 1-5" ]; then python profit_loop.py; else python profit_lock.py; fi
       - name: Save (only when something changed)
         if: always()
         run: |
