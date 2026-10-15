@@ -35,6 +35,13 @@ def levels():
     return out
 
 
+def closed_trades():
+    try:
+        return json.load(open("trades_closed.json", encoding="utf-8"))
+    except Exception:
+        return []
+
+
 def build():
     acc = broker._req("GET", "/v2/account").json()
     pos = broker._req("GET", "/v2/positions").json()
@@ -82,6 +89,7 @@ def build():
         "pending": [{"symbol": o["symbol"], "qty": o["qty"], "limit": float(o["limit_price"]), **lv.get(o["symbol"], {})}
                     for o in orders if o["side"] == "buy" and o["type"] == "limit"],
         "history": hist,
+        "closed": closed_trades(),
     }
 
 

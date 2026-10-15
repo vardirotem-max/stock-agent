@@ -125,6 +125,11 @@ svg.ch{width:100%;height:auto;display:block;overflow:visible}
  </section>
 
  <section class="sec">
+  <h2><span>עסקאות סגורות</span><span id="ch2"></span></h2>
+  <div class="grp" id="closed"></div>
+ </section>
+
+ <section class="sec">
   <h2><span>חשיפה</span></h2>
   <div class="grp" id="exp"></div>
  </section>
@@ -217,6 +222,17 @@ document.querySelectorAll('.pos>button').forEach(b=>b.onclick=()=>{const el=b.pa
 $('oh').textContent=D.pending.length?D.pending.length+' ממתינות':'';
 $('ord').innerHTML=D.pending.length?D.pending.map(o=>`<div class="li"><div><div style="font-weight:600">${o.symbol}</div><div class="l">${B(o.qty+' מניות')} · קנייה בלימיט</div></div>
  <div class="rt"><div class="v" style="font-weight:600">${f(o.limit)}</div><div class="l">סטופ ${o.stop?f(o.stop):'—'} · יעד ${o.target?f(o.target):'—'}</div></div></div>`).join(''):'<div class="empty">אין הוראות ממתינות. הסיבוב הבא נפתח עם פתיחת המסחר.</div>';
+
+/* closed trades */
+(function(){
+ const c=(D.closed||[]).slice().reverse();
+ if(!c.length){$('closed').innerHTML='<div class="empty">אין עדיין עסקאות סגורות.</div>';return}
+ const n=c.length,w=c.filter(t=>t.R>0).length,usd=c.reduce((a,t)=>a+t.usd,0);
+ $('ch2').innerHTML=B(n+' אחרונות');
+ const names={target:'יעד',stopped:'סטופ',timeout:'נסגרה'};
+ $('closed').innerHTML=row('הצלחה',`${f(w/n*100,0)}%`)+row('סה"כ מהעסקאות האלה',`<span class="${cc(usd)}">${sg(usd,0)}$</span>`)+
+  c.slice(0,10).map(t=>`<div class="li"><div><div style="font-weight:600">${t.ticker}</div><div class="l s2" style="font-size:14px">${names[t.status]||t.status}</div></div><div class="v ${cc(t.usd)}">${sg(t.usd,0)}$ <span class="s2" style="font-weight:400">${sg(t.R,2)}R</span></div></div>`).join('');
+})();
 
 /* exposure */
 const val=a=>a.reduce((s,p)=>s+p.qty*p.price,0);
