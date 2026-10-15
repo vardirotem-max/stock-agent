@@ -4,6 +4,7 @@ import sys
 import time
 
 import broker
+import config as C
 from notify import send_telegram
 from scanner import OPEN, load_log, reconcile_actuals, save_log
 
@@ -22,6 +23,7 @@ def main():
         out("השוק סגור - לא מבצע.")
         return
     pos = broker._req("GET", "/v2/positions").json()
+    pos = [p for p in pos if p["symbol"] not in C.CORE_SYMBOLS]
     win = [p for p in pos if float(p["unrealized_pl"]) > 0]
     keep = [p for p in pos if float(p["unrealized_pl"]) <= 0]
     for p in pos:

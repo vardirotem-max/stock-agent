@@ -35,17 +35,30 @@ def minutes_to_close(clock):
     return (c - t).total_seconds() / 60
 
 
+def core_pl():
+    """רווח/הפסד יומי לא ממומש של ליבת ה-SPY (מוחרג מחישוב היעד)."""
+    try:
+        return sum(float(p.get("unrealized_intraday_pl") or 0) for p in broker._req("GET", "/v2/positions").json()
+                   if p["symbol"] in C.CORE_SYMBOLS)
+    except Exception:
+        return 0.0
+
+
 def liquidate(day_log_note):
     """מבטל הכל, מוכר הכל, ומעדכן את הלוג. מחזיר (סימבולים שנסגרו, מספר הוראות שבוטלו)."""
-    pos = broker._req("GET", "/v2/positions").json()
-    orders = broker._req("GET", "/v2/orders", params={"status": "open", "limit": 200, "nested": "false"}).json()
-    r = broker._req("DELETE", "/v2/positions", params={"cancel_orders": "true"})
-    out(f"סגירת פוזיציות: HTTP {r.status_code}")
-    if r.status_code not in (200, 207):
-        send_telegram(f"⚠️ {day_log_note}: סגירת הפוזיציות נכשלה (HTTP {r.status_code}) {r.text[:150]}")
-        sys.exit(1)
+    pos = [p for p in broker._req("GET", "/v2/positions").json() if p["symbol"] not in C.CORE_SYMBOLS]
+    orders = [o for o in broker._req("GET", "/v2/orders", params={"status": "open", "limit": 200, "nested": "false"}).json()
+              if o["symbol"] not in C.CORE_SYMBOLS]
+    for o in orders:
+        broker._req("DELETE", f"/v2/orders/{o['id']}")
+    time.sleep(2)
+    for p in pos:
+        r = broker._req("DELETE", f"/v2/positions/{p['symbol']}")
+        out(f"סגירת {p['symbol']}: HTTP {r.status_code}")
+        if r.status_code not in (200, 207):
+            send_telegram(f"⚠️ {day_log_note}: סגירת {p['symbol']} נכשלה (HTTP {r.status_code}) {r.text[:150]}")
     time.sleep(8)
-    left = broker._req("GET", "/v2/positions").json()
+    left = [p for p in broker._req("GET", "/v2/positions").json() if p["symbol"] not in C.CORE_SYMBOLS]
     if left:
         send_telegram(f"⚠️ {day_log_note}: נשארו {len(left)} פוזיציות פתוחות ({', '.join(p['symbol'] for p in left)}). בדוק ב-Alpaca.")
     rows = load_log()
@@ -101,7 +114,8 @@ def main():
     lock = state.get("lock") or {}
     if lock.get("day") != day:  # יום חדש: מתחילים מחדש מהסגירה הקודמת
         lock = {"day": day, "baseline": last_eq, "cycles": 0, "reentry": False, "closed": [], "stopped": False}
-    gain = equity - lock["baseline"]
+    core_now = core_pl()
+    gain = equity - lock["baseline"] - (core_now - lock.get("core_base", 0.0))
     out(f"{day}: שווי {equity:,.2f}$, בסיס {lock['baseline']:,.2f}$, רווח מהבסיס {gain:+,.2f}$ (יעד +{C.DAILY_PROFIT_TARGET:,.0f}$, "
         f"הפסד מקס' -{C.DAILY_LOSS_LIMIT:,.0f}$) | מחזור {lock['cycles']}/{C.DAILY_MAX_CYCLES} | נותרו {left_min:.0f} דק' לסגירה")
     if lock.get("stopped"):
@@ -147,6 +161,7 @@ def main():
     syms = [p["symbol"] for p in pos_closed]
     after = broker._req("GET", "/v2/account").json()
     lock["baseline"] = float(after["equity"])
+    lock["core_base"] = core_pl()
     lock["cycles"] += 1
     lock["closed"] = sorted(set(lock["closed"]) | set(syms))
     lock["reentry"] = lock["cycles"] < C.DAILY_MAX_CYCLES

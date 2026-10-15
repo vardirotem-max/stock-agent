@@ -30,6 +30,7 @@ def main():
     pos = broker._req("GET", "/v2/positions").json()
     clock = broker._req("GET", "/v2/clock").json()
     closed, changed = [], []
+    pos = [p for p in pos if p["symbol"] not in C.CORE_SYMBOLS]
     for p in pos:
         sym, qty = p["symbol"], float(p["qty"])
         entry, cur, upl = float(p["avg_entry_price"]), float(p["current_price"]), float(p["unrealized_pl"])

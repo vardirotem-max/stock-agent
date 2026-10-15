@@ -122,6 +122,8 @@ def audit():
     problems = []
     for pos in p.json():
         sym, qty = pos["symbol"], float(pos["qty"])
+        if sym in __import__("config").CORE_SYMBOLS:
+            continue
         sells = [x for x in flat if x["symbol"] == sym and x["side"] == "sell" and x["status"] in ACTIVE]
         tp = sum(float(x["qty"]) for x in sells if x["type"] == "limit")
         sl = sum(float(x["qty"]) for x in sells if x["type"] in ("stop", "stop_limit"))
