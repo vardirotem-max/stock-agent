@@ -1,76 +1,56 @@
 {
- "updated": "2026-10-15 18:15 UTC",
- "equity": 98775.51,
- "cash": 15278.05,
- "buying_power": 294905.09,
- "day_pl": -258.8899999999994,
- "day_pct": -0.26141421566647494,
+ "updated": "2026-10-15 19:15 UTC",
+ "equity": 99436.7,
+ "cash": 70370.48,
+ "buying_power": 319808.29,
+ "day_pl": 402.3000000000029,
+ "day_pct": 0.4062224843084857,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
-   "symbol": "ADI",
-   "qty": 30.0,
-   "entry": 399.7,
-   "price": 399.375,
-   "pl": -9.75,
-   "plpc": -0.08099999999999999,
-   "stop": 383.88,
-   "target": 432.93
-  },
-  {
-   "symbol": "AME",
-   "qty": 70.0,
-   "entry": 244.84,
-   "price": 245.42,
-   "pl": 40.6,
-   "plpc": 0.23700000000000002,
-   "stop": 238.1,
-   "target": 259.25
-  },
-  {
-   "symbol": "CSCO",
-   "qty": 119.0,
-   "entry": 112.09,
-   "price": 109.07,
-   "pl": -359.38,
-   "plpc": -2.694,
-   "stop": 107.89,
-   "target": 120.49
-  },
-  {
    "symbol": "LYV",
    "qty": 88.0,
-   "entry": 172.72,
-   "price": 172.63,
-   "pl": -7.92,
-   "plpc": -0.052,
-   "stop": 167.34,
-   "target": 184.35
+   "entry": 172.42,
+   "price": 172.305,
+   "pl": -10.12,
+   "plpc": -0.067,
+   "stop": 166.82,
+   "target": 175.3
+  },
+  {
+   "symbol": "SPY",
+   "qty": 18.0,
+   "entry": 769.98,
+   "price": 772.415,
+   "pl": 43.83,
+   "plpc": 0.316
+  }
+ ],
+ "pending": [
+  {
+   "symbol": "AME",
+   "qty": "72",
+   "limit": 247.52,
+   "stop": 240.64,
+   "target": 250.99
   },
   {
    "symbol": "TRGP",
-   "qty": 48.0,
-   "entry": 286.23,
-   "price": 281.385,
-   "pl": -232.56,
-   "plpc": -1.693,
-   "stop": 276.55,
-   "target": 307.45
+   "qty": "46",
+   "limit": 281.45,
+   "stop": 270.62,
+   "target": 286.88
   },
   {
-   "symbol": "ZBRA",
-   "qty": 34.0,
-   "entry": 371.41,
-   "price": 372.34,
-   "pl": 31.62,
-   "plpc": 0.25,
-   "stop": 357.17,
-   "target": 400.61
+   "symbol": "CSCO",
+   "qty": "112",
+   "limit": 109.74,
+   "stop": 105.3,
+   "target": 111.97
   }
  ],
- "pending": [],
  "history": [
   {
    "d": "2026-10-09",
@@ -95,7 +75,7 @@
   {
    "d": "2026-10-15",
    "e": 99034.4,
-   "spy": 98879.35
+   "spy": 99210.09
   }
  ]
 }
