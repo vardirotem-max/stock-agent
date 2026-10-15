@@ -1,156 +1,137 @@
 <title>מאזן הבוט</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;500;700;800&family=Heebo:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap">
 <style>
-/* פריסה: חלל עמוק עם זוהר זורם. טבעת מחזור 350$ סביב שווי התיק, "מסלול" בועות פיזיקלי (גודל=שווי פוזיציה, צבע=רווח/הפסד), עקומה זוהרת עם סקראב, כרטיסי זכוכית. */
+/* פריסה: שפת העיצוב של אפל. כותרת גדולה, רשימות מקובצות עם פינות עגולות על רקע אפור-בהיר, צבעי מערכת, גופן מערכת, מרווחים נדיבים, ללא אפקטים. */
 :root{
-  --bg:#060818; --ink:#f3f4ff; --mute:#9aa0cc; --faint:#646b9c;
-  --glass:rgba(255,255,255,.055); --glass2:rgba(255,255,255,.09); --edge:rgba(255,255,255,.16);
-  --a1:#7c5cff; --a2:#22d3ee; --a3:#ff4d9d; --up:#35f0a2; --down:#ff5577; --warn:#ffcf5a;
-  --glow:.55;
-  --disp:'Sora','Heebo',system-ui,sans-serif; --sans:'Heebo',system-ui,-apple-system,sans-serif;
-  color-scheme:dark}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
-  --bg:#f2f4ff; --ink:#12163d; --mute:#555c91; --faint:#8b92c2;
-  --glass:rgba(255,255,255,.7); --glass2:rgba(255,255,255,.9); --edge:rgba(18,22,61,.12);
-  --a1:#6a49f2; --a2:#0aa6c4; --a3:#e0307f; --up:#00a56a; --down:#e02f50; --warn:#b07a00; --glow:.28; color-scheme:light}}
-:root[data-theme="light"]{
-  --bg:#f2f4ff; --ink:#12163d; --mute:#555c91; --faint:#8b92c2;
-  --glass:rgba(255,255,255,.7); --glass2:rgba(255,255,255,.9); --edge:rgba(18,22,61,.12);
-  --a1:#6a49f2; --a2:#0aa6c4; --a3:#e0307f; --up:#00a56a; --down:#e02f50; --warn:#b07a00; --glow:.28; color-scheme:light}
+  --bg:#f2f2f7; --card:#ffffff; --fill:#e9e9ee; --sep:rgba(60,60,67,.14);
+  --ink:#000000; --ink2:rgba(60,60,67,.6); --ink3:rgba(60,60,67,.3);
+  --blue:#007aff; --green:#34c759; --red:#ff3b30; --orange:#ff9500;
+  --sans:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display',system-ui,'Heebo','Segoe UI',sans-serif;
+  color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --sep:rgba(84,84,88,.55);
+  --ink:#ffffff; --ink2:rgba(235,235,245,.6); --ink3:rgba(235,235,245,.3);
+  --blue:#0a84ff; --green:#30d158; --red:#ff453a; --orange:#ff9f0a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --sep:rgba(84,84,88,.55);
+  --ink:#ffffff; --ink2:rgba(235,235,245,.6); --ink3:rgba(235,235,245,.3);
+  --blue:#0a84ff; --green:#30d158; --red:#ff453a; --orange:#ff9f0a; color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45;position:relative;overflow-x:hidden;
-  padding-block:18px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-#aur{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-main{position:relative;z-index:1;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.3;letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
 bdi,.n{direction:ltr;unicode-bidi:isolate;display:inline-block;font-variant-numeric:tabular-nums}
-.up{color:var(--up)}.down{color:var(--down)}
-button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
-button:focus-visible{outline:2px solid var(--a2);outline-offset:3px;border-radius:10px}
-.glass{background:var(--glass);border:1px solid var(--edge);border-radius:26px;backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);
-  box-shadow:0 20px 50px -24px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.12)}
-h2{font-family:var(--disp);font-weight:700;font-size:1.02rem;letter-spacing:-.01em;margin:0}
-.hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:0 4px 10px}
-.hd span{font-size:.78rem;color:var(--mute)}
-/* top */
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:700;font-size:.95rem}
-.mark{width:30px;height:30px;border-radius:10px;background:conic-gradient(from 200deg,var(--a1),var(--a2),var(--a3),var(--a1));box-shadow:0 0 22px -2px var(--a1)}
-.live{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;font-size:.76rem;color:var(--mute)}
-.live i{width:8px;height:8px;border-radius:50%;background:var(--up);box-shadow:0 0 0 0 var(--up);animation:pulse 2.4s infinite}
-.live.off i{background:var(--down);animation:none}
-@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--up) 60%,transparent)}70%,100%{box-shadow:0 0 0 9px transparent}}
-/* ring hero */
-.hero{display:flex;flex-direction:column;align-items:center;gap:16px;padding:6px 0 0}
-.ringw{position:relative;width:min(100%,340px);aspect-ratio:1}
-.ringw svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.core{position:absolute;inset:17%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px}
-.core .lab{font-size:.8rem;color:var(--mute)}
-.eq{font-family:var(--disp);font-weight:800;font-size:clamp(1.9rem,9.4vw,2.7rem);letter-spacing:-.05em;line-height:1;direction:ltr;font-variant-numeric:tabular-nums}
-.eq sup{font-size:.5em;vertical-align:.55em;color:var(--mute);font-weight:500;margin-inline-end:.1em}
-.dpill{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:99px;font-weight:700;font-size:.88rem;direction:ltr;background:color-mix(in srgb,currentColor 15%,transparent)}
-.dpill svg{width:10px;height:10px}
-.ringcap{font-size:.78rem;color:var(--mute);text-align:center;max-width:300px}
-.trio{display:grid;grid-template-columns:repeat(3,1fr);width:100%;padding:14px 6px}
-.trio div{text-align:center;padding:0 6px;border-inline-start:1px solid var(--edge);min-width:0}
-.trio div:first-child{border-inline-start:0}
-.trio small{display:block;font-size:.72rem;color:var(--mute)}
-.trio b{display:block;font-family:var(--disp);font-weight:700;font-size:1.02rem;letter-spacing:-.03em;margin-top:3px;direction:ltr}
-/* orbit */
-.orbit{position:relative;overflow:hidden}
-#cv{display:block;width:100%;height:360px;touch-action:pan-y}
-.sel{padding:6px 4px 0;display:flex;gap:8px;flex-wrap:wrap}
-.chipb{padding:7px 13px;border-radius:99px;font-size:.82rem;font-weight:700;background:var(--glass);border:1px solid var(--edge)}
-.chipb[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.detail{padding:18px}
-.dt{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.dt .s{font-family:var(--disp);font-weight:800;font-size:1.6rem;letter-spacing:-.04em;line-height:1.1}
-.dt .q{font-size:.8rem;color:var(--mute);margin-top:3px}
-.dt .pc{text-align:left;direction:ltr}
-.dt .pc b{display:block;font-family:var(--disp);font-weight:800;font-size:1.5rem;letter-spacing:-.04em}
-.dt .pc span{font-size:.84rem}
-.rail{position:relative;height:10px;border-radius:99px;direction:ltr;margin:26px 6px 12px;background:linear-gradient(90deg,color-mix(in srgb,var(--down) 70%,transparent) var(--e),color-mix(in srgb,var(--up) 70%,transparent) var(--e))}
-.rail .nw{position:absolute;top:50%;left:var(--c);width:20px;height:20px;border-radius:50%;transform:translate(-50%,-50%);background:var(--ink);box-shadow:0 0 0 4px var(--bg),0 0 24px var(--a2)}
-.rail .tk{position:absolute;top:-7px;bottom:-7px;left:var(--e);width:2px;background:var(--ink);opacity:.8}
-.lv{display:flex;justify-content:space-between;direction:ltr;font-size:.76rem;color:var(--mute)}
-.lv span:nth-child(1){color:var(--down)}.lv span:nth-child(3){color:var(--up)}.lv span:nth-child(2){color:var(--ink)}
-.dg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
-.dg div{background:var(--glass);border-radius:16px;padding:10px 12px;min-width:0}
-.dg small{display:block;font-size:.7rem;color:var(--mute)}
-.dg b{font-family:var(--disp);font-weight:700;font-size:.95rem;letter-spacing:-.02em;direction:ltr;display:block;text-align:right;margin-top:2px}
-.hintp{color:var(--mute);font-size:.86rem;padding:8px 4px}
-/* curve */
-.curve{padding:16px 14px 12px}
-.curve .rd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;min-height:44px}
-.curve .rd b{font-family:var(--disp);font-weight:800;font-size:1.35rem;letter-spacing:-.04em;direction:ltr}
-.curve .rd span{font-size:.78rem;color:var(--mute)}
-svg.ch{width:100%;height:auto;display:block;overflow:visible;touch-action:pan-y;cursor:crosshair}
-.tg{display:flex;gap:8px;margin-top:10px}
-/* orders */
-.tix{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 12px;margin-inline:-2px;scroll-snap-type:x proximity}
-.tk2{flex:0 0 190px;scroll-snap-align:start;padding:14px 15px;position:relative;border-radius:20px;background:var(--glass);border:1px dashed var(--edge)}
-.tk2 .s{font-family:var(--disp);font-weight:800;font-size:1.2rem;letter-spacing:-.03em}
-.tk2 .m{font-size:.76rem;color:var(--mute);margin-top:2px}
-.tk2 .p{font-family:var(--disp);font-weight:700;font-size:1.1rem;direction:ltr;text-align:right;margin-top:12px}
-.tk2 .l{display:flex;justify-content:space-between;direction:ltr;font-size:.72rem;margin-top:6px}
-.tk2 .l span:first-child{color:var(--down)}.tk2 .l span:last-child{color:var(--up)}
-.empty{color:var(--mute);font-size:.88rem;padding:6px 4px}
-/* risk */
-.risk{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;padding:18px}
-.risk svg{width:150px;height:150px}
-.leg{display:flex;flex-direction:column;gap:10px;font-size:.84rem;min-width:0}
-.leg div{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.leg em{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:8px;font-style:normal}
-.leg b{font-family:var(--disp);font-weight:700;direction:ltr}
-.ddc{padding:16px 18px}
-.ddc .t{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
-.ddc .t b{font-family:var(--disp);font-weight:700}
-.trk{height:10px;border-radius:99px;background:var(--glass2);overflow:hidden;direction:ltr;margin-top:12px}
-.trk i{display:block;height:100%;border-radius:99px;width:var(--w);background:linear-gradient(90deg,var(--a2),var(--up))}
-.trk i.hot{background:linear-gradient(90deg,var(--warn),var(--down))}
-.cap{font-size:.76rem;color:var(--mute);margin-top:8px}
-.foot{font-size:.72rem;color:var(--faint);text-align:center;margin:0}
-@media (max-width:420px){.risk{grid-template-columns:1fr;justify-items:center}.leg{width:100%}}
-@media (prefers-reduced-motion:reduce){.live i{animation:none}}
+.g{color:var(--green)}.r{color:var(--red)}.s2{color:var(--ink2)}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:start}
+button:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 55%,transparent);outline-offset:2px;border-radius:10px}
+/* title */
+.title{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:0 4px}
+.title h1{margin:0;font-size:34px;font-weight:700;letter-spacing:-.022em;line-height:1.1}
+.title small{font-size:13px;color:var(--ink2);padding-bottom:4px;display:flex;align-items:center;gap:6px}
+.title small i{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.title small.off i{background:var(--red)}
+/* summary */
+.sum{padding:0 4px}
+.sum .lab{font-size:15px;color:var(--ink2)}
+.big{font-size:clamp(40px,12.5vw,52px);font-weight:700;letter-spacing:-.035em;line-height:1.05;direction:ltr;text-align:right;font-variant-numeric:tabular-nums;margin-top:2px}
+.chg{font-size:17px;font-weight:600;margin-top:4px;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.chg .s2{font-weight:400;font-size:15px}
+.chartw{margin:18px -4px 0;touch-action:pan-y}
+svg.ch{width:100%;height:auto;display:block;overflow:visible}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--fill);border-radius:9px;padding:2px;margin-top:14px}
+.seg button{text-align:center;padding:6px 0;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.14),0 0 0 .5px rgba(0,0,0,.04)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{background:#636366}}
+:root[data-theme="dark"] .seg button[aria-pressed="true"]{background:#636366}
+/* grouped lists */
+.sec h2{margin:0 0 8px;padding:0 16px;font-size:13px;font-weight:400;color:var(--ink2);text-transform:none;display:flex;justify-content:space-between}
+.grp{background:var(--card);border-radius:12px;overflow:hidden}
+.li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 16px;min-height:48px;position:relative}
+.li+.li::before,.pos+.pos::before{content:"";position:absolute;top:0;inset-inline:16px;border-top:.5px solid var(--sep)}
+.li .k{color:var(--ink)}
+.li .v{font-weight:600;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.li .v.n2{font-weight:400;color:var(--ink2)}
+/* cycle */
+.cyc{display:flex;align-items:center;gap:16px;padding:16px}
+.cyc svg{width:64px;height:64px;flex:none}
+.cyc .tx{min-width:0}
+.cyc b{display:block;font-size:17px;font-weight:600}
+.cyc span{display:block;font-size:15px;color:var(--ink2);margin-top:2px}
+/* positions */
+.pos{position:relative}
+.pos>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 16px;min-height:60px}
+.pos .sy{font-size:17px;font-weight:600}
+.pos .tag{font-size:11px;font-weight:600;color:var(--ink2);background:var(--fill);padding:2px 7px;border-radius:6px;margin-inline-start:8px;vertical-align:1px}
+.pos .sb{font-size:14px;color:var(--ink2);margin-top:1px}
+.pos .rt{display:flex;align-items:center;gap:10px;text-align:left;direction:ltr}
+.pos .rt b{display:block;font-size:17px;font-weight:600}
+.pos .rt span{display:block;font-size:14px;font-weight:500}
+.pos .chev{width:8px;height:13px;stroke:var(--ink3);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.pos.open .chev{transform:rotate(90deg)}
+.det{display:none;padding:2px 16px 16px}
+.pos.open .det{display:block}
+.rail{position:relative;height:6px;border-radius:3px;direction:ltr;margin:20px 2px 10px;background:linear-gradient(90deg,var(--red) var(--e),var(--green) var(--e));opacity:.85}
+.rail .nw{position:absolute;top:50%;left:var(--c);width:16px;height:16px;border-radius:50%;transform:translate(-50%,-50%);background:var(--card);border:2px solid var(--ink);opacity:1}
+.rail .tk{position:absolute;top:-3px;bottom:-3px;left:var(--e);width:2px;background:var(--card)}
+.lv{display:flex;justify-content:space-between;direction:ltr;font-size:13px;color:var(--ink2)}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin-top:16px}
+.dgrid small{display:block;font-size:13px;color:var(--ink2)}
+.dgrid b{font-weight:600;direction:ltr;unicode-bidi:isolate;display:block;text-align:right}
+.empty{padding:16px;color:var(--ink2);font-size:15px}
+.ord .li{align-items:flex-start}
+.ord .l{font-size:14px;color:var(--ink2);margin-top:2px}
+.ord .rt{text-align:left;direction:ltr}
+/* bars */
+.bar{height:6px;border-radius:3px;background:var(--fill);overflow:hidden;direction:ltr;margin:6px 16px 14px}
+.bar i{display:block;height:100%;background:var(--blue);width:var(--w);border-radius:3px}
+.bar i.o{background:var(--orange)}.bar i.r{background:var(--red)}
+.stack{display:flex;height:10px;border-radius:5px;overflow:hidden;direction:ltr;gap:2px;margin:14px 16px 6px}
+.stack i{display:block;height:100%}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:8px}
+.note{font-size:13px;color:var(--ink2);padding:8px 16px 0}
+.foot{font-size:13px;color:var(--ink2);text-align:center;margin:0}
 </style>
-<canvas id="aur" aria-hidden="true"></canvas>
 <main dir="rtl" lang="he">
- <div class="top"><div class="brand"><span class="mark"></span>חשבון דמה</div><span class="live glass" id="live"><i></i><span id="stamp"></span></span></div>
+ <div class="title"><h1>התיק</h1><small id="live"><i></i><span id="stamp"></span></small></div>
 
- <section class="hero">
-  <div class="ringw">
-   <svg viewBox="0 0 300 300" id="ring" aria-hidden="true"></svg>
-   <div class="core"><div class="lab">שווי התיק</div><div class="eq" id="eq"></div><span class="dpill" id="dp"></span></div>
-  </div>
-  <div class="ringcap" id="rcap"></div>
-  <div class="trio glass" id="trio"></div>
+ <section class="sum">
+  <div class="lab">שווי החשבון</div>
+  <div class="big" id="val"></div>
+  <div class="chg" id="chg"></div>
+  <div class="chartw" id="chart"></div>
+  <div class="seg" id="seg"><button data-m="a" aria-pressed="true">התיק</button><button data-m="s" aria-pressed="false">התיק מול SPY</button></div>
  </section>
 
- <section>
-  <div class="hd"><h2>מסלול הפוזיציות</h2><span id="ph"></span></div>
-  <div class="orbit glass"><canvas id="cv" aria-label="בועות פוזיציות: גודל לפי שווי, צבע לפי רווח או הפסד" role="img"></canvas></div>
-  <div class="sel" id="sel" style="margin-top:12px"></div>
-  <div class="detail glass" id="det" style="margin-top:12px"></div>
+ <section class="sec">
+  <h2><span>היום</span></h2>
+  <div class="grp" id="today"></div>
  </section>
 
- <section>
-  <div class="hd"><h2>עקומת התיק</h2><span id="since"></span></div>
-  <div class="curve glass">
-   <div class="rd" id="rd"></div><div id="chart"></div>
-   <div class="tg"><button class="chipb" id="spyb" aria-pressed="false">הצג SPY</button></div>
-  </div>
+ <section class="sec">
+  <h2><span>מחזור יומי של הבוט</span></h2>
+  <div class="grp cyc" id="cyc"></div>
  </section>
 
- <section>
-  <div class="hd"><h2>הוראות ממתינות</h2><span id="oh"></span></div>
-  <div class="tix" id="ord"></div>
+ <section class="sec">
+  <h2><span>פוזיציות</span><span id="ph"></span></h2>
+  <div class="grp" id="pos"></div>
  </section>
 
- <section>
-  <div class="hd"><h2>חשיפה וסיכון</h2><span id="posn"></span></div>
-  <div class="risk glass"><svg viewBox="0 0 150 150" id="don" aria-hidden="true"></svg><div class="leg" id="leg"></div></div>
-  <div class="ddc glass" id="dd" style="margin-top:12px"></div>
+ <section class="sec">
+  <h2><span>הוראות ממתינות</span><span id="oh"></span></h2>
+  <div class="grp ord" id="ord"></div>
+ </section>
+
+ <section class="sec">
+  <h2><span>חשיפה</span></h2>
+  <div class="grp" id="exp"></div>
+ </section>
+
+ <section class="sec">
+  <h2><span>סיכון</span></h2>
+  <div class="grp" id="risk"></div>
  </section>
  <p class="foot">מסחר דמה בלבד. לא ייעוץ השקעות.</p>
 </main>
@@ -159,175 +140,96 @@ const D={"updated": "2026-10-15 19:38 UTC", "equity": 99466.68, "cash": 31181.42
 const $=id=>document.getElementById(id);
 const f=(x,d=2)=>x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 const sg=(x,d=2)=>(x>0?'+':x<0?'−':'')+f(Math.abs(x),d);
-const cs=x=>x<0?'down':'up';
+const cc=x=>x<0?'r':'g';
 const B=t=>`<bdi>${t}</bdi>`;
-const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
-const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const TARGET=350,MAXPOS=18;
 const hist=D.history.filter(p=>p.e);
 const start=hist.length?hist[0].e:D.equity;
 const core=D.positions.filter(p=>p.core),bot=D.positions.filter(p=>!p.core);
 const corePl=core.reduce((a,p)=>a+p.pl,0),botDay=D.day_pl-corePl;
-const tri=u=>u?'<svg viewBox="0 0 12 12"><path d="M6 1l5.5 9.5h-11z" fill="currentColor"/></svg>':'<svg viewBox="0 0 12 12"><path d="M6 11L.5 1.5h11z" fill="currentColor"/></svg>';
-const NS='http://www.w3.org/2000/svg';
+const unreal=D.positions.reduce((a,p)=>a+p.pl,0),tot=D.equity-start;
 
-$('stamp').textContent=D.paused?'מושהה':'עודכן '+D.updated.slice(11,16)+'Z';
-$('live').className='live glass'+(D.paused?' off':'');
+$('stamp').textContent=D.paused?'הבוט מושהה':'עודכן '+D.updated.slice(11,16)+' UTC';
+$('live').className=D.paused?'off':'';
 
-/* ---------- aurora background ---------- */
-(function(){
- const c=$('aur'),x=c.getContext('2d');let w,h,t=0;
- const blobs=[{k:'--a1',px:.2,py:.15,r:.55,sp:.00021,ph:0},{k:'--a2',px:.85,py:.35,r:.5,sp:.00017,ph:2},{k:'--a3',px:.35,py:.9,r:.55,sp:.00019,ph:4}];
- function size(){const d=Math.min(devicePixelRatio||1,2);w=innerWidth;h=innerHeight;c.width=w*d;c.height=h*d;x.setTransform(d,0,0,d,0,0)}
- size();addEventListener('resize',size);
- let cols=null,ct=0;
- function frame(ts){
-  t=ts;if(!cols||ts-ct>800){cols=blobs.map(b=>css(b.k));ct=ts}
-  x.clearRect(0,0,w,h);x.globalCompositeOperation='source-over';
-  const g=parseFloat(css('--glow'))||.5;
-  blobs.forEach((b,i)=>{
-   const cx=(b.px+Math.sin(t*b.sp+b.ph)*.18)*w,cy=(b.py+Math.cos(t*b.sp*1.3+b.ph)*.12)*h,r=b.r*Math.max(w,h)*.75;
-   const gr=x.createRadialGradient(cx,cy,0,cx,cy,r);
-   gr.addColorStop(0,cols[i]+'');gr.addColorStop(1,'transparent');
-   x.globalAlpha=g*.55;x.fillStyle=gr;x.fillRect(0,0,w,h)});
-  x.globalAlpha=1;
-  if(!RM)requestAnimationFrame(frame)}
- requestAnimationFrame(frame);
-})();
-
-/* ---------- hero ring ---------- */
-(function(){
- const s=$('ring'),R=128,C=2*Math.PI*R,cx=150,cy=150;
- let h='<defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--a1)"/><stop offset=".55" stop-color="var(--a2)"/><stop offset="1" stop-color="var(--up)"/></linearGradient><filter id="gl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter></defs>';
- for(let i=0;i<90;i++){const a=i/90*2*Math.PI-Math.PI/2,r1=i%9==0?139:142,r2=148;
-  h+=`<line x1="${cx+Math.cos(a)*r1}" y1="${cy+Math.sin(a)*r1}" x2="${cx+Math.cos(a)*r2}" y2="${cy+Math.sin(a)*r2}" stroke="var(--faint)" stroke-width="${i%9==0?2:1}" opacity="${i%9==0?.8:.45}"/>`}
- h+=`<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="var(--glass2)" stroke-width="12"/>`;
- const p=Math.max(0,Math.min(1,botDay/TARGET));
- h+=`<g transform="rotate(-90 ${cx} ${cy})"><circle id="arcg" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="url(#rg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}" filter="url(#gl)" opacity=".7"/>
-  <circle id="arc" cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="url(#rg)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C}"/></g>`;
- s.innerHTML=h;
- const target=C*(1-p);
- const set=v=>{$('arc').setAttribute('stroke-dashoffset',v);$('arcg').setAttribute('stroke-dashoffset',v)};
- const t0=performance.now(),dur=1400;
- function an(ts){const k=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-k,4);
-  set(C-(C-target)*e);
-  const v=D.equity*(0.985+0.015*e);$('eq').innerHTML='<sup>$</sup>'+f(v);
-  if(k<1)requestAnimationFrame(an);else $('eq').innerHTML='<sup>$</sup>'+f(D.equity)}
- if(RM){set(target);$('eq').innerHTML='<sup>$</sup>'+f(D.equity)}else requestAnimationFrame(an);
-})();
-$('dp').className='dpill '+cs(D.day_pl);
-$('dp').innerHTML=`${tri(D.day_pl>=0)}${sg(D.day_pl)}$ · ${sg(D.day_pct)}%`;
-$('rcap').innerHTML=botDay>=TARGET?`המחזור היומי הושלם: ${B(sg(botDay)+'$')} מתוך ${TARGET}$`:`הטבעת היא המחזור היומי של הבוט: ${B(sg(botDay)+'$')} מתוך ${TARGET}$. ליבת SPY לא נספרת.`;
-const tot=D.equity-start,unreal=D.positions.reduce((a,p)=>a+p.pl,0);
-$('trio').innerHTML=[['מההתחלה',`<span class="${cs(tot)}">${sg(tot,0)}$</span>`],['לא ממומש',`<span class="${cs(unreal)}">${sg(unreal,0)}$</span>`],['כוח קנייה','$'+f(D.buying_power/1000,0)+'K']]
- .map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('');
-
-/* ---------- orbit bubbles ---------- */
-const rows=D.positions.slice().sort((a,b)=>b.qty*b.price-a.qty*a.price);
-let selected=rows.length?0:-1;
-const cv=$('cv'),cx2=cv.getContext('2d');
-let W=0,H=360,DPR=1,bubbles=[],tick=0;
-function layout(){
- DPR=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;cv.width=W*DPR;cv.height=H*DPR;cx2.setTransform(DPR,0,0,DPR,0,0);
- const maxV=Math.max(1,...rows.map(p=>p.qty*p.price));
- const old=bubbles;
- bubbles=rows.map((p,i)=>{const v=p.qty*p.price,r=Math.max(34,Math.min(Math.min(W,H)*.2,24+Math.sqrt(v/maxV)*Math.min(W,H)*.13));
-  const o=old[i];const a=i/Math.max(1,rows.length)*Math.PI*2;
-  return{p,i,r,x:o?o.x:W/2+Math.cos(a)*60,y:o?o.y:H/2+Math.sin(a)*50,vx:0,vy:0,ph:i*1.7}})}
-layout();addEventListener('resize',layout);
-function colorFor(pl,al){const k=Math.min(1,Math.abs(pl)/1.2),u=pl>=0;
- return `color-mix(in srgb,${u?css('--up'):css('--down')} ${Math.round(28+k*52)}%,transparent)`.replace(/^/,'')}
-function step(){
- tick++;const cxm=W/2,cym=H/2;
- bubbles.forEach(b=>{
-  b.vx+=(cxm-b.x)*.0022+Math.sin(tick*.012+b.ph)*.012;b.vy+=(cym-b.y)*.0022+Math.cos(tick*.01+b.ph)*.012;
-  bubbles.forEach(o=>{if(o===b)return;let dx=b.x-o.x,dy=b.y-o.y,d=Math.hypot(dx,dy)||1,m=b.r+o.r+8;if(d<m){const f=(m-d)/m*1.4;b.vx+=dx/d*f;b.vy+=dy/d*f}});
-  b.vx*=.9;b.vy*=.9;b.x+=b.vx;b.y+=b.vy;
-  b.x=Math.max(b.r+4,Math.min(W-b.r-4,b.x));b.y=Math.max(b.r+4,Math.min(H-b.r-4,b.y))})}
-function paint(){
- cx2.clearRect(0,0,W,H);
- const up=css('--up'),dn=css('--down'),ink=css('--ink'),mute=css('--mute');
- bubbles.forEach(b=>{
-  const p=b.p,u=p.pl>=0,base=u?up:dn,k=Math.min(1,Math.abs(p.plpc)/1.2),sel=b.i===selected,pulse=sel?1+Math.sin(tick*.06)*.02:1,r=b.r*pulse;
-  const g=cx2.createRadialGradient(b.x-r*.3,b.y-r*.35,r*.1,b.x,b.y,r);
-  g.addColorStop(0,`color-mix(in srgb,${base} ${60+k*30}%,white)`);g.addColorStop(.6,`color-mix(in srgb,${base} ${45+k*40}%,transparent)`);g.addColorStop(1,`color-mix(in srgb,${base} 12%,transparent)`);
-  cx2.save();cx2.shadowColor=base;cx2.shadowBlur=sel?38:18;cx2.fillStyle=g;cx2.beginPath();cx2.arc(b.x,b.y,r,0,7);cx2.fill();cx2.restore();
-  cx2.lineWidth=sel?2.5:1;cx2.strokeStyle=sel?ink:`color-mix(in srgb,${base} 70%,transparent)`;
-  if(p.core)cx2.setLineDash([5,5]);cx2.beginPath();cx2.arc(b.x,b.y,r,0,7);cx2.stroke();cx2.setLineDash([]);
-  cx2.fillStyle=ink;cx2.direction='ltr';cx2.textAlign='center';cx2.textBaseline='middle';
-  cx2.font=`800 ${Math.max(12,r*.34)}px Sora,Heebo,sans-serif`;cx2.fillText(p.symbol,b.x,b.y-r*.1);
-  cx2.font=`600 ${Math.max(10,r*.24)}px Sora,Heebo,sans-serif`;cx2.fillText(sg(p.plpc,2)+'%',b.x,b.y+r*.28)});
-}
-function loop(){step();paint();if(!RM)requestAnimationFrame(loop)}
-if(RM){for(let i=0;i<160;i++)step();paint()}else loop();
-cv.addEventListener('pointerdown',e=>{const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
- let hit=-1;bubbles.forEach(b=>{if(Math.hypot(b.x-x,b.y-y)<=b.r)hit=b.i});
- if(hit>=0){select(hit)}});
-function select(i){selected=i;renderSel();renderDet();if(RM)paint()}
-function renderSel(){$('sel').innerHTML=rows.map((p,i)=>`<button class="chipb" data-i="${i}" aria-pressed="${i===selected}">${p.symbol}</button>`).join('');
- $('sel').querySelectorAll('button').forEach(b=>b.onclick=()=>select(+b.dataset.i))}
-function renderDet(){
- const p=rows[selected];
- if(!p){$('det').innerHTML='<div class="hintp">אין פוזיציות פתוחות. ההוראות הממתינות מחכות למילוי.</div>';return}
- let rail='';
- if(p.stop&&p.target&&p.target>p.stop){const q=v=>Math.max(0,Math.min(100,(v-p.stop)/(p.target-p.stop)*100));
-  rail=`<div class="rail" style="--e:${q(p.entry)}%;--c:${q(p.price)}%"><span class="tk"></span><span class="nw"></span></div><div class="lv"><span>סטופ ${f(p.stop)}</span><span>כניסה ${f(p.entry)}</span><span>יעד ${f(p.target)}</span></div>`}
- else if(p.stop)rail=`<div class="lv" style="margin:22px 4px 0"><span>סטופ ${f(p.stop)}</span><span>כניסה ${f(p.entry)}</span><span>ללא יעד</span></div>`;
- const risk=p.stop?sg((p.stop-p.entry)*p.qty,0)+'$':'—';
- $('det').innerHTML=`<div class="dt"><div><div class="s">${p.symbol}${p.core?' <span style="font-size:.8rem;color:var(--mute);font-weight:500">ליבה</span>':''}</div><div class="q">${B(f(p.qty,0)+' מניות · כניסה '+f(p.entry))}</div></div>
-  <div class="pc"><b class="${cs(p.pl)}">${sg(p.pl)}$</b><span class="${cs(p.pl)}">${sg(p.plpc,2)}%</span></div></div>${rail}
-  <div class="dg"><div><small>מחיר עכשיו</small><b>${f(p.price)}</b></div><div><small>שווי</small><b>$${f(p.qty*p.price,0)}</b></div><div><small>סיכון בסטופ</small><b>${risk}</b></div></div>`}
-$('ph').textContent=rows.length?rows.length+' פתוחות · לחיצה על בועה':'';
-renderSel();renderDet();
-
-/* ---------- curve ---------- */
-const pts=hist.map(p=>({d:p.d,e:p.e,spy:p.spy}));pts.push({d:'עכשיו',e:D.equity,spy:null});
-let showSpy=false;
-function head(i){const p=pts[i],diff=p.e-pts[0].e;
- $('rd').innerHTML=`<div><b>$${f(p.e)}</b><br><span>${p.d==='עכשיו'?'עכשיו':p.d.slice(5).split('-').reverse().join('.')}</span></div><div style="text-align:left"><b class="${cs(diff)}" style="font-size:1rem">${sg(diff)}$</b><br><span>מההתחלה</span></div>`}
-function curve(){
- const W2=560,H2=200,T=14,Bt=10,n=pts.length;
- const vs=pts.flatMap(p=>[p.e,showSpy?p.spy:null].filter(v=>v!=null));
+/* summary + chart */
+const pts=hist.map(p=>({d:p.d,e:p.e,spy:p.spy}));pts.push({d:'now',e:D.equity,spy:null});
+let mode='a';
+const dm=d=>d==='now'?'עכשיו':d.slice(5).split('-').reverse().join('.');
+function head(i){
+ const p=pts[i],diff=p.e-pts[0].e,pc=pts[0].e?diff/pts[0].e*100:0;
+ $('val').textContent='$'+f(p.e);
+ $('chg').innerHTML=`<span class="${cc(diff)}">${B(sg(diff)+'$')} ${B('('+sg(pc)+'%)')}</span><span class="s2">${i===pts.length-1?'מתחילת הפעילות':'מתחילת הפעילות · '+dm(p.d)}</span>`}
+function chart(){
+ const W=560,H=190,T=10,Bt=10,n=pts.length;
+ const vs=pts.flatMap(p=>[p.e,mode==='s'?p.spy:null].filter(v=>v!=null));
  let lo=Math.min(...vs),hi=Math.max(...vs);const pad=(hi-lo||300)*.2;lo-=pad;hi+=pad;
- const x=i=>W2*(n==1?1:i/(n-1)),y=v=>T+(H2-T-Bt)*(1-(v-lo)/(hi-lo));
+ const x=i=>W*(n==1?1:i/(n-1)),y=v=>T+(H-T-Bt)*(1-(v-lo)/(hi-lo));
  const line=k=>pts.map((p,i)=>p[k]==null?null:[x(i),y(p[k])]).filter(Boolean).map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' ');
- const e=[x(n-1),y(pts[n-1].e)],win=pts[n-1].e>=pts[0].e,col=win?'var(--up)':'var(--down)',b=y(pts[0].e);
- $('chart').innerHTML=`<svg class="ch" id="svg" viewBox="0 0 ${W2} ${H2}" role="img" aria-label="עקומת שווי התיק">
-  <defs><linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".38"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient><filter id="gl2" x="-10%" y="-30%" width="120%" height="160%"><feGaussianBlur stdDeviation="6"/></filter></defs>
-  <line x1="0" x2="${W2}" y1="${b}" y2="${b}" stroke="var(--faint)" stroke-dasharray="2 6" opacity=".8"/>
-  <path d="${line('e')} L${W2} ${H2} L0 ${H2} Z" fill="url(#ar)"/>
-  ${showSpy?`<path d="${line('spy')}" fill="none" stroke="var(--mute)" stroke-width="2" stroke-dasharray="5 6"/>`:''}
-  <path d="${line('e')}" fill="none" stroke="${col}" stroke-width="7" opacity=".5" filter="url(#gl2)"/>
-  <path d="${line('e')}" fill="none" stroke="${col}" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
-  <line id="cur" y1="${T}" y2="${H2}" stroke="var(--mute)" opacity="0"/>
-  <circle id="dot" cx="${e[0]}" cy="${e[1]}" r="6" fill="${col}" stroke="var(--bg)" stroke-width="3"/></svg>`;
+ const e=[x(n-1),y(pts[n-1].e)],up=pts[n-1].e>=pts[0].e,col=up?'var(--green)':'var(--red)',b=y(pts[0].e);
+ let grid='';for(let t=0;t<=3;t++){const yy=T+(H-T-Bt)*t/3;grid+=`<line x1="0" x2="${W}" y1="${yy}" y2="${yy}" stroke="var(--sep)" stroke-width=".7"/>`}
+ $('chart').innerHTML=`<svg class="ch" id="svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="עקומת שווי החשבון">${grid}
+  <line x1="0" x2="${W}" y1="${b}" y2="${b}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 4"/>
+  ${mode==='s'?`<path d="${line('spy')}" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`:''}
+  <path d="${line('e')}" fill="none" stroke="${col}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <line id="cur" y1="${T}" y2="${H-Bt}" stroke="var(--ink3)" stroke-width="1" opacity="0"/>
+  <circle id="dot" cx="${e[0]}" cy="${e[1]}" r="5" fill="${col}" stroke="var(--bg)" stroke-width="2.5"/></svg>`;
  const svg=$('svg');
- const mv=ev=>{const r=svg.getBoundingClientRect(),px=(ev.clientX-r.left)/r.width;let i=Math.round(px*(n-1));i=Math.max(0,Math.min(n-1,i));
+ const mv=ev=>{const r=svg.getBoundingClientRect();let i=Math.round((ev.clientX-r.left)/r.width*(n-1));i=Math.max(0,Math.min(n-1,i));
   $('dot').setAttribute('cx',x(i));$('dot').setAttribute('cy',y(pts[i].e));$('cur').setAttribute('x1',x(i));$('cur').setAttribute('x2',x(i));$('cur').setAttribute('opacity',1);head(i)};
  const rs=()=>{$('cur').setAttribute('opacity',0);$('dot').setAttribute('cx',e[0]);$('dot').setAttribute('cy',e[1]);head(n-1)};
  ['pointermove','pointerdown'].forEach(t=>svg.addEventListener(t,mv));['pointerleave','pointerup','pointercancel'].forEach(t=>svg.addEventListener(t,rs));
  head(n-1)}
-$('since').textContent=hist.length?'מ־'+hist[0].d.slice(5).split('-').reverse().join('.'):'';
-curve();
-$('spyb').onclick=()=>{showSpy=!showSpy;$('spyb').setAttribute('aria-pressed',showSpy);$('spyb').textContent=showSpy?'הסתר SPY':'הצג SPY';curve()};
+chart();
+$('seg').querySelectorAll('button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;$('seg').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));chart()});
 
-/* ---------- orders ---------- */
+/* today */
+const row=(k,v,cls='')=>`<div class="li"><span class="k">${k}</span><span class="v ${cls}">${v}</span></div>`;
+$('today').innerHTML=row('רווח או הפסד היום',`<span class="${cc(D.day_pl)}">${sg(D.day_pl)}$ (${sg(D.day_pct)}%)</span>`)+
+ row('רווח לא ממומש',`<span class="${cc(unreal)}">${sg(unreal)}$</span>`)+
+ row('מזומן','$'+f(D.cash))+row('כוח קנייה','$'+f(D.buying_power),'n2');
+
+/* cycle ring (Apple Fitness style, small) */
+(function(){
+ const R=26,C=2*Math.PI*R,p=Math.max(0,Math.min(1,botDay/TARGET)),col=botDay>=TARGET?'var(--green)':'var(--blue)';
+ $('cyc').innerHTML=`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${R}" fill="none" stroke="var(--fill)" stroke-width="8"/>
+  <circle cx="32" cy="32" r="${R}" fill="none" stroke="${col}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C*p} ${C}" transform="rotate(-90 32 32)"/></svg>
+  <div class="tx"><b>${B('<span class="'+cc(botDay)+'">'+sg(botDay)+'$</span> מתוך '+TARGET+'$')}</b>
+  <span>${botDay>=TARGET?'היעד הושג. הבוט סוגר את הפוזיציות שלו ופותח סיבוב חדש.':'כשמגיעים ליעד הבוט סוגר את הפוזיציות שלו ופותח סיבוב חדש. ליבת SPY לא נספרת.'}</span></div>`})();
+
+/* positions */
+const rows=D.positions.slice().sort((a,b)=>b.pl-a.pl);
+$('ph').innerHTML=rows.length?B(rows.length+' / '+MAXPOS):'';
+function detail(p){
+ let rail='';
+ if(p.stop&&p.target&&p.target>p.stop){const q=v=>Math.max(0,Math.min(100,(v-p.stop)/(p.target-p.stop)*100));
+  rail=`<div class="rail" style="--e:${q(p.entry)}%;--c:${q(p.price)}%"><span class="tk"></span><span class="nw"></span></div><div class="lv"><span>סטופ ${f(p.stop)}</span><span>כניסה ${f(p.entry)}</span><span>יעד ${f(p.target)}</span></div>`}
+ else if(p.stop)rail=`<div class="lv" style="margin-top:14px"><span>סטופ ${f(p.stop)}</span><span>כניסה ${f(p.entry)}</span><span>ללא יעד</span></div>`;
+ return `${rail}<div class="dgrid"><div><small>רווח או הפסד</small><b class="${cc(p.pl)}">${sg(p.pl)}$</b></div><div><small>שווי</small><b>$${f(p.qty*p.price)}</b></div>
+ <div><small>מחיר כניסה</small><b>${f(p.entry)}</b></div><div><small>הפסד בסטופ</small><b>${p.stop?sg((p.stop-p.entry)*p.qty,0)+'$':'—'}</b></div></div>`}
+$('pos').innerHTML=rows.length?rows.map(p=>`<div class="pos"><button aria-expanded="false">
+  <div><div class="sy">${p.symbol}${p.core?'<span class="tag">ליבה</span>':''}</div><div class="sb">${B(f(p.qty,0)+' מניות')}</div></div>
+  <div class="rt"><div><b>${f(p.price)}</b><span class="${cc(p.pl)}">${sg(p.plpc,2)}%</span></div><svg class="chev" viewBox="0 0 8 13"><path d="M1.5 1.5l5 5-5 5" /></svg></div></button>
+  <div class="det">${detail(p)}</div></div>`).join(''):'<div class="empty">אין פוזיציות פתוחות. ההוראות הממתינות מחכות למילוי.</div>';
+document.querySelectorAll('.pos>button').forEach(b=>b.onclick=()=>{const el=b.parentElement,o=el.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+
+/* orders */
 $('oh').textContent=D.pending.length?D.pending.length+' ממתינות':'';
-$('ord').innerHTML=D.pending.length?D.pending.map(o=>`<div class="tk2"><div class="s">${o.symbol}</div><div class="m">${B(o.qty+' מניות')} · קנייה בלימיט</div>
- <div class="p">${f(o.limit)}</div><div class="l"><span>סטופ ${o.stop?f(o.stop):'—'}</span><span>יעד ${o.target?f(o.target):'—'}</span></div></div>`).join(''):'<div class="empty">אין הוראות ממתינות. הסיבוב הבא נפתח עם פתיחת המסחר.</div>';
+$('ord').innerHTML=D.pending.length?D.pending.map(o=>`<div class="li"><div><div style="font-weight:600">${o.symbol}</div><div class="l">${B(o.qty+' מניות')} · קנייה בלימיט</div></div>
+ <div class="rt"><div class="v" style="font-weight:600">${f(o.limit)}</div><div class="l">סטופ ${o.stop?f(o.stop):'—'} · יעד ${o.target?f(o.target):'—'}</div></div></div>`).join(''):'<div class="empty">אין הוראות ממתינות. הסיבוב הבא נפתח עם פתיחת המסחר.</div>';
 
-/* ---------- risk ---------- */
+/* exposure */
 const val=a=>a.reduce((s,p)=>s+p.qty*p.price,0);
 const vb=val(bot),vc=val(core),cash=D.cash,tt=vb+vc+cash||1;
-(function(){
- const R=56,C=2*Math.PI*R;let off=0,h='<circle cx="75" cy="75" r="56" fill="none" stroke="var(--glass2)" stroke-width="16"/>';
- [[vb,'var(--a2)'],[vc,'var(--a1)'],[cash,'var(--faint)']].forEach(([v,c])=>{const l=v/tt*C;
-  h+=`<circle cx="75" cy="75" r="${R}" fill="none" stroke="${c}" stroke-width="16" stroke-dasharray="${Math.max(0,l-3)} ${C}" stroke-dashoffset="${-off}" transform="rotate(-90 75 75)"/>`;off+=l});
- h+=`<text x="75" y="72" text-anchor="middle" font-family="Sora,Heebo,sans-serif" font-weight="800" font-size="22" fill="var(--ink)">${f((vb+vc)/tt*100,0)}%</text><text x="75" y="90" text-anchor="middle" font-size="10.5" fill="var(--mute)" font-family="Heebo,sans-serif">מושקע</text>`;
- $('don').innerHTML=h})();
-$('leg').innerHTML=[['var(--a2)','הבוט',vb],['var(--a1)','ליבת SPY',vc],['var(--faint)','מזומן',cash]].map(([c,l,v])=>`<div><span><em style="background:${c}"></em>${l}</span><b>$${f(v,0)}</b></div>`).join('')+
- `<div><span>ממתין לביצוע</span><b>$${f(D.pending.reduce((a,o)=>a+(+o.qty)*o.limit,0),0)}</b></div>`;
-$('posn').innerHTML=B(D.positions.length+' / '+MAXPOS+' פוזיציות');
-const dd=D.peak?Math.max(0,(D.peak-D.equity)/D.peak*100):0,lim=D.dd_limit||5;
-$('dd').innerHTML=`<div class="t"><b>ירידה מהשיא</b><b class="${dd/lim>.6?'down':''}">${B(f(dd,2)+'%')}</b></div><div class="trk"><i class="${dd/lim>.6?'hot':''}" style="--w:${Math.min(100,dd/lim*100)}%"></i></div><div class="cap">עצירה אוטומטית של הבוט ב־${f(lim,0)}% ירידה מהשיא (${B('$'+f(D.peak,0))})</div>`;
+const part=(c,v)=>v/tt>.004?`<i style="width:${v/tt*100}%;background:${c}"></i>`:'';
+$('exp').innerHTML=`<div class="stack">${part('var(--blue)',vb)}${part('var(--orange)',vc)}${part('var(--ink3)',cash)}</div>`+
+ [['var(--blue)','פוזיציות הבוט',vb],['var(--orange)','ליבת SPY',vc],['var(--ink3)','מזומן',cash]].map(([c,l,v])=>`<div class="li"><span class="k"><span class="dot" style="background:${c}"></span>${l}</span><span class="v">$${f(v,0)} <span class="s2" style="font-weight:400">${f(v/tt*100,0)}%</span></span></div>`).join('');
+
+/* risk */
+const dd=D.peak?Math.max(0,(D.peak-D.equity)/D.peak*100):0,lim=D.dd_limit||5,k=dd/lim;
+const pend=D.pending.reduce((a,o)=>a+(+o.qty)*o.limit,0);
+$('risk').innerHTML=row('ירידה מהשיא',`<span class="${k>.6?'r':''}">${f(dd,2)}%</span>`)+
+ `<div class="bar"><i class="${k>.8?'r':k>.5?'o':''}" style="--w:${Math.min(100,k*100)}%"></i></div>`+
+ `<div class="note" style="padding-top:0;padding-bottom:12px">הבוט נעצר אוטומטית ב־${B(f(lim,0)+'%')} ירידה מהשיא (${B('$'+f(D.peak,0))}).</div>`+
+ row('מההתחלה',`<span class="${cc(tot)}">${sg(tot)}$</span>`)+row('הוראות שממתינות לביצוע','$'+f(pend,0),'n2');
 </script>
