@@ -30,6 +30,26 @@ def out(s=""):
     L.append(s)
 
 
+def _dt_now(tz):
+    import datetime as dt
+    return dt.datetime.now(tz)
+
+
+def weekly_pl(acc):
+    """רווח/הפסד מתחילת השבוע: שווי נוכחי פחות שווי הסגירה האחרונה לפני יום שני הנוכחי."""
+    try:
+        import datetime as dt
+        h = broker.portfolio_history("1M")
+        today = dt.datetime.now(dt.timezone.utc).date()
+        monday = today - dt.timedelta(days=today.weekday())
+        prev = [e for t, e in zip(h["timestamp"], h["equity"])
+                if e and dt.datetime.fromtimestamp(t, dt.timezone.utc).date() < monday]
+        return float(acc["equity"]) - prev[-1] if prev else None
+    except Exception as e:
+        out(f"שבועי: {e}")
+        return None
+
+
 def main(n_new=None, exclude=()):
     L.clear()
     if not broker.enabled():
@@ -42,6 +62,18 @@ def main(n_new=None, exclude=()):
     day_pl = float(acc0["equity"]) - float(acc0["last_equity"])
     if day_pl <= -C.NEW_ENTRY_MAX_DAY_LOSS:
         out(f"היום החשבון כבר {day_pl:+,.2f}$ (מגבלה -{C.NEW_ENTRY_MAX_DAY_LOSS:,.0f}$): לא פותח פוזיציות חדשות.")
+        return finish()
+    # לא נכנסים בדקות הראשונות של המסחר (מחירים תנודתיים, פערים)
+    from zoneinfo import ZoneInfo
+    et = _dt_now(ZoneInfo("America/New_York"))
+    since_open = et.hour * 60 + et.minute - (9 * 60 + 30)
+    if 0 <= since_open < C.NO_ENTRY_FIRST_MINUTES:
+        out(f"עברו רק {since_open} דקות מפתיחת המסחר (מינימום {C.NO_ENTRY_FIRST_MINUTES}): לא פותח פוזיציות עדיין.")
+        return finish()
+    # מגבלת הפסד שבועית
+    wk = weekly_pl(acc0)
+    if wk is not None and wk <= -C.WEEKLY_LOSS_LIMIT:
+        out(f"הפסד שבועי {wk:+,.2f}$ (מגבלה -{C.WEEKLY_LOSS_LIMIT:,.0f}$): לא פותח פוזיציות חדשות.")
         return finish()
     state = st.load()
     if state.get("paused"):
