@@ -18,3 +18,8 @@ signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_dat
 2026-10-15,ADI,400.23,383.88,408.03,30,pending,,,,,,6891bccd-ba9d-405d-94c2-4f0a3c43b3aa,,399.7,,,now
 2026-10-15,LYV,173.01,167.34,175.56,88,pending,,,,,,6e6f9bd1-fe72-4e6c-a510-ba6a23cd9f12,,172.72,,,now
 2026-10-15,ZBRA,371.65,357.17,378.76,34,pending,,,,,,be3d8a2a-178a-462d-a4b9-94d8b1c3bfe4,,371.41,,,now
+2026-10-15,AMD,553.12,515.59,572.35,13,pending,,,,,,67e3d3b3-e280-407c-99fb-1589ecdeab7b,,,,,now
+2026-10-15,EW,86.91,83.95,88.4,168,pending,,,,,,7a820109-59e1-427b-bae8-dfaa6f8c8327,,,,,now
+2026-10-15,CPAY,403.0,390.19,409.41,39,pending,,,,,,dfc3502d-9391-4e57-adf2-eb31c8a33663,,,,,now
+2026-10-15,HSIC,86.85,84.01,88.27,176,pending,,,,,,b85d3bef-5a77-4969-b4f0-accb78b3a332,,,,,now
+2026-10-15,NDSN,325.76,317.01,330.15,57,pending,,,,,,7be33ff6-4e58-4f1f-a424-400cf737181e,,,,,now
