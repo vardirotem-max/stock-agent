@@ -1,15 +1,30 @@
 {
- "updated": "2026-10-14 21:21 UTC",
- "equity": 99035.58,
- "cash": 99035.58,
- "buying_power": 396142.32,
- "day_pl": -1106.449999999997,
- "day_pct": -1.1048807378879748,
+ "updated": "2026-10-15 13:16 UTC",
+ "equity": 99034.4,
+ "cash": 99034.4,
+ "buying_power": 377660.46,
+ "day_pl": 0.0,
+ "day_pct": 0.0,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [],
- "pending": [],
+ "pending": [
+  {
+   "symbol": "DE",
+   "qty": "17",
+   "limit": 650.38,
+   "stop": 621.5,
+   "target": 708.13
+  },
+  {
+   "symbol": "AMD",
+   "qty": "13",
+   "limit": 570.82,
+   "stop": 532.48,
+   "target": 647.51
+  }
+ ],
  "history": [
   {
    "d": "2026-10-09",
@@ -30,6 +45,11 @@
    "d": "2026-10-14",
    "e": 100142.03,
    "spy": 98847.88
+  },
+  {
+   "d": "2026-10-15",
+   "e": 99034.4,
+   "spy": null
   }
  ]
 }
