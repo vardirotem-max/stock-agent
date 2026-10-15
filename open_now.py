@@ -38,6 +38,11 @@ def main(n_new=None, exclude=()):
     if not clock.get("is_open"):
         out("השוק סגור - לא שולח הוראות.")
         return finish()
+    acc0 = broker._req("GET", "/v2/account").json()
+    day_pl = float(acc0["equity"]) - float(acc0["last_equity"])
+    if day_pl <= -C.NEW_ENTRY_MAX_DAY_LOSS:
+        out(f"היום החשבון כבר {day_pl:+,.2f}$ (מגבלה -{C.NEW_ENTRY_MAX_DAY_LOSS:,.0f}$): לא פותח פוזיציות חדשות.")
+        return finish()
     state = st.load()
     if state.get("paused"):
         out("הבוט מושהה - לא שולח הוראות.")
@@ -109,7 +114,7 @@ def main(n_new=None, exclude=()):
                            index=[today])
         e = add_indicators(pd.concat([d[["Open", "High", "Low", "Close", "Volume"]], row])).iloc[-1]
         atr = float(e["atr"])
-        entry = round(live * 1.002, 2)  # לימיט צמוד לשוק: מתמלא מיד
+        entry = round(live * (1 + C.ENTRY_PREMIUM), 2)  # לימיט צמוד לשוק: מתמלא מיד
         stop = round(entry - C.STOP_ATR * atr, 2)
         risk = entry - stop
         rp = risk / entry
