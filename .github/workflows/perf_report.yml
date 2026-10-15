@@ -30,10 +30,11 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python reconcile_log.py
       - run: python perf_report.py
+      - run: python -c "import broker,open_now; a=broker._req('GET','/v2/account').json(); print('weekly_pl', open_now.weekly_pl(a))" | tee weekly_check.txt
       - name: Save
         if: always()
         run: |
           git config user.name "stock-bot"
           git config user.email "stock-bot@users.noreply.github.com"
-          git add signals_log.csv perf_report.txt trades_closed.json
+          git add signals_log.csv perf_report.txt trades_closed.json weekly_check.txt
           git diff --cached --quiet || (git commit -m "perf report" && git pull --rebase -q && git push)
