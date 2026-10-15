@@ -19,8 +19,21 @@ def _req(method, path, **kw):
     return requests.request(method, BASE + path, headers=headers, timeout=30, **kw)
 
 
+def profit_cap_price(entry, qty):
+    """מחיר היעד שבו הרווח בפוזיציה מגיע לתקרה (POSITION_PROFIT_CAP). None אם כבוי."""
+    import config as C
+    cap = float(getattr(C, "POSITION_PROFIT_CAP", 0) or 0)
+    if cap <= 0 or not qty:
+        return None
+    return round(float(entry) + cap / float(qty), 2)
+
+
 def place_bracket(symbol, qty, entry, stop, target, client_id):
-    """קנייה בלימיט + סטופ + יעד (OCO) כהוראה אחת. תקפה עד שמתמלאת או שהבוט מבטל."""
+    """קנייה בלימיט + סטופ + יעד (OCO) כהוראה אחת. תקפה עד שמתמלאת או שהבוט מבטל.
+    היעד מוגבל לתקרת הרווח לפוזיציה (POSITION_PROFIT_CAP)."""
+    capp = profit_cap_price(entry, qty)
+    if capp is not None:
+        target = max(min(target, capp), round(entry + 0.01, 2))
     body = {
         "symbol": symbol,
         "qty": str(int(qty)),

@@ -176,6 +176,9 @@ def main(n_new=None, exclude=()):
     for c in chosen:
         qty = position_size(c["entry"], c["stop"])
         c["qty"] = qty
+        capp = broker.profit_cap_price(c["entry"], qty)
+        if capp is not None:
+            c["target"] = max(min(c["target"], capp), round(c["entry"] + 0.01, 2))
         out(f"{c['ticker']}: חי {c['live']:.2f} | כניסה {c['entry']} סטופ {c['stop']} יעד {c['target']} | {qty} מניות | "
             f"שכבה {c['tier']} RSI {c['rsi']:.0f} | {analysts.describe(c['analyst'], c['entry'])} | {earnings.describe(c['earn'])}")
         if qty < 1:

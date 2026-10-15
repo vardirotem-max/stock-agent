@@ -366,6 +366,9 @@ def main():
                 break
         for s in new:
             s["shares"] = position_size(s["entry"], s["stop"])
+            capp = broker.profit_cap_price(s["entry"], s["shares"])
+            if capp is not None:
+                s["target"] = max(min(s["target"], capp), round(s["entry"] + 0.01, 2))
             rows.append({
                 "signal_date": last_str, "ticker": s["ticker"], "entry": s["entry"],
                 "stop": s["stop"], "target": s["target"], "shares": s["shares"],
