@@ -1,21 +1,44 @@
 {
- "updated": "2026-10-15 19:15 UTC",
- "equity": 99436.7,
- "cash": 70370.48,
- "buying_power": 319808.29,
- "day_pl": 402.3000000000029,
- "day_pct": 0.4062224843084857,
+ "updated": "2026-10-15 19:38 UTC",
+ "equity": 99466.68,
+ "cash": 31181.42,
+ "buying_power": 298102.96,
+ "day_pl": 432.27999999999884,
+ "day_pct": 0.43649479372823874,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "CSCO",
+   "qty": 112.0,
+   "entry": 109.73,
+   "price": 109.4,
+   "pl": -36.96,
+   "plpc": -0.301,
+   "core": false,
+   "stop": 105.3,
+   "target": 111.97
+  },
+  {
+   "symbol": "J",
+   "qty": 99.0,
+   "entry": 140.94,
+   "price": 141.2,
+   "pl": 25.74,
+   "plpc": 0.184,
+   "core": false,
+   "stop": 135.9,
+   "target": 143.48
+  },
+  {
    "symbol": "LYV",
    "qty": 88.0,
    "entry": 172.42,
-   "price": 172.305,
-   "pl": -10.12,
-   "plpc": -0.067,
+   "price": 172.915,
+   "pl": 43.56,
+   "plpc": 0.28700000000000003,
+   "core": false,
    "stop": 166.82,
    "target": 175.3
   },
@@ -23,9 +46,22 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 772.415,
-   "pl": 43.83,
-   "plpc": 0.316
+   "price": 772.32,
+   "pl": 42.12,
+   "plpc": 0.304,
+   "core": true,
+   "stop": 708.31
+  },
+  {
+   "symbol": "TRGP",
+   "qty": 46.0,
+   "entry": 281.44,
+   "price": 281.2,
+   "pl": -11.04,
+   "plpc": -0.08499999999999999,
+   "core": false,
+   "stop": 270.62,
+   "target": 286.88
   }
  ],
  "pending": [
@@ -35,20 +71,6 @@
    "limit": 247.52,
    "stop": 240.64,
    "target": 250.99
-  },
-  {
-   "symbol": "TRGP",
-   "qty": "46",
-   "limit": 281.45,
-   "stop": 270.62,
-   "target": 286.88
-  },
-  {
-   "symbol": "CSCO",
-   "qty": "112",
-   "limit": 109.74,
-   "stop": 105.3,
-   "target": 111.97
   }
  ],
  "history": [
@@ -75,7 +97,7 @@
   {
    "d": "2026-10-15",
    "e": 99034.4,
-   "spy": 99210.09
+   "spy": 99197.25
   }
  ]
 }
