@@ -226,7 +226,7 @@ function ring(id,pct,grad,big,small,cap){
 ring('r1',pi,'<stop offset="0" stop-color="var(--a)"/><stop offset="1" stop-color="var(--c)"/>',f(pi,0)+'%','מושקע','חשיפה לשוק');
 const rc=dp<50?'var(--good)':dp<80?'var(--warn)':'var(--bad)';
 ring('r2',Math.max(dp,1.5),`<stop offset="0" stop-color="${rc}"/><stop offset="1" stop-color="${rc}"/>`,f(dd,1)+'%','LIMIT '+f(lim,0)+'%','מרחק מהשהיה אוטומטית');
-$('posn').innerHTML=N('POS '+D.positions.length+'/15');
+$('posn').innerHTML=N('POS '+D.positions.length+'/18');
 const unreal=D.positions.reduce((a,p)=>a+p.pl,0);
 $('kpis').innerHTML=[['מזומן פנוי','$'+f(D.cash,0),''],['כוח קנייה','$'+f(D.buying_power,0),''],['רווח לא ממומש',sg(unreal)+'$',cl(unreal)],['ממתין לביצוע','$'+f(pend,0),'']]
  .map(([a,b,c])=>`<div class="kpi"><small>${a}</small><b class="${c}">${b}</b></div>`).join('');
