@@ -1,145 +1,144 @@
 <title>מאזן הבוט</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700&family=Heebo:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Heebo:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* פריסה: מסך נייד אחד. כרטיס יתרה עם זוהר, סרט הוראות נע, גרף אינטראקטיבי, טבעות חשיפה וסיכון, סרגלי סטופ/כניסה/יעד. כהה כברירת מחדל */
-:root{--bg:#06080f;--bg2:#0b1020;--ink:#f1f4fb;--mute:#8e9ab6;--faint:#566079;
---card:rgba(255,255,255,.04);--rim1:rgba(255,255,255,.20);--rim2:rgba(255,255,255,.04);--track:rgba(255,255,255,.075);
---a:#4d7cff;--b:#22d3c5;--c:#b58cff;--good:#34e0a9;--bad:#ff6a80;--warn:#ffc35c;--spy:#9aa6c2;
---g1:rgba(77,124,255,.34);--g2:rgba(34,211,197,.20);--g3:rgba(181,140,255,.22);--noise:.07;
---disp:'Unbounded','Heebo',system-ui,sans-serif;--sans:'Heebo',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'DM Mono',ui-monospace,Menlo,monospace}
-:root{color-scheme:dark}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef2fa;--bg2:#e3eaf7;--ink:#0b1430;--mute:#55627f;--faint:#8b97b2;
---card:rgba(255,255,255,.72);--rim1:rgba(255,255,255,.95);--rim2:rgba(11,20,48,.07);--track:rgba(11,20,48,.08);
---a:#2c57f0;--b:#0aa89b;--c:#7a4fe6;--good:#079669;--bad:#d1304a;--warn:#a86a00;--spy:#6a7794;
---g1:rgba(44,87,240,.20);--g2:rgba(10,168,155,.14);--g3:rgba(122,79,230,.14);--noise:.045;color-scheme:light}}
-:root[data-theme="light"]{--bg:#eef2fa;--bg2:#e3eaf7;--ink:#0b1430;--mute:#55627f;--faint:#8b97b2;
---card:rgba(255,255,255,.72);--rim1:rgba(255,255,255,.95);--rim2:rgba(11,20,48,.07);--track:rgba(11,20,48,.08);
---a:#2c57f0;--b:#0aa89b;--c:#7a4fe6;--good:#079669;--bad:#d1304a;--warn:#a86a00;--spy:#6a7794;
---g1:rgba(44,87,240,.20);--g2:rgba(10,168,155,.14);--g3:rgba(122,79,230,.14);--noise:.045;color-scheme:light}
+/* פריסה: כרזה בכחול אולטרמרין. מספר שווי ענק, פס מחזור 350$, מדפי "סולמות מחיר" לכל פוזיציה (סטופ למטה, יעד למעלה), עקומה מול SPY. */
+:root{
+  --bg:#0a1a5c; --bg2:#0e2273; --panel:#112a86; --line:rgba(255,255,255,.16); --line2:rgba(255,255,255,.08);
+  --ink:#f2f5ff; --mute:#a9b7ea; --faint:#7384c4;
+  --sig:#ffd23f; --good:#4ff0b0; --bad:#ff7a63; --spy:#b9c6f5;
+  --zg:rgba(79,240,176,.20); --zb:rgba(255,122,99,.22);
+  --disp:'Bricolage Grotesque','Heebo',system-ui,sans-serif; --sans:'Heebo',system-ui,-apple-system,sans-serif; --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --bg:#e9eefb; --bg2:#dde5f7; --panel:#ffffff; --line:rgba(10,26,92,.20); --line2:rgba(10,26,92,.09);
+  --ink:#0a1a5c; --mute:#40508f; --faint:#6b79ad;
+  --sig:#c98a00; --good:#00835a; --bad:#cc3b25; --spy:#6a79b3;
+  --zg:rgba(0,131,90,.14); --zb:rgba(204,59,37,.14); color-scheme:light}}
+:root[data-theme="light"]{
+  --bg:#e9eefb; --bg2:#dde5f7; --panel:#ffffff; --line:rgba(10,26,92,.20); --line2:rgba(10,26,92,.09);
+  --ink:#0a1a5c; --mute:#40508f; --faint:#6b79ad;
+  --sig:#c98a00; --good:#00835a; --bad:#cc3b25; --spy:#6a79b3;
+  --zg:rgba(0,131,90,.14); --zb:rgba(204,59,37,.14); color-scheme:light}
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);padding-inline:16px;padding-block:18px 36px;font-size:15px;line-height:1.45;position:relative;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-background:radial-gradient(520px 380px at 90% -5%,var(--g1),transparent 70%),radial-gradient(460px 360px at -5% 22%,var(--g3),transparent 70%),radial-gradient(500px 400px at 60% 105%,var(--g2),transparent 70%)}
-body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:var(--noise);mix-blend-mode:overlay;
-background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
-main{position:relative;z-index:1;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
-.n{font-family:var(--mono);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
-.d{font-family:var(--disp);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45;
+  padding-block:20px 44px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow-x:hidden}
+main{max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:30px}
+bdi,.n{font-family:var(--mono);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
 .good{color:var(--good)}.bad{color:var(--bad)}
+h2{font-family:var(--disp);font-weight:700;font-size:1.05rem;letter-spacing:-.01em;margin:0}
+.hd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.hd span{font-size:.78rem;color:var(--mute)}
 /* top */
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.brand{display:flex;align-items:center;gap:11px}
-.logo{width:34px;height:34px;border-radius:11px;background:conic-gradient(from 210deg,var(--a),var(--b),var(--c),var(--a));display:grid;place-items:center;box-shadow:0 6px 22px -6px var(--a)}
-.logo svg{width:17px;height:17px}
-.brand b{display:block;font-weight:600;font-size:.95rem;line-height:1.1}
-.brand small{display:block;font-family:var(--mono);font-size:.64rem;letter-spacing:.14em;color:var(--mute);margin-top:3px}
-.live{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.68rem;color:var(--mute)}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--good);box-shadow:0 0 0 0 var(--good);animation:pulse 2.4s infinite}
-.dot.off{background:var(--bad);box-shadow:0 0 0 0 var(--bad)}
-@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--good) 55%,transparent)}70%,100%{box-shadow:0 0 0 8px transparent}}
-/* cards */
-.card{position:relative;border-radius:24px;padding:18px;border:1px solid transparent;
-background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(150deg,var(--rim1),var(--rim2) 45%,var(--rim2)) border-box;
-backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards}
-.card:nth-of-type(2){animation-delay:.05s}.card:nth-of-type(3){animation-delay:.1s}.card:nth-of-type(4){animation-delay:.15s}
-@keyframes rise{from{opacity:0;transform:translateY(14px)}}
-.hero{padding:22px 20px 18px;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:-40% -20% auto auto;width:300px;height:300px;border-radius:50%;
-background:conic-gradient(from 90deg,var(--a),var(--b),var(--c),var(--a));filter:blur(70px);opacity:.28;pointer-events:none}
-.eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.16em;color:var(--mute);text-transform:uppercase;display:flex;justify-content:space-between;position:relative}
-.big{font-family:var(--disp);font-weight:600;font-size:clamp(1.9rem,9.4vw,2.9rem);line-height:1.08;direction:ltr;text-align:right;letter-spacing:-.045em;margin:10px 0 4px;position:relative}
-.big .cur{font-size:.5em;color:var(--mute);margin-inline-end:.2em;vertical-align:.52em;font-weight:500}
-.big .cents{font-size:.46em;color:var(--mute);letter-spacing:0}
-.delta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:relative}
-.pillv{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:99px;font-size:.82rem;font-weight:600;background:color-mix(in srgb,currentColor 13%,transparent)}
-.pillv svg{width:12px;height:12px}
-.pillv.flat{color:var(--mute)}
-.chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{padding:5px 11px;border-radius:99px;font-size:.74rem;font-weight:500;background:var(--track);color:var(--mute)}
-.chip.good{color:var(--good);background:color-mix(in srgb,var(--good) 14%,transparent)}
-.chip.bad{color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
-.clocks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;position:relative}
-.clock{padding:11px 12px;border-radius:16px;background:var(--track);min-width:0}
-.clock small{display:block;font-size:.7rem;color:var(--mute)}
-.clock b{display:block;font-family:var(--mono);font-weight:500;font-size:.96rem;direction:ltr;text-align:right;margin-top:2px;white-space:nowrap}
-/* tape */
-.tape{overflow:hidden;border-radius:16px;border:1px solid var(--rim2);direction:ltr;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.tape div{display:flex;gap:30px;width:max-content;padding:11px 0;animation:tape 32s linear infinite}
-.tape span{font-family:var(--mono);font-size:.76rem;color:var(--mute);white-space:nowrap}
-.tape b{color:var(--ink);font-weight:500;margin-inline-end:6px}.tape em{font-style:normal;color:var(--bad)}.tape u{text-decoration:none;color:var(--good)}
-@keyframes tape{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.tape{overflow-x:auto}.tape div{animation:none}.card,.dot{animation:none}.ln,.rg{animation:none!important}}
-/* headings */
-.hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:14px}
-h2{font-size:.95rem;font-weight:600;margin:0}
-.hd span{font-family:var(--mono);font-size:.7rem;color:var(--mute)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.82rem;color:var(--mute)}
+.top b{font-family:var(--disp);font-weight:800;color:var(--ink);font-size:1rem;letter-spacing:-.01em}
+.st{display:inline-flex;align-items:center;gap:7px}
+.st i{width:8px;height:8px;border-radius:50%;background:var(--good)}
+.st.off i{background:var(--bad)}
+/* hero */
+.hero{display:flex;flex-direction:column;gap:14px}
+.lab{font-size:.82rem;color:var(--mute)}
+.big{font-family:var(--disp);font-weight:800;font-size:clamp(3rem,17vw,5.6rem);line-height:.92;letter-spacing:-.055em;direction:ltr;text-align:right;font-variant-numeric:tabular-nums}
+.big sup{font-size:.34em;vertical-align:.95em;margin-inline-end:.12em;color:var(--sig);font-weight:700;letter-spacing:0}
+.big small{font-size:.38em;color:var(--mute);letter-spacing:-.02em}
+.row{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:baseline}
+.dl{font-family:var(--disp);font-weight:700;font-size:1.25rem;letter-spacing:-.02em}
+.sub{font-size:.85rem;color:var(--mute)}
+/* cycle */
+.cyc{padding-top:6px}
+.cyc .t{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:9px;font-size:.85rem}
+.cyc .t b{font-family:var(--disp);font-weight:700;font-size:1rem}
+.bar{position:relative;height:26px;border:1.5px solid var(--ink);direction:ltr;background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 1px),var(--line2) calc(10% - 1px) 10%)}
+.bar .f{position:absolute;inset:0 auto 0 0;background:var(--sig);width:var(--w)}
+.bar .f.neg{background:var(--bad)}
+.bar .m{position:absolute;top:-6px;bottom:-6px;width:0;border-left:2px solid var(--ink)}
+.scale{display:flex;justify-content:space-between;direction:ltr;font-family:var(--mono);font-size:.7rem;color:var(--mute);margin-top:6px}
+/* ladders */
+.rack{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;margin-inline:-2px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.lad{flex:0 0 122px;scroll-snap-align:start;background:var(--bg2);border:1px solid var(--line);padding:11px 10px 10px;display:flex;flex-direction:column;gap:8px}
+.lad .sy{font-family:var(--disp);font-weight:800;font-size:1.15rem;letter-spacing:-.03em;display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.lad .sy em{font-style:normal;font-family:var(--sans);font-weight:500;font-size:.66rem;color:var(--bg);background:var(--sig);padding:1px 6px}
+.lad .qt{font-size:.72rem;color:var(--mute)}
+.lad .pl{font-family:var(--disp);font-weight:700;font-size:1.02rem;letter-spacing:-.02em;direction:ltr;text-align:right}
+.lad .pl small{display:block;font-family:var(--mono);font-weight:400;font-size:.68rem;opacity:.9}
+.tr{position:relative;height:170px;direction:ltr;margin:2px 0 2px}
+.tr .ax{position:absolute;left:52px;top:0;bottom:0;width:0;border-left:1.5px solid var(--ink);opacity:.85}
+.tr .zg,.tr .zb{position:absolute;left:52px;width:16px}
+.tr .zg{background:var(--zg)}.tr .zb{background:var(--zb)}
+.tr .lv{position:absolute;left:0;right:0;font-family:var(--mono);font-size:.66rem;color:var(--mute);height:0;display:flex;align-items:center}
+.tr .lv b{width:46px;text-align:right;font-weight:400}
+.tr .lv s{display:block;width:12px;border-top:1.5px solid currentColor;margin-left:6px;text-decoration:none}
+.tr .lv.t{color:var(--good)}.tr .lv.s{color:var(--bad)}.tr .lv.e{color:var(--ink)}
+.tr .nw{position:absolute;left:52px;width:0;height:0}
+.tr .nw::before{content:"";position:absolute;left:-7px;top:-7px;width:14px;height:14px;background:var(--sig);border:2px solid var(--bg2);border-radius:50%;box-shadow:0 0 0 1.5px var(--ink)}
+.tr .nw span{position:absolute;left:14px;top:-9px;font-family:var(--mono);font-size:.72rem;font-weight:500;color:var(--ink);white-space:nowrap}
+.tr .open{position:absolute;left:52px;top:0;width:16px;height:26px;background:linear-gradient(var(--bg2),transparent);}
+.hint{font-size:.72rem;color:var(--faint)}
+/* exposure */
+.stack{display:flex;height:34px;direction:ltr;border:1.5px solid var(--ink)}
+.stack div{height:100%;min-width:0;display:flex;align-items:center;padding-inline:8px;font-family:var(--mono);font-size:.68rem;overflow:hidden;white-space:nowrap}
+.s1{background:var(--sig);color:#0a1a5c}.s2{background:var(--spy);color:#0a1a5c}.s3{background:transparent;color:var(--mute)}
+.keys{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:.78rem;color:var(--mute)}
+.keys i{display:inline-block;width:10px;height:10px;margin-inline-end:6px;vertical-align:-1px;border:1px solid var(--ink)}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:18px;border-top:1px solid var(--line)}
+.kv div{padding:11px 0;border-bottom:1px solid var(--line2);min-width:0}
+.kv div:nth-child(odd){padding-inline-end:12px}
+.kv small{display:block;font-size:.74rem;color:var(--mute)}
+.kv b{font-family:var(--disp);font-weight:700;font-size:1.15rem;letter-spacing:-.02em;direction:ltr;display:block;text-align:right}
+.dd{margin-top:16px}
+.dd .t{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:7px}
+.dd .bar{height:14px}
 /* chart */
-.read{display:flex;gap:22px;margin-bottom:6px;min-height:46px}
-.read div small{display:block;font-size:.68rem;color:var(--mute)}
-.read div b{font-family:var(--disp);font-weight:500;font-size:1.1rem;letter-spacing:-.03em;direction:ltr;display:block;text-align:right}
-svg.ch{width:100%;height:auto;display:block;overflow:visible;touch-action:pan-y;cursor:crosshair}
-.ln{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s .15s ease forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.legend{display:flex;gap:16px;font-size:.74rem;color:var(--mute);margin-top:10px}
-.legend i{display:inline-block;width:16px;height:3px;border-radius:2px;vertical-align:middle;margin-inline-end:6px}
-/* rings */
-.rings{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.ringbox{text-align:center;min-width:0}
-.ringbox svg{width:100%;max-width:150px;height:auto;display:block;margin:0 auto}
-.rg{stroke-dasharray:0 100;animation:ring 1.2s .25s cubic-bezier(.2,.7,.2,1) forwards}
-@keyframes ring{to{stroke-dasharray:var(--p) 100}}
-.ringbox .cap{font-size:.74rem;color:var(--mute);margin-top:6px}
-.ctr{font-family:var(--disp);font-weight:600;font-size:19px;fill:var(--ink);letter-spacing:-.04em}
-.ctr2{font-family:var(--sans);font-size:8.5px;fill:var(--mute)}
-.kpis{display:grid;grid-template-columns:1fr 1fr;gap:1px;margin-top:18px;border-radius:16px;overflow:hidden;background:var(--rim2)}
-.kpi{padding:12px 14px;background:color-mix(in srgb,var(--bg) 55%,transparent);min-width:0}
-.kpi small{display:block;font-size:.7rem;color:var(--mute)}
-.kpi b{font-family:var(--mono);font-weight:500;font-size:1.02rem;direction:ltr;display:block;text-align:right;margin-top:2px}
-/* list items */
-.item{padding:15px 0;border-top:1px solid var(--rim2);display:flex;flex-direction:column;gap:12px}
-.item:first-child{border-top:0;padding-top:0}.item:last-child{padding-bottom:0}
-.l1{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.tk{display:flex;align-items:center;gap:12px;min-width:0}
-.av{width:42px;height:42px;border-radius:14px;flex:none;display:grid;place-items:center;font-family:var(--disp);font-weight:600;font-size:.62rem;letter-spacing:-.02em;
-background:linear-gradient(145deg,color-mix(in srgb,var(--a) 40%,transparent),color-mix(in srgb,var(--c) 32%,transparent));box-shadow:inset 0 0 0 1px var(--rim2)}
-.tk b{display:block;font-family:var(--disp);font-weight:600;font-size:.98rem;letter-spacing:-.03em}
-.tk small{color:var(--mute);font-size:.74rem}
-.amt{text-align:right;direction:ltr;font-family:var(--disp);font-weight:500;font-size:1rem;letter-spacing:-.03em}
-.amt small{display:block;font-family:var(--mono);font-size:.72rem;letter-spacing:0;color:var(--mute);margin-top:2px}
-.amt small.good,.amt small.bad{color:inherit}
-.rail{position:relative;height:8px;border-radius:99px;direction:ltr;margin:4px 6px 0;
-background:linear-gradient(90deg,color-mix(in srgb,var(--bad) 60%,transparent) var(--e),color-mix(in srgb,var(--good) 60%,transparent) var(--e))}
-.rail .tick{position:absolute;top:50%;width:2px;height:16px;background:var(--ink);opacity:.9;border-radius:2px;left:var(--e);transform:translate(-50%,-50%)}
-.rail .now{position:absolute;top:50%;left:var(--c);width:16px;height:16px;border-radius:50%;transform:translate(-50%,-50%);background:var(--a);border:3px solid var(--bg2);box-shadow:0 0 0 1px var(--rim1),0 0 18px var(--a)}
-.rl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.68rem;color:var(--mute);direction:ltr}
-.rl span:nth-child(2){color:var(--ink)}
-.empty{color:var(--mute);font-size:.86rem}
-.foot{font-size:.68rem;color:var(--faint);text-align:center;font-family:var(--mono);letter-spacing:.04em}
+svg.ch{width:100%;height:auto;display:block;overflow:visible}
+.legend{display:flex;gap:18px;font-size:.78rem;color:var(--mute);margin-top:10px}
+.legend i{display:inline-block;width:18px;margin-inline-end:7px;vertical-align:3px}
+/* pending */
+.pd{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0;border-bottom:1px solid var(--line2)}
+.pd:first-child{padding-top:0}
+.pd b{font-family:var(--disp);font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+.pd .a{font-size:.78rem;color:var(--mute)}
+.pd .r{text-align:right;direction:ltr;font-family:var(--mono);font-size:.82rem}
+.pd .r small{display:block;color:var(--mute);font-size:.7rem}
+.empty{color:var(--mute);font-size:.88rem}
+.foot{font-size:.72rem;color:var(--faint);text-align:center}
+@media (prefers-reduced-motion:no-preference){.bar .f{animation:grow 1s cubic-bezier(.2,.7,.2,1) backwards}@keyframes grow{from{width:0}}}
 </style>
 <main dir="rtl" lang="he">
-<div class="top"><div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-9"/></svg></div><div><b>חשבון דמה</b><small>ALPACA · PAPER</small></div></div>
-<div class="live"><span class="dot" id="dot"></span><span id="stamp"></span></div></div>
+ <div class="top"><b>חשבון דמה · Alpaca</b><span class="st" id="st"><i></i><span id="stamp"></span></span></div>
 
-<section class="card hero">
- <div class="eyebrow"><span>שווי החשבון</span><span id="pstat"></span></div>
- <div class="big" id="eq"></div>
- <div class="delta" id="delta"></div>
- <div class="clocks"><div class="clock"><small>פתיחת המסחר בניו יורק</small><b id="cOpen">—</b></div><div class="clock"><small>הסריקה הבאה של הבוט</small><b id="cScan">—</b></div></div>
-</section>
+ <section class="hero">
+  <div class="lab">שווי החשבון</div>
+  <div class="big" id="eq"></div>
+  <div class="row" id="delta"></div>
+  <div class="cyc" id="cyc"></div>
+ </section>
 
-<div class="tape" id="tapeW" aria-label="הוראות ממתינות"><div id="tape"></div></div>
+ <section>
+  <div class="hd"><h2>סולמות מחיר</h2><span id="ph"></span></div>
+  <div class="rack" id="rack"></div>
+  <div class="hint">כל סולם: סטופ למטה, יעד למעלה, העיגול הוא המחיר עכשיו. מגלגלים הצידה לעוד פוזיציות.</div>
+ </section>
 
-<section class="card"><div class="hd"><h2>ביצועים מול SPY</h2><span id="since"></span></div>
- <div class="read" id="read"></div><div id="chart"></div>
- <div class="legend"><span><i style="background:var(--a)"></i>הבוט</span><span><i style="background:var(--spy)"></i>SPY, אותו סכום התחלתי</span></div></section>
+ <section>
+  <div class="hd"><h2>איפה הכסף</h2><span id="posn"></span></div>
+  <div class="stack" id="stack"></div>
+  <div class="keys" id="keys"></div>
+  <div class="kv" id="kv"></div>
+  <div class="dd" id="dd"></div>
+ </section>
 
-<section class="card"><div class="hd"><h2>חשיפה וסיכון</h2><span id="posn"></span></div>
- <div class="rings"><div class="ringbox" id="r1"></div><div class="ringbox" id="r2"></div></div>
- <div class="kpis" id="kpis"></div></section>
+ <section>
+  <div class="hd"><h2>הבוט מול SPY</h2><span id="since"></span></div>
+  <div id="chart"></div>
+  <div class="legend"><span><i style="border-top:3px solid var(--sig)"></i>הבוט</span><span><i style="border-top:2px dashed var(--spy)"></i>SPY, אותו סכום התחלתי</span></div>
+ </section>
 
-<section class="card"><div class="hd"><h2>פוזיציות פתוחות</h2><span id="ph"></span></div><div id="pos"></div></section>
-<section class="card"><div class="hd"><h2>הוראות קנייה ממתינות</h2><span id="oh"></span></div><div id="ord"></div></section>
-<p class="foot">PAPER TRADING · NOT INVESTMENT ADVICE</p>
+ <section>
+  <div class="hd"><h2>הוראות קנייה ממתינות</h2><span id="oh"></span></div>
+  <div id="ord"></div>
+ </section>
+ <p class="foot">מסחר דמה בלבד. לא ייעוץ השקעות.</p>
 </main>
 <script>
 const D={"updated": "2026-10-15 19:38 UTC", "equity": 99466.68, "cash": 31181.42, "buying_power": 298102.96, "day_pl": 432.27999999999884, "day_pct": 0.43649479372823874, "peak": 100000.0, "paused": false, "dd_limit": 5.0, "positions": [{"symbol": "CSCO", "qty": 112.0, "entry": 109.73, "price": 109.4, "pl": -36.96, "plpc": -0.301, "core": false, "stop": 105.3, "target": 111.97}, {"symbol": "J", "qty": 99.0, "entry": 140.94, "price": 141.2, "pl": 25.74, "plpc": 0.184, "core": false, "stop": 135.9, "target": 143.48}, {"symbol": "LYV", "qty": 88.0, "entry": 172.42, "price": 172.915, "pl": 43.56, "plpc": 0.28700000000000003, "core": false, "stop": 166.82, "target": 175.3}, {"symbol": "SPY", "qty": 18.0, "entry": 769.98, "price": 772.32, "pl": 42.12, "plpc": 0.304, "core": true, "stop": 708.31}, {"symbol": "TRGP", "qty": 46.0, "entry": 281.44, "price": 281.2, "pl": -11.04, "plpc": -0.08499999999999999, "core": false, "stop": 270.62, "target": 286.88}], "pending": [{"symbol": "AME", "qty": "72", "limit": 247.52, "stop": 240.64, "target": 250.99}], "history": [{"d": "2026-10-09", "e": 100000.0, "spy": 100000.0}, {"d": "2026-10-10", "e": 100000.0, "spy": null}, {"d": "2026-10-13", "e": 100070.97, "spy": 99928.07}, {"d": "2026-10-14", "e": 100142.03, "spy": 98847.88}, {"d": "2026-10-15", "e": 99034.4, "spy": 99197.25}]};
@@ -147,104 +146,88 @@ const $=id=>document.getElementById(id);
 const f=(x,d=2)=>x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 const sg=(x,d=2)=>(x>0?'+':x<0?'−':'')+f(Math.abs(x),d);
 const cl=x=>x>0?'good':x<0?'bad':'';
-const N=t=>`<span class="n">${t}</span>`;
-const arrow=x=>x>0?'<svg viewBox="0 0 12 12"><path d="M6 1l5 7H1z" fill="currentColor"/></svg>':x<0?'<svg viewBox="0 0 12 12"><path d="M6 11L1 4h10z" fill="currentColor"/></svg>':'';
+const B=t=>`<bdi>${t}</bdi>`;
+const TARGET=350, MAXPOS=18;
 const hist=D.history.filter(p=>p.e);
 const start=hist.length?hist[0].e:D.equity;
-const tot=D.equity-start,totp=start?tot/start*100:0;
-$('stamp').textContent=D.updated.replace(' UTC','Z').replace(' ','·');
-$('dot').className='dot'+(D.paused?' off':'');
-$('pstat').innerHTML=D.paused?'<span class="bad">מושהה</span>':'<span class="good">פעיל</span>';
+const core=D.positions.filter(p=>p.core), bot=D.positions.filter(p=>!p.core);
+const corePl=core.reduce((a,p)=>a+p.pl,0);
+const botDay=D.day_pl-corePl;
+
+$('stamp').textContent='עודכן '+D.updated.replace(' UTC','Z');
+$('st').className='st'+(D.paused?' off':'');
 const [w,fr]=f(D.equity).split('.');
-$('eq').innerHTML=`<span class="cur">$</span>${w}<span class="cents">.${fr}</span>`;
-const lastSpy=[...hist].reverse().find(p=>p.spy!=null);
-const spyP=lastSpy&&start?(lastSpy.spy-start)/start*100:null;
-$('delta').innerHTML=
- `<span class="pillv ${cl(D.day_pl)||'flat'}">${arrow(D.day_pl)}<span class="n">${sg(D.day_pl)}$ · ${sg(D.day_pct)}%</span><span style="font-weight:400;opacity:.8">היום</span></span>`+
- `<div class="chips"><span class="chip ${cl(tot)}">מההתחלה ${N(sg(totp)+'%')}</span>${spyP!=null?`<span class="chip">SPY ${N(sg(spyP)+'%')}</span>`:''}</div>`;
-// clocks
-const NYF=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',minute:'2-digit',hour12:false,weekday:'short'});
-function ny(t){const p=Object.fromEntries(NYF.formatToParts(t).map(x=>[x.type,x.value]));return{h:+p.hour%24,m:+p.minute,wd:p.weekday}}
-function nextOpen(now){const y=now.getUTCFullYear(),m=now.getUTCMonth(),d=now.getUTCDate();
- for(let k=0;k<9;k++)for(const h of [13,14]){const t=new Date(Date.UTC(y,m,d+k,h,30));if(t<=now)continue;const q=ny(t);if(q.h==9&&q.m==30&&q.wd!='Sat'&&q.wd!='Sun')return t}}
-function nextScan(now){const y=now.getUTCFullYear(),m=now.getUTCMonth(),d=now.getUTCDate();
- for(let k=0;k<9;k++){const t=new Date(Date.UTC(y,m,d+k,22,30));if(t>now&&t.getUTCDay()>=1&&t.getUTCDay()<=5)return t}}
-function fmt(ms){const s=Math.max(0,Math.floor(ms/1000)),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),mi=Math.floor(s%3600/60),se=s%60,z=v=>String(v).padStart(2,'0');
- return (d?d+'d ':'')+z(h)+':'+z(mi)+':'+z(se)}
-function tick(){const now=new Date(),q=ny(now),mins=q.h*60+q.m,open=q.wd!='Sat'&&q.wd!='Sun'&&mins>=570&&mins<960;
- $('cOpen').textContent=open?'● OPEN':fmt(nextOpen(now)-now);$('cOpen').style.color=open?'var(--good)':'';
- $('cScan').textContent=fmt(nextScan(now)-now)}
-tick();setInterval(tick,1000);
-// tape
-const items=D.pending.concat(D.positions);
-const seg=items.length?items.map(o=>`<span><b>${o.symbol}</b>${f(o.limit||o.entry)} <em>▾ ${o.stop?f(o.stop):'—'}</em> <u>▴ ${o.target?f(o.target):'—'}</u></span>`).join(''):'<span>אין הוראות פעילות</span>';
-$('tape').innerHTML=seg+seg+seg+seg;if(!items.length)$('tapeW').hidden=true;
+$('eq').innerHTML=`<sup>$</sup>${w}<small>.${fr}</small>`;
+const tot=D.equity-start, totp=start?tot/start*100:0;
+$('delta').innerHTML=`<span class="dl ${cl(D.day_pl)}">${B(sg(D.day_pl)+'$')} <span class="sub">היום ${B(sg(D.day_pct)+'%')}</span></span>`+
+ `<span class="sub">מההתחלה ${B('<span class="'+cl(tot)+'">'+sg(tot,0)+'$ · '+sg(totp)+'%</span>')}</span>`+
+ (D.paused?'<span class="bad">הבוט מושהה</span>':'');
+
+// cycle bar
+const pct=Math.max(0,Math.min(100,botDay/TARGET*100));
+$('cyc').innerHTML=`<div class="t"><b>מחזור יומי של הבוט</b><span>${B('<span class="'+cl(botDay)+'">'+sg(botDay)+'$</span> מתוך '+TARGET+'$')}</span></div>
+ <div class="bar"><div class="f ${botDay<0?'neg':''}" style="--w:${botDay<0?Math.min(100,-botDay/TARGET*100):pct}%"></div></div>
+ <div class="scale"><span>0</span><span>${TARGET/2}</span><span>${TARGET}$</span></div>
+ <div class="sub" style="margin-top:8px">${botDay>=TARGET?'היעד הושג. הבוט סוגר ופותח סיבוב חדש.':'ברגע שהבוט מגיע ליעד הוא סוגר את הפוזיציות שלו ופותח סיבוב חדש. ליבת SPY לא נספרת.'}</div>`;
+
+// ladders
+function ladder(p){
+  const hasT=!!p.target, hasS=!!p.stop;
+  const vals=[p.price,p.entry].concat(hasT?[p.target]:[],hasS?[p.stop]:[]);
+  let lo=Math.min(...vals),hi=Math.max(...vals);
+  const pad=(hi-lo||1)*.12;lo-=pad;hi+=pad;
+  const H=170, y=v=>(1-(v-lo)/(hi-lo))*H;
+  const lv=(v,c,lab)=>`<div class="lv ${c}" style="top:${y(v)}px"><b>${f(v)}</b><s></s></div>`;
+  let z='';
+  if(hasS)z+=`<div class="zb" style="top:${y(p.entry)}px;height:${Math.max(0,y(p.stop)-y(p.entry))}px"></div>`;
+  if(hasT)z+=`<div class="zg" style="top:${y(p.target)}px;height:${Math.max(0,y(p.entry)-y(p.target))}px"></div>`;
+  else z+=`<div class="zg" style="top:0;height:${y(p.entry)}px"></div><div class="open"></div>`;
+  return `<div class="lad"><div class="sy"><span>${p.symbol}</span>${p.core?'<em>ליבה</em>':''}</div>
+  <div class="qt">${B(p.qty+' × '+f(p.entry))}</div>
+  <div class="tr"><div class="ax"></div>${z}
+   ${hasT?lv(p.target,'t'):''}${lv(p.entry,'e')}${hasS?lv(p.stop,'s'):''}
+   <div class="nw" style="top:${y(p.price)}px"><span>${f(p.price)}</span></div></div>
+  <div class="pl ${cl(p.pl)}">${sg(p.pl)}$<small>${sg(p.plpc,1)}%</small></div></div>`}
+$('ph').textContent=D.positions.length?D.positions.length+' פתוחות':'';
+$('rack').innerHTML=D.positions.length?D.positions.slice().sort((a,b)=>b.pl-a.pl).map(ladder).join(''):'<div class="empty">אין פוזיציות פתוחות. ההוראות הממתינות למטה מחכות למילוי.</div>';
+
+// exposure
+const val=a=>a.reduce((s,p)=>s+p.qty*p.price,0);
+const vb=val(bot), vc=val(core), cash=D.cash, tt=vb+vc+cash||1;
+const seg=(c,v,l)=>v/tt>0.004?`<div class="${c}" style="width:${v/tt*100}%">${v/tt>0.09?B(f(v/tt*100,0)+'%'):''}</div>`:'';
+$('stack').innerHTML=seg('s1',vb,'')+seg('s2',vc,'')+seg('s3',cash,'');
+$('keys').innerHTML=`<span><i style="background:var(--sig)"></i>פוזיציות הבוט ${B('$'+f(vb,0))}</span><span><i style="background:var(--spy)"></i>ליבת SPY ${B('$'+f(vc,0))}</span><span><i></i>מזומן ${B('$'+f(cash,0))}</span>`;
+$('posn').innerHTML=B(D.positions.length+' / '+MAXPOS);
+const unreal=D.positions.reduce((a,p)=>a+p.pl,0), pend=D.pending.reduce((a,o)=>a+(+o.qty)*o.limit,0);
+$('kv').innerHTML=[['רווח לא ממומש',`<span class="${cl(unreal)}">${sg(unreal)}$</span>`],['ממתין לביצוע','$'+f(pend,0)],['כוח קנייה','$'+f(D.buying_power,0)],['שיא החשבון','$'+f(D.peak,0)]]
+ .map(([a,b])=>`<div><small>${a}</small><b>${b}</b></div>`).join('');
+const dd=D.peak?Math.max(0,(D.peak-D.equity)/D.peak*100):0, lim=D.dd_limit||5;
+$('dd').innerHTML=`<div class="t"><span>ירידה מהשיא</span><span>${B(f(dd,2)+'% מתוך '+f(lim,0)+'% עד עצירה אוטומטית')}</span></div>
+ <div class="bar"><div class="f ${dd/lim>.6?'neg':''}" style="--w:${Math.min(100,dd/lim*100)}%"></div></div>`;
+
 // chart
 (function(){
- const W=520,H=230,L=6,R=50,T=16,B=26;
- $('since').textContent=hist.length?'FROM '+hist[0].d.slice(5).split('-').reverse().join('.'):'';
- if(!hist.length){$('chart').innerHTML='<div class="empty">עדיין אין נתוני היסטוריה.</div>';return}
- const vals=hist.flatMap(p=>[p.e,p.spy].filter(v=>v!=null));
- let lo=Math.min(...vals),hi=Math.max(...vals);if(hi-lo<1){lo-=400;hi+=400}
- const pad=(hi-lo)*.2;lo-=pad;hi+=pad;
- const n=hist.length,x=i=>L+(W-L-R)*(n==1?1:i/(n-1)),y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
- const pts=k=>hist.map((p,i)=>p[k]==null?null:[x(i),y(p[k])]).filter(Boolean);
- const line=a=>a.map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' ');
- let eqp=pts('e');if(eqp.length==1)eqp=[[L,eqp[0][1]],eqp[0]];
- let sp=pts('spy');if(sp.length==1)sp=[[L,sp[0][1]],sp[0]];
- let g='';for(let t=0;t<=3;t++){const v=lo+(hi-lo)*t/3,yy=y(v);g+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="var(--track)" stroke-dasharray="2 5"/><text x="${W-R+8}" y="${yy+4}" font-size="10.5" fill="var(--mute)" font-family="DM Mono,monospace">${f(v/1000,1)}k</text>`}
- const e=eqp[eqp.length-1];
- const area=line(eqp)+` L${e[0]} ${H-B} L${eqp[0][0]} ${H-B} Z`;
- const xl=[...new Set([0,n-1])].map(i=>`<text x="${x(i)}" y="${H-6}" font-size="10.5" fill="var(--mute)" text-anchor="${i?'end':'start'}" font-family="DM Mono,monospace">${hist[i].d.slice(5).split('-').reverse().join('.')}</text>`).join('');
- $('chart').innerHTML=`<svg class="ch" id="svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="עקומת שווי הבוט מול SPY">
- <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--a)" stop-opacity=".42"/><stop offset=".6" stop-color="var(--b)" stop-opacity=".10"/><stop offset="1" stop-color="var(--b)" stop-opacity="0"/></linearGradient>
- <linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="var(--c)"/><stop offset=".5" stop-color="var(--a)"/><stop offset="1" stop-color="var(--b)"/></linearGradient></defs>
- ${g}${xl}<path d="${area}" fill="url(#ag)"/>
- <path class="ln" pathLength="1" d="${line(sp)}" fill="none" stroke="var(--spy)" stroke-width="1.8" stroke-linecap="round" style="stroke-dasharray:.015 .02;animation:none;stroke-dashoffset:0"/>
- <path class="ln" pathLength="1" d="${line(eqp)}" fill="none" stroke="url(#lg)" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/>
- <line id="cur" x1="${e[0]}" x2="${e[0]}" y1="${T}" y2="${H-B}" stroke="var(--mute)" stroke-width="1" stroke-dasharray="3 4" opacity="0"/>
- <circle id="d2" r="4" fill="var(--spy)" stroke="var(--bg)" stroke-width="2" opacity="0"/>
- <circle cx="${e[0]}" cy="${e[1]}" r="10" fill="var(--a)" opacity=".2" id="h1"/><circle id="d1" cx="${e[0]}" cy="${e[1]}" r="5" fill="var(--a)" stroke="var(--bg)" stroke-width="2"/></svg>`;
- const read=i=>{const p=hist[i];$('read').innerHTML=`<div><small>הבוט · ${p.d.slice(5).split('-').reverse().join('.')}</small><b>$${f(p.e)}</b></div>`+(p.spy!=null?`<div><small>SPY</small><b style="color:var(--spy)">$${f(p.spy)}</b></div>`:'')};
- read(n-1);
- const svg=$('svg'),mv=ev=>{const r=svg.getBoundingClientRect(),px=(ev.clientX-r.left)/r.width*W;let i=n==1?0:Math.round((px-L)/(W-L-R)*(n-1));i=Math.max(0,Math.min(n-1,i));
-  const p=hist[i];$('d1').setAttribute('cx',x(i));$('d1').setAttribute('cy',y(p.e));$('h1').setAttribute('cx',x(i));$('h1').setAttribute('cy',y(p.e));
-  const c=$('cur');c.setAttribute('x1',x(i));c.setAttribute('x2',x(i));c.setAttribute('opacity',1);
-  const d2=$('d2');if(p.spy!=null){d2.setAttribute('cx',x(i));d2.setAttribute('cy',y(p.spy));d2.setAttribute('opacity',1)}else d2.setAttribute('opacity',0);read(i)};
- svg.addEventListener('pointermove',mv);svg.addEventListener('pointerdown',mv);
- svg.addEventListener('pointerleave',()=>{$('cur').setAttribute('opacity',0);$('d2').setAttribute('opacity',0);$('d1').setAttribute('cx',e[0]);$('d1').setAttribute('cy',e[1]);$('h1').setAttribute('cx',e[0]);$('h1').setAttribute('cy',e[1]);read(n-1)});
+ $('since').textContent=hist.length?'מ־'+hist[0].d.slice(5).split('-').reverse().join('.'):'';
+ if(hist.length<2){$('chart').innerHTML='<div class="empty">צריך לפחות שני ימי מסחר לעקומה.</div>';return}
+ const W=560,H=210,L=8,R=58,T=14,Bt=26,n=hist.length;
+ const vs=hist.flatMap(p=>[p.e,p.spy].filter(v=>v!=null));
+ let lo=Math.min(...vs),hi=Math.max(...vs);const pad=(hi-lo||200)*.25;lo-=pad;hi+=pad;
+ const x=i=>L+(W-L-R)*i/(n-1), y=v=>T+(H-T-Bt)*(1-(v-lo)/(hi-lo));
+ const path=k=>hist.map((p,i)=>p[k]==null?null:[x(i),y(p[k])]).filter(Boolean).map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' ');
+ let g='';for(let t=0;t<=3;t++){const v=lo+(hi-lo)*t/3,yy=y(v);g+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="var(--line2)"/><text x="${W-R+8}" y="${yy+4}" font-size="11" fill="var(--mute)" font-family="JetBrains Mono,monospace">${f(v/1000,1)}k</text>`}
+ const lastE=hist[n-1], ex=x(n-1), ey=y(lastE.e);
+ const xl=hist.map((p,i)=>(i==0||i==n-1)?`<text x="${x(i)}" y="${H-6}" font-size="11" fill="var(--mute)" text-anchor="${i?'end':'start'}" font-family="JetBrains Mono,monospace">${p.d.slice(5).split('-').reverse().join('.')}</text>`:'').join('');
+ const base=y(start);
+ $('chart').innerHTML=`<svg class="ch" viewBox="0 0 ${W} ${H}" role="img" aria-label="עקומת שווי הבוט מול SPY">${g}${xl}
+  <line x1="${L}" x2="${W-R}" y1="${base}" y2="${base}" stroke="var(--ink)" stroke-width="1" stroke-dasharray="1 5" opacity=".6"/>
+  <path d="${path('spy')}" fill="none" stroke="var(--spy)" stroke-width="2" stroke-dasharray="6 5"/>
+  <path d="${path('e')}" fill="none" stroke="var(--sig)" stroke-width="3.4" stroke-linejoin="round" stroke-linecap="round"/>
+  <circle cx="${ex}" cy="${ey}" r="6" fill="var(--sig)" stroke="var(--bg)" stroke-width="2.5"/>
+  <text x="${ex-10}" y="${ey+22}" text-anchor="end" font-size="12" fill="var(--ink)" font-family="JetBrains Mono,monospace">${f(lastE.e,0)}$</text></svg>`;
 })();
-// rings
-const eqv=D.equity||1,invested=D.positions.reduce((a,p)=>a+p.qty*p.price,0),pi=Math.min(100,invested/eqv*100);
-const pend=D.pending.reduce((a,o)=>a+(+o.qty)*o.limit,0);
-const dd=D.peak?Math.max(0,(D.peak-D.equity)/D.peak*100):0,lim=D.dd_limit||5,dp=Math.min(100,dd/lim*100);
-function ring(id,pct,grad,big,small,cap){
- $(id).innerHTML=`<svg viewBox="0 0 100 100"><defs><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1">${grad}</linearGradient></defs>
- <circle cx="50" cy="50" r="40" fill="none" stroke="var(--track)" stroke-width="9"/>
- <circle class="rg" style="--p:${pct}" cx="50" cy="50" r="40" fill="none" stroke="url(#${id}g)" stroke-width="9" stroke-linecap="round" pathLength="100" transform="rotate(-90 50 50)"/>
- <text class="ctr" x="50" y="53" text-anchor="middle">${big}</text><text class="ctr2" x="50" y="67" text-anchor="middle">${small}</text></svg><div class="cap">${cap}</div>`}
-ring('r1',pi,'<stop offset="0" stop-color="var(--a)"/><stop offset="1" stop-color="var(--c)"/>',f(pi,0)+'%','מושקע','חשיפה לשוק');
-const rc=dp<50?'var(--good)':dp<80?'var(--warn)':'var(--bad)';
-ring('r2',Math.max(dp,1.5),`<stop offset="0" stop-color="${rc}"/><stop offset="1" stop-color="${rc}"/>`,f(dd,1)+'%','LIMIT '+f(lim,0)+'%','מרחק מהשהיה אוטומטית');
-$('posn').innerHTML=N('POS '+D.positions.length+'/15');
-const unreal=D.positions.reduce((a,p)=>a+p.pl,0);
-$('kpis').innerHTML=[['מזומן פנוי','$'+f(D.cash,0),''],['כוח קנייה','$'+f(D.buying_power,0),''],['רווח לא ממומש',sg(unreal)+'$',cl(unreal)],['ממתין לביצוע','$'+f(pend,0),'']]
- .map(([a,b,c])=>`<div class="kpi"><small>${a}</small><b class="${c}">${b}</b></div>`).join('');
-// lists
-const av=s=>`<div class="av">${s.slice(0,4)}</div>`;
-function rail(stop,entry,target,cur){
- if(!(stop&&target&&target>stop))return '';
- const pc=v=>Math.max(0,Math.min(100,(v-stop)/(target-stop)*100));
- const rr=entry>stop?(target-entry)/(entry-stop):0;
- return `<div><div class="rail" style="--e:${pc(entry)}%;--c:${cur!=null?pc(cur):0}%"><span class="tick"></span>${cur!=null?'<span class="now"></span>':''}</div>
- <div class="rl" style="margin-top:9px"><span>STOP ${f(stop)}</span><span>ENTRY ${f(entry)}${rr?` · ${f(rr,1)}R`:''}</span><span>TARGET ${f(target)}</span></div></div>`}
-$('ph').textContent=D.positions.length?D.positions.length+' OPEN':'';
-$('pos').innerHTML=D.positions.length?D.positions.slice().sort((a,b)=>b.pl-a.pl).map(p=>
- `<div class="item"><div class="l1"><div class="tk">${av(p.symbol)}<div><b>${p.symbol}</b>${p.core?' <small>ליבה</small>':''}<small>${N(p.qty+' × '+f(p.entry))}</small></div></div>
- <div class="amt ${cl(p.pl)}">${sg(p.pl)}$<small class="${cl(p.pl)}">${sg(p.plpc,1)}%</small></div></div>${rail(p.stop,p.entry,p.target,p.price)}</div>`).join(''):
- '<div class="empty">אין פוזיציות פתוחות. ההוראות למטה מחכות לפתיחת המסחר.</div>';
-$('oh').textContent=D.pending.length?D.pending.length+' PENDING':'';
-$('ord').innerHTML=D.pending.length?D.pending.map(o=>
- `<div class="item"><div class="l1"><div class="tk">${av(o.symbol)}<div><b>${o.symbol}</b><small>${o.qty} מניות · קנייה בלימיט</small></div></div>
- <div class="amt">$${f(o.limit)}<small>$${f(o.limit*o.qty,0)}</small></div></div>${rail(o.stop,o.limit,o.target,null)}</div>`).join(''):'<div class="empty">אין הוראות ממתינות.</div>';
+
+// pending
+$('oh').textContent=D.pending.length?D.pending.length+' ממתינות':'';
+$('ord').innerHTML=D.pending.length?D.pending.map(o=>`<div class="pd"><div><b>${o.symbol}</b><div class="a">${B(o.qty+' מניות')} · קנייה בלימיט</div></div>
+ <div class="r">${f(o.limit)}<small>סטופ ${o.stop?f(o.stop):'—'} · יעד ${o.target?f(o.target):'—'}</small></div></div>`).join(''):'<div class="empty">אין הוראות ממתינות. הסיבוב הבא נפתח עם פתיחת המסחר.</div>';
 </script>
