@@ -20,6 +20,7 @@ from scanner import load_log, position_size, save_log
 from strategy import add_indicators
 
 N_NEW = int(os.getenv("N_NEW", "4"))
+ENV_EXCLUDE = {x.strip().upper() for x in os.getenv("EXCLUDE", "").split(",") if x.strip()}
 DRY = os.getenv("DRY") == "1"
 L = []
 
@@ -46,7 +47,7 @@ def main(n_new=None, exclude=()):
     pos = {p["symbol"] for p in broker._req("GET", "/v2/positions").json()}
     open_orders = broker._req("GET", "/v2/orders", params={"status": "open", "limit": 200, "nested": "false"}).json()
     pending = {o["symbol"] for o in open_orders if o["side"] == "buy"}
-    busy = pos | pending | set(exclude)
+    busy = pos | pending | set(exclude) | ENV_EXCLUDE
     slots = C.MAX_OPEN_POSITIONS - len(busy)
     want = min(n_new or N_NEW, slots)
     out(f"פוזיציות פתוחות {len(pos)}, הוראות קנייה ממתינות {len(pending)}, מקומות פנויים {slots}, מבקש {want}")
@@ -62,6 +63,15 @@ def main(n_new=None, exclude=()):
     if C.USE_MARKET_FILTER and not spy_ok:
         out("שוק בלתי מתאים - לא נפתחות פוזיציות.")
         return finish()
+    try:
+        sp = broker.snapshots(["SPY"])["SPY"]
+        spy_chg = sp["latestTrade"]["p"] / sp["prevDailyBar"]["c"] - 1
+        out(f"SPY היום: {spy_chg * 100:+.2f}%")
+        if spy_chg <= -0.015:
+            out("השוק כולו יורד חזק (SPY -1.5% ומטה) - לא פותח פוזיציות חדשות.")
+            return finish()
+    except Exception as e:
+        out(f"בדיקת SPY נכשלה ({e}) - ממשיך.")
 
     # שלב 1: מגמה ונזילות לפי הנרות השלמים (בלי נר היום)
     pre = []

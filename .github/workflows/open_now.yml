@@ -9,6 +9,9 @@ on:
       count:
         description: "כמה פוזיציות חדשות"
         default: "4"
+      exclude:
+        description: "טיקרים להחריג (מופרדים בפסיק)"
+        default: ""
 
 permissions:
   contents: write
@@ -23,6 +26,7 @@ jobs:
       ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
       DRY: ${{ github.event.inputs.dry }}
       N_NEW: ${{ github.event.inputs.count }}
+      EXCLUDE: ${{ github.event.inputs.exclude }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
