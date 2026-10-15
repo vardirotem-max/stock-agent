@@ -23,3 +23,5 @@ signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_dat
 2026-10-15,CPAY,403.0,390.19,409.41,39,pending,,,,,,dfc3502d-9391-4e57-adf2-eb31c8a33663,,,,,now
 2026-10-15,HSIC,86.85,84.01,88.27,176,pending,,,,,,b85d3bef-5a77-4969-b4f0-accb78b3a332,,,,,now
 2026-10-15,NDSN,325.76,317.01,330.15,57,pending,,,,,,7be33ff6-4e58-4f1f-a424-400cf737181e,,,,,now
+2026-10-15,MSI,457.03,445.27,462.98,42,pending,,,,,,50fbc9d0-8c2b-4c1a-8dd2-2f050ad9731a,,,,,now
+2026-10-15,SOLV,87.64,84.74,89.09,172,pending,,,,,,7d31c3c3-7668-4f45-9814-96671828f0e3,,,,,now
