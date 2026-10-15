@@ -240,7 +240,7 @@ function rail(stop,entry,target,cur){
  <div class="rl" style="margin-top:9px"><span>STOP ${f(stop)}</span><span>ENTRY ${f(entry)}${rr?` · ${f(rr,1)}R`:''}</span><span>TARGET ${f(target)}</span></div></div>`}
 $('ph').textContent=D.positions.length?D.positions.length+' OPEN':'';
 $('pos').innerHTML=D.positions.length?D.positions.slice().sort((a,b)=>b.pl-a.pl).map(p=>
- `<div class="item"><div class="l1"><div class="tk">${av(p.symbol)}<div><b>${p.symbol}</b><small>${N(p.qty+' × '+f(p.entry))}</small></div></div>
+ `<div class="item"><div class="l1"><div class="tk">${av(p.symbol)}<div><b>${p.symbol}</b>${p.core?' <small>ליבה</small>':''}<small>${N(p.qty+' × '+f(p.entry))}</small></div></div>
  <div class="amt ${cl(p.pl)}">${sg(p.pl)}$<small class="${cl(p.pl)}">${sg(p.plpc,1)}%</small></div></div>${rail(p.stop,p.entry,p.target,p.price)}</div>`).join(''):
  '<div class="empty">אין פוזיציות פתוחות. ההוראות למטה מחכות לפתיחת המסחר.</div>';
 $('oh').textContent=D.pending.length?D.pending.length+' PENDING':'';

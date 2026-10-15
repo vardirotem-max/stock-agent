@@ -55,6 +55,22 @@ def build():
         p["spy"] = round(start_eq * spy[p["d"]] / base, 2) if base and p["d"] in spy else None
     s = st.load()
     lv = levels()
+    # מקור אמת: הוראות מכירה פעילות ב-Alpaca (כולל סטופ של ליבת SPY)
+    try:
+        nested = broker._req("GET", "/v2/orders", params={"status": "open", "limit": 200, "nested": "true"}).json()
+        flat = []
+        for o in nested:
+            flat.append(o); flat.extend(o.get("legs") or [])
+        for o in flat:
+            if o["side"] != "sell":
+                continue
+            d = lv.setdefault(o["symbol"], {})
+            if o["type"] == "limit" and o.get("limit_price"):
+                d["target"] = float(o["limit_price"])
+            elif o["type"] in ("stop", "stop_limit") and o.get("stop_price"):
+                d["stop"] = float(o["stop_price"])
+    except Exception as ex:
+        print("live levels failed", ex)
     return {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
         "equity": equity, "cash": float(acc["cash"]), "buying_power": float(acc.get("buying_power") or 0),
@@ -62,7 +78,7 @@ def build():
         "peak": float(s.get("peak_equity") or equity), "paused": bool(s.get("paused")), "dd_limit": C.MAX_DRAWDOWN_PCT,
         "positions": [{"symbol": p["symbol"], "qty": float(p["qty"]), "entry": float(p["avg_entry_price"]),
                        "price": float(p["current_price"]), "pl": float(p["unrealized_pl"]),
-                       "plpc": float(p["unrealized_plpc"]) * 100, **lv.get(p["symbol"], {})} for p in pos],
+                       "plpc": float(p["unrealized_plpc"]) * 100, "core": p["symbol"] in C.CORE_SYMBOLS, **lv.get(p["symbol"], {})} for p in pos],
         "pending": [{"symbol": o["symbol"], "qty": o["qty"], "limit": float(o["limit_price"]), **lv.get(o["symbol"], {})}
                     for o in orders if o["side"] == "buy" and o["type"] == "limit"],
         "history": hist,
