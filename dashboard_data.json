@@ -1,30 +1,66 @@
 {
- "updated": "2026-10-15 13:16 UTC",
- "equity": 99034.4,
- "cash": 99034.4,
- "buying_power": 377660.46,
- "day_pl": 0.0,
- "day_pct": 0.0,
+ "updated": "2026-10-15 14:16 UTC",
+ "equity": 98622.69,
+ "cash": 33064.6,
+ "buying_power": 315821.07,
+ "day_pl": -411.70999999999185,
+ "day_pct": -0.4157242331957299,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
- "positions": [],
- "pending": [
+ "positions": [
+  {
+   "symbol": "CSCO",
+   "qty": 119.0,
+   "entry": 112.09,
+   "price": 109.8042,
+   "pl": -272.0102,
+   "plpc": -2.0389999999999997,
+   "stop": 107.89,
+   "target": 120.49
+  },
   {
    "symbol": "DE",
-   "qty": "17",
-   "limit": 650.38,
+   "qty": 17.0,
+   "entry": 648.880588,
+   "price": 655.57,
+   "pl": 113.720004,
+   "plpc": 1.031,
    "stop": 621.5,
    "target": 708.13
   },
   {
-   "symbol": "AMD",
-   "qty": "13",
-   "limit": 570.82,
-   "stop": 532.48,
-   "target": 647.51
+   "symbol": "HSIC",
+   "qty": 179.0,
+   "entry": 86.56,
+   "price": 86.97,
+   "pl": 73.39,
+   "plpc": 0.47400000000000003,
+   "stop": 83.79,
+   "target": 92.16
+  },
+  {
+   "symbol": "TRGP",
+   "qty": 48.0,
+   "entry": 286.23,
+   "price": 281.19,
+   "pl": -241.92,
+   "plpc": -1.7610000000000001,
+   "stop": 276.55,
+   "target": 307.45
+  },
+  {
+   "symbol": "XYZ",
+   "qty": 159.0,
+   "entry": 77.17,
+   "price": 77.245,
+   "pl": 11.925,
+   "plpc": 0.097,
+   "stop": 74.27,
+   "target": 83.69
   }
  ],
+ "pending": [],
  "history": [
   {
    "d": "2026-10-09",
@@ -49,7 +85,7 @@
   {
    "d": "2026-10-15",
    "e": 99034.4,
-   "spy": null
+   "spy": 98512.66
   }
  ]
 }
