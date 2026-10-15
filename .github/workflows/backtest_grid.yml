@@ -1,0 +1,41 @@
+name: Backtest grid (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      rr:
+        description: "RR (ברירת מחדל 1.0 = תקרת 250$ עם סיכון 0.25%)"
+        default: "1.0"
+
+permissions:
+  contents: write
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        stop: ["1.0", "1.5", "2.0"]
+        rsi: ["35", "48"]
+    env:
+      RR_OVERRIDE: ${{ github.event.inputs.rr }}
+      STOP_ATR_OVERRIDE: ${{ matrix.stop }}
+      RSI_OVERRIDE: ${{ matrix.rsi }}
+      BT_OUT: backtest_grid_s${{ matrix.stop }}_r${{ matrix.rsi }}_report.txt
+      BT_TRADES: /tmp/trades_grid.csv
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: python backtest.py
+      - name: Save report
+        if: always()
+        run: |
+          git config user.name "stock-bot"
+          git config user.email "stock-bot@users.noreply.github.com"
+          git add backtest_grid_s${{ matrix.stop }}_r${{ matrix.rsi }}_report.txt
+          for i in 1 2 3 4; do git diff --cached --quiet || (git commit -m "backtest grid" -q && git pull --rebase -q && git push -q) && break; sleep $((RANDOM % 8 + 2)); done

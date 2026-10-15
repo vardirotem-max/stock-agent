@@ -7,12 +7,12 @@ MIN_DOLLAR_VOLUME = 20_000_000    # מחזור יומי ממוצע (20 ימים)
 # --- תנאי הסיגנל (פולבק במגמה עולה) ---
 PULLBACK_MAX_ABOVE_SMA20 = 1.01   # הסגירה לכל היותר 1% מעל ממוצע 20
 MIN_VS_SMA50 = 0.99               # הסגירה לא יותר מ-1% מתחת לממוצע 50
-RSI_MAX = 48                      # RSI(14) מקסימלי
+RSI_MAX = int(__import__('os').getenv('RSI_OVERRIDE') or 48)                      # RSI(14) מקסימלי
 MOMENTUM_DAYS = 126               # דירוג מניות לפי תשואה ב-126 ימים (חצי שנה)
 MAX_SIGNALS_PER_DAY = 5           # כמה סיגנלים לשלוח ביום
 
 # --- ניהול עסקה ---
-STOP_ATR = 1.5                    # סטופ = כניסה פחות 1.5 * ATR
+STOP_ATR = float(__import__('os').getenv('STOP_ATR_OVERRIDE') or 1.5)                    # סטופ = כניסה פחות 1.5 * ATR
 RR = float(__import__('os').getenv('RR_OVERRIDE') or 2.0)                          # יעד = פי 2 מהסיכון
 MIN_RISK_PCT = 0.015              # מסנן עסקאות עם סטופ צמוד מדי
 MAX_RISK_PCT = 0.08               # מסנן עסקאות עם סטופ רחוק מדי
