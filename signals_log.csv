@@ -25,3 +25,7 @@ signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_dat
 2026-10-15,NDSN,325.76,317.01,330.15,57,pending,,,,,,7be33ff6-4e58-4f1f-a424-400cf737181e,,,,,now
 2026-10-15,MSI,457.03,445.27,462.98,42,pending,,,,,,50fbc9d0-8c2b-4c1a-8dd2-2f050ad9731a,,,,,now
 2026-10-15,SOLV,87.64,84.74,89.09,172,pending,,,,,,7d31c3c3-7668-4f45-9814-96671828f0e3,,,,,now
+2026-10-15,CSCO,109.74,105.3,111.97,112,pending,,,,,,59ffa850-ba90-4c1b-9b7c-0f4f06258526,,,,,now
+2026-10-15,TRGP,281.45,270.62,286.88,46,pending,,,,,,4e166f41-7782-495b-880b-cb5d12d7094f,,,,,now
+2026-10-15,LYV,172.46,166.82,175.3,88,pending,,,,,,a8e991b8-2179-470a-8daa-add6645e8148,,,,,now
+2026-10-15,AME,247.52,240.64,250.99,72,pending,,,,,,1806fa38-350b-4d75-b05c-9a737573197b,,,,,now
