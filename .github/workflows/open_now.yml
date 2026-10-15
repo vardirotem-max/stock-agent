@@ -1,6 +1,9 @@
 name: Open positions now (manual)
 
 on:
+  schedule:
+    - cron: "40 13 16 10 *"
+    - cron: "55 13 16 10 *"
   workflow_dispatch:
     inputs:
       dry:
@@ -24,8 +27,8 @@ jobs:
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
       ALPACA_KEY_ID: ${{ secrets.ALPACA_KEY_ID }}
       ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
-      DRY: ${{ github.event.inputs.dry }}
-      N_NEW: ${{ github.event.inputs.count }}
+      DRY: ${{ github.event.inputs.dry || '0' }}
+      N_NEW: ${{ github.event.inputs.count || '16' }}
       EXCLUDE: ${{ github.event.inputs.exclude }}
     steps:
       - uses: actions/checkout@v4
