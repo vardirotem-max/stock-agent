@@ -115,9 +115,9 @@ def main():
           "החלקות מוערכות. תוצאות עבר אינן תחזית."]
     text = "\n".join(L)
     print(text)
-    with open("backtest_report.txt", "w", encoding="utf-8") as f:
+    with open(os.getenv("BT_OUT", "backtest_report.txt"), "w", encoding="utf-8") as f:
         f.write(text + "\n")
-    tdf.drop(columns=["year"]).to_csv("backtest_trades.csv", index=False)
+    tdf.drop(columns=["year"]).to_csv(os.getenv("BT_TRADES", "backtest_trades.csv"), index=False)
     if os.getenv("TELEGRAM_BOT_TOKEN"):
         send_telegram(text)
 

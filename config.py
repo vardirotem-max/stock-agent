@@ -13,7 +13,7 @@ MAX_SIGNALS_PER_DAY = 5           # כמה סיגנלים לשלוח ביום
 
 # --- ניהול עסקה ---
 STOP_ATR = 1.5                    # סטופ = כניסה פחות 1.5 * ATR
-RR = 2.0                          # יעד = פי 2 מהסיכון
+RR = float(__import__('os').getenv('RR_OVERRIDE') or 2.0)                          # יעד = פי 2 מהסיכון
 MIN_RISK_PCT = 0.015              # מסנן עסקאות עם סטופ צמוד מדי
 MAX_RISK_PCT = 0.08               # מסנן עסקאות עם סטופ רחוק מדי
 ORDER_VALID_DAYS = 5              # ימי מסחר שהלימיט תקף
