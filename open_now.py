@@ -52,7 +52,12 @@ def main(n_new=None, exclude=()):
     pos = {p["symbol"] for p in broker._req("GET", "/v2/positions").json()}
     open_orders = broker._req("GET", "/v2/orders", params={"status": "open", "limit": 200, "nested": "false"}).json()
     pending = {o["symbol"] for o in open_orders if o["side"] == "buy"}
-    busy = pos | pending | set(exclude) | ENV_EXCLUDE
+    # מרווח בין כניסות: לא נכנסים שוב למניה שנמכרה בשעות האחרונות (חוסך עלות החלקה)
+    import datetime as _dt
+    since = (_dt.datetime.utcnow() - _dt.timedelta(hours=C.REENTRY_COOLDOWN_HOURS)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    r = broker._req("GET", "/v2/orders", params={"status": "closed", "after": since, "limit": 500, "direction": "desc"})
+    recent_sold = {o["symbol"] for o in (r.json() if r.ok else []) if o["side"] == "sell" and float(o.get("filled_qty") or 0) > 0}
+    busy = pos | pending | set(exclude) | ENV_EXCLUDE | recent_sold
     slots = C.MAX_OPEN_POSITIONS - len(busy)
     want = min(n_new or N_NEW, slots)
     out(f"פוזיציות פתוחות {len(pos)}, הוראות קנייה ממתינות {len(pending)}, מקומות פנויים {slots}, מבקש {want}")

@@ -70,3 +70,5 @@ NEW_ENTRY_MAX_DAY_LOSS = 500.0    # לא פותחים פוזיציות חדשו�
 CORE_SYMBOLS = ("SPY",)
 CORE_PCT = 30.0                   # אחוז מהשווי שמוחזק ב-SPY
 CORE_STOP_PCT = 8.0               # סטופ הגנה מתחת למחיר הקנייה
+
+REENTRY_COOLDOWN_HOURS = 3      # לא קונים שוב מניה שנמכרה בשעות האחרונות
