@@ -177,6 +177,30 @@ def cross_check(data, last_date):
     return warns, ok
 
 
+def reconcile_with_broker(rows):
+    """מסנכרן שורות פתוחות בלוג מול המציאות ב-Alpaca: הוראות שבוטלו בלי מילוי, ופוזיציות שנסגרו ידנית/בנעילת רווח."""
+    if not broker.enabled():
+        return []
+    dead = ("canceled", "expired", "rejected")
+    for r in rows:
+        oid = r.get("order_id") or ""
+        if r["status"] not in OPEN or oid in ("", "skipped", "DRY") or r.get("broker_done"):
+            continue
+        try:
+            o = broker.get_order(oid)
+        except Exception as e:
+            print("sync failed", r["ticker"], e)
+            continue
+        if not o.get("filled_avg_price"):
+            if o.get("status") in dead:
+                r["status"], r["broker_done"] = "expired", "1"
+            continue
+        legs = o.get("legs") or []
+        if legs and not any(l.get("status") in broker.ACTIVE for l in legs) and not any(l.get("status") == "filled" for l in legs):
+            r["status"], r["broker_done"] = "timeout", "1"
+    return reconcile_actuals(rows)
+
+
 def reconcile_actuals(rows):
     """משווה את הלוג למילויים האמיתיים ב-Alpaca. מילוי בפועל גובר על הסימולציה. כשל = נשארים עם הסימולציה."""
     if not broker.enabled():
@@ -279,7 +303,8 @@ def main():
     last_str = fmt_date(last_date)
 
     rows = load_log()
-    events = update_outcomes(rows, data)
+    events = reconcile_with_broker(rows)
+    events += update_outcomes(rows, data)
 
     state = st.load()
     equity = broker.equity() if broker.enabled() else None
