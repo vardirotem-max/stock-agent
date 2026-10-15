@@ -9,6 +9,9 @@ on:
       dry:
         description: "1 = בדיקה בלי לסגור כלום"
         default: "1"
+      loop:
+        description: "1 = לולאה כל 60 שניות עד סגירת השוק"
+        default: "0"
       force_test:
         description: "1 = (רק עם dry) להתעלם מהיעד ולהציג מה היה נסגר"
         default: "0"
@@ -22,7 +25,7 @@ concurrency:
 
 jobs:
   lock:
-    timeout-minutes: 15
+    timeout-minutes: 340
     runs-on: ubuntu-latest
     env:
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -37,7 +40,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python profit_lock.py
+      - run: if [ "${{ github.event.inputs.loop }}" = "1" ]; then python profit_loop.py; else python profit_lock.py; fi
       - name: Save (only when something changed)
         if: always()
         run: |
