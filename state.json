@@ -1,5 +1,13 @@
 {
   "peak_equity": 100000.0,
   "paused": false,
-  "paused_at": ""
+  "paused_at": "",
+  "lock": {
+    "day": "2026-10-16",
+    "baseline": 99605.56,
+    "cycles": 0,
+    "reentry": false,
+    "closed": [],
+    "stopped": false
+  }
 }
