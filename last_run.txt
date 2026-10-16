@@ -1,22 +1,17 @@
-run_utc=2026-10-15 00:47
-last_bar=2026-10-14
+run_utc=2026-10-16 00:40
+last_bar=2026-10-15
 mode=full_scan
 crosscheck_ok=3/3
 regime_ok=True
-technical_candidates=4
-analyst_checked=4
+technical_candidates=5
+analyst_checked=5
 analyst_no_data=0
 analyst_rejected=1
-earnings_blocked=1
+earnings_blocked=2
 earnings_no_data=0
-open_slots_used=6/15
+open_slots_used=5/18
 paused=False
-drawdown_pct=0.96
+drawdown_pct=0.41
 signals_sent=2
-✅ NVDA: הלימיט התמלא ב-224.34
-🛑 AMAT: הסטופ הופעל (-0.5R)
-✅ DVA: הלימיט התמלא ב-181.72
-🛑 MU: הסטופ הופעל (-0.2R)
-🛑 MPWR: הסטופ הופעל (-0.7R)
-📨 AMD: נשלחה הוראה לחשבון הדמה (13 מניות)
-📨 DE: נשלחה הוראה לחשבון הדמה (17 מניות)
+📨 AMD: נשלחה הוראה לחשבון הדמה (6 מניות)
+📨 DE: נשלחה הוראה לחשבון הדמה (8 מניות)
