@@ -3,11 +3,18 @@
   "paused": false,
   "paused_at": "",
   "lock": {
-    "day": "2026-10-19",
-    "baseline": 98968.14,
-    "cycles": 0,
+    "day": "2026-10-20",
+    "baseline": 98945.84,
+    "cycles": 1,
     "reentry": false,
-    "closed": [],
-    "stopped": false
+    "closed": [
+      "AMD",
+      "AME",
+      "DE",
+      "J",
+      "LYV"
+    ],
+    "stopped": false,
+    "core_base": 60.48
   }
 }
