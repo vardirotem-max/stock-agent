@@ -1,10 +1,10 @@
 {
- "updated": "2026-10-20 13:19 UTC",
- "equity": 98462.88,
- "cash": 18054.54,
- "buying_power": 297361.5,
- "day_pl": -86.5,
- "day_pct": -0.08777325641216616,
+ "updated": "2026-10-20 14:17 UTC",
+ "equity": 98495.88,
+ "cash": 29848.04,
+ "buying_power": 311606.12,
+ "day_pl": -53.5,
+ "day_pct": -0.05428750541099294,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
@@ -13,9 +13,9 @@
    "symbol": "AMD",
    "qty": 6.0,
    "entry": 549.576667,
-   "price": 531.9692,
-   "pl": -105.644802,
-   "plpc": -3.2039999999999997,
+   "price": 540.6199,
+   "pl": -53.740602,
+   "plpc": -1.63,
    "core": false,
    "stop": 522.26,
    "target": 603.9
@@ -24,31 +24,20 @@
    "symbol": "AME",
    "qty": 72.0,
    "entry": 247.51,
-   "price": 247.22,
-   "pl": -20.88,
-   "plpc": -0.117,
+   "price": 245.18,
+   "pl": -167.76,
+   "plpc": -0.941,
    "core": false,
    "stop": 240.64,
    "target": 250.99
   },
   {
-   "symbol": "CSCO",
-   "qty": 112.0,
-   "entry": 109.73,
-   "price": 106.46,
-   "pl": -366.24,
-   "plpc": -2.98,
-   "core": false,
-   "stop": 105.3,
-   "target": 111.97
-  },
-  {
    "symbol": "DE",
    "qty": 8.0,
    "entry": 650.51,
-   "price": 627.0,
-   "pl": -188.08,
-   "plpc": -3.614,
+   "price": 635.5,
+   "pl": -120.08,
+   "plpc": -2.307,
    "core": false,
    "stop": 622.35,
    "target": 681.92
@@ -57,9 +46,9 @@
    "symbol": "J",
    "qty": 99.0,
    "entry": 140.94,
-   "price": 138.0,
-   "pl": -291.06,
-   "plpc": -2.086,
+   "price": 138.015,
+   "pl": -289.575,
+   "plpc": -2.075,
    "core": false,
    "stop": 135.9,
    "target": 143.48
@@ -68,9 +57,9 @@
    "symbol": "LYV",
    "qty": 88.0,
    "entry": 172.42,
-   "price": 170.8,
-   "pl": -142.56,
-   "plpc": -0.9400000000000001,
+   "price": 172.255,
+   "pl": -14.52,
+   "plpc": -0.096,
    "core": false,
    "stop": 166.82,
    "target": 175.3
@@ -79,9 +68,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 765.82,
-   "pl": -74.88,
-   "plpc": -0.54,
+   "price": 769.17,
+   "pl": -14.58,
+   "plpc": -0.105,
    "core": true,
    "stop": 708.31
   }
@@ -126,7 +115,7 @@
   {
    "d": "2026-10-20",
    "e": 98549.38,
-   "spy": null
+   "spy": 98795.87
   }
  ],
  "closed": [
