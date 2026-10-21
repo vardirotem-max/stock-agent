@@ -1,133 +1,23 @@
 {
- "updated": "2026-10-21 17:14 UTC",
- "equity": 99726.6,
- "cash": 12095.07,
- "buying_power": 293748.56,
- "day_pl": 773.1200000000099,
- "day_pct": 0.7812964233294372,
+ "updated": "2026-10-21 18:13 UTC",
+ "equity": 99836.52,
+ "cash": 85904.25,
+ "buying_power": 382627.36,
+ "day_pl": 883.0400000000081,
+ "day_pct": 0.8923789239145589,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
-   "symbol": "ADI",
-   "qty": 14.0,
-   "entry": 400.4,
-   "price": 406.55,
-   "pl": 86.1,
-   "plpc": 1.536,
-   "core": false,
-   "stop": 382.77,
-   "target": 418.4
-  },
-  {
-   "symbol": "EMR",
-   "qty": 45.0,
-   "entry": 159.78,
-   "price": 164.28,
-   "pl": 202.5,
-   "plpc": 2.8160000000000003,
-   "core": false,
-   "stop": 154.26,
-   "target": 165.36
-  },
-  {
-   "symbol": "EW",
-   "qty": 83.0,
-   "entry": 87.930964,
-   "price": 88.13,
-   "pl": 16.519988,
-   "plpc": 0.22599999999999998,
-   "core": false,
-   "stop": 85.0,
-   "target": 91.0
-  },
-  {
-   "symbol": "IRM",
-   "qty": 52.0,
-   "entry": 113.74,
-   "price": 115.115,
-   "pl": 71.5,
-   "plpc": 1.209,
-   "core": false,
-   "stop": 108.96,
-   "target": 118.55
-  },
-  {
-   "symbol": "J",
-   "qty": 48.0,
-   "entry": 141.18,
-   "price": 141.23,
-   "pl": 2.4,
-   "plpc": 0.034999999999999996,
-   "core": false,
-   "stop": 136.15,
-   "target": 146.54
-  },
-  {
-   "symbol": "NVDA",
-   "qty": 28.0,
-   "entry": 220.488571,
-   "price": 221.6301,
-   "pl": 31.962812,
-   "plpc": 0.518,
-   "core": false,
-   "stop": 211.91,
-   "target": 229.5
-  },
-  {
-   "symbol": "ROK",
-   "qty": 16.0,
-   "entry": 427.16,
-   "price": 437.74,
-   "pl": 169.28,
-   "plpc": 2.477,
-   "core": false,
-   "stop": 412.03,
-   "target": 442.79
-  },
-  {
-   "symbol": "ROST",
-   "qty": 32.0,
-   "entry": 234.86,
-   "price": 237.1099,
-   "pl": 71.9968,
-   "plpc": 0.958,
-   "core": false,
-   "stop": 227.21,
-   "target": 242.7
-  },
-  {
-   "symbol": "SPG",
-   "qty": 52.0,
-   "entry": 205.51,
-   "price": 206.16,
-   "pl": 33.8,
-   "plpc": 0.316,
-   "core": false,
-   "stop": 200.77,
-   "target": 210.34
-  },
-  {
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 773.87,
-   "pl": 70.02,
-   "plpc": 0.505,
+   "price": 774.015,
+   "pl": 72.63,
+   "plpc": 0.524,
    "core": true,
    "stop": 708.31
-  },
-  {
-   "symbol": "USB",
-   "qty": 152.0,
-   "entry": 59.19,
-   "price": 59.345,
-   "pl": 23.56,
-   "plpc": 0.262,
-   "core": false,
-   "stop": 57.6,
-   "target": 60.88
   }
  ],
  "pending": [],
@@ -175,7 +65,7 @@
   {
    "d": "2026-10-21",
    "e": 98953.48,
-   "spy": 99397.61
+   "spy": 99414.95
   }
  ],
  "closed": [
