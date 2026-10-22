@@ -205,7 +205,7 @@ def main(n_new=None, exclude=()):
     chosen = picked
     out("")
     out(f"נדחו אחרי בדיקת אנליסטים/דוחות ({len(rejected)}):")
-    for r in rejected[:12]:
+    for r in rejected:
         out("  - " + r)
     out("")
     if not chosen:
