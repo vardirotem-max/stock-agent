@@ -1,26 +1,45 @@
 {
- "updated": "2026-10-22 13:14 UTC",
- "equity": 99690.17,
- "cash": 85902.71,
- "buying_power": 382215.73,
- "day_pl": -128.1600000000035,
- "day_pct": -0.12839325202094995,
+ "updated": "2026-10-22 14:19 UTC",
+ "equity": 99648.82,
+ "cash": 80790.98,
+ "buying_power": 368980.42,
+ "day_pl": -169.50999999999476,
+ "day_pct": -0.1698185092858143,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "ADI",
+   "qty": 13.0,
+   "entry": 393.21,
+   "price": 390.44,
+   "pl": -36.01,
+   "plpc": -0.7040000000000001,
+   "core": false,
+   "stop": 374.54,
+   "target": 412.64
+  },
+  {
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 765.97,
-   "pl": -72.18,
-   "plpc": -0.521,
+   "price": 765.6472,
+   "pl": -77.9904,
+   "plpc": -0.563,
    "core": true,
    "stop": 708.31
   }
  ],
- "pending": [],
+ "pending": [
+  {
+   "symbol": "J",
+   "qty": "49",
+   "limit": 142.56,
+   "stop": 137.51,
+   "target": 147.66
+  }
+ ],
  "history": [
   {
    "d": "2026-10-09",
@@ -70,7 +89,7 @@
   {
    "d": "2026-10-22",
    "e": 99818.33,
-   "spy": null
+   "spy": 98340.19
   }
  ],
  "closed": [
