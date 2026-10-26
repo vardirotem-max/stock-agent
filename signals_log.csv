@@ -44,3 +44,6 @@ signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_dat
 2026-10-21,SPG,205.53,200.77,210.34,52,timeout,,205.51,,205.85,0.07,6a80694e-eae7-45af-abc7-e8e4c12be7fb,1,205.51,205.85,0.07,now
 2026-10-22,ADI,393.41,374.54,412.64,13,pending,,,,,,4c6fb988-1143-453e-8cd9-f5b1a2ec81a2,,,,,now
 2026-10-22,J,142.56,137.51,147.66,49,pending,,,,,,a8e94e8b-b23a-42b1-99d7-74549b67b70b,,,,,now
+2026-10-26,ROST,235.07,227.03,243.13,31,pending,,,,,,ef5e77d1-1368-4b9a-babf-ed7c3cd6813c,,,,,now
+2026-10-26,STLD,241.02,229.41,252.92,21,pending,,,,,,9216e4b3-c09b-4eef-b936-cfe848353a6f,,,,,now
+2026-10-26,NDSN,324.85,313.94,336.21,22,pending,,,,,,ecabc05d-bf7b-4174-b829-3cbfd6a527f5,,,,,now
