@@ -76,8 +76,7 @@ def event_study(px, hi, lo, vol, spy, horizon=10):
     """תשואה קדימה של 10 ימים אחרי סיגנל (כניסה בסגירה, כמו קירוב), פחות הממוצע הלא-מותנה."""
     fwd = px.shift(-horizon) / px - 1
     res = {}
-    allm = fwd.stack().mean()
-    # פריצת 55 יום עם נפח
+        # פריצת 55 יום עם נפח
     hi55 = px.rolling(55).max().shift(1)
     vavg = vol.rolling(50).mean()
     sma200 = px.rolling(200).mean()
@@ -100,8 +99,8 @@ def event_study(px, hi, lo, vol, spy, horizon=10):
         for per, sel in (("בנייה", px.index < SPLIT), ("בדיקה", px.index >= SPLIT)):
             m = mask.loc[sel]
             f = fwd.loc[sel]
-            base = f.stack().mean()
-            ev = f[m].stack()
+            base = f.stack().dropna().mean()
+            ev = f.where(m).stack().dropna()
             res[(name, per)] = (len(ev), ev.mean() * 100, (ev.mean() - base) * 100, (ev > 0).mean() * 100)
     return res
 
