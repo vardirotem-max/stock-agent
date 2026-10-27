@@ -1,10 +1,10 @@
 {
- "updated": "2026-10-27 21:15 UTC",
- "equity": 100374.06,
+ "updated": "2026-10-27 21:55 UTC",
+ "equity": 100384.86,
  "cash": 86518.56,
- "buying_power": 384869.64,
- "day_pl": 426.4499999999971,
- "day_pct": 0.42667353426459836,
+ "buying_power": 384899.88,
+ "day_pl": 437.25,
+ "day_pct": 0.43747919535044405,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
@@ -13,9 +13,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 769.75,
-   "pl": -4.14,
-   "plpc": -0.03,
+   "price": 770.35,
+   "pl": 6.66,
+   "plpc": 0.048,
    "core": true,
    "stop": 708.31
   }
