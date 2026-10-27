@@ -1,65 +1,26 @@
 {
- "updated": "2026-10-27 19:14 UTC",
- "equity": 100356.12,
- "cash": 68202.95,
- "buying_power": 353815.87,
- "day_pl": 408.50999999999476,
- "day_pct": 0.40872413057200147,
+ "updated": "2026-10-27 19:44 UTC",
+ "equity": 100392.42,
+ "cash": 86518.56,
+ "buying_power": 384921.05,
+ "day_pl": 444.8099999999977,
+ "day_pct": 0.4450431581105318,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
-   "symbol": "DAL",
-   "qty": 60.0,
-   "entry": 79.83,
-   "price": 81.08,
-   "pl": 75.0,
-   "plpc": 1.566,
-   "core": false,
-   "stop": 75.05,
-   "target": 84.0
-  },
-  {
-   "symbol": "NWSA",
-   "qty": 265.0,
-   "entry": 30.17,
-   "price": 29.97,
-   "pl": -53.0,
-   "plpc": -0.6629999999999999,
-   "core": false,
-   "target": 31.12
-  },
-  {
-   "symbol": "OMC",
-   "qty": 70.0,
-   "entry": 78.45,
-   "price": 78.34,
-   "pl": -7.7,
-   "plpc": -0.13999999999999999,
-   "core": false,
-   "target": 82.03
-  },
-  {
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 770.15,
-   "pl": 3.06,
-   "plpc": 0.022000000000000002,
+   "price": 770.76,
+   "pl": 14.04,
+   "plpc": 0.101,
    "core": true,
    "stop": 708.31
   }
  ],
- "pending": [
-  {
-   "symbol": "PNC",
-   "qty": "40",
-   "limit": 225.62,
-   "target": 231.87,
-   "stop": 219.5
-  }
- ],
+ "pending": [],
  "history": [
   {
    "d": "2026-10-09",
@@ -124,7 +85,7 @@
   {
    "d": "2026-10-27",
    "e": 99947.61,
-   "spy": 98918.53
+   "spy": 98998.16
   }
  ],
  "closed": [

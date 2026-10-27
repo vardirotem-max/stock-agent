@@ -4,10 +4,15 @@
   "paused_at": "",
   "lock": {
     "day": "2026-10-27",
-    "baseline": 99947.61,
-    "cycles": 0,
+    "baseline": 100392.51,
+    "cycles": 1,
     "reentry": false,
-    "closed": [],
-    "stopped": false
+    "closed": [
+      "DAL",
+      "NWSA",
+      "OMC"
+    ],
+    "stopped": false,
+    "core_base": 97.29
   }
 }
