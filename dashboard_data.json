@@ -1,43 +1,120 @@
 {
- "updated": "2026-10-26 22:23 UTC",
- "equity": 99765.74,
- "cash": 54328.49,
- "buying_power": 344538.26,
- "day_pl": 88.41000000000349,
- "day_pct": 0.0886961960156873,
+ "updated": "2026-10-27 14:14 UTC",
+ "equity": 100042.62,
+ "cash": 4345.86,
+ "buying_power": 258995.12,
+ "day_pl": 95.00999999999476,
+ "day_pct": 0.09505980183017358,
  "peak": 100000.0,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
-   "symbol": "ADI",
-   "qty": 13.0,
-   "entry": 393.21,
-   "price": 404.49,
-   "pl": 146.64,
-   "plpc": 2.869,
+   "symbol": "ABNB",
+   "qty": 37.0,
+   "entry": 168.8,
+   "price": 168.375,
+   "pl": -15.725,
+   "plpc": -0.252,
    "core": false,
-   "stop": 374.54,
-   "target": 412.64
+   "stop": 162.21,
+   "target": 175.56
+  },
+  {
+   "symbol": "AME",
+   "qty": 28.0,
+   "entry": 242.3,
+   "price": 244.35,
+   "pl": 57.4,
+   "plpc": 0.8460000000000001,
+   "core": false,
+   "stop": 234.16,
+   "target": 251.74
+  },
+  {
+   "symbol": "CSCO",
+   "qty": 59.0,
+   "entry": 110.48,
+   "price": 110.43,
+   "pl": -2.95,
+   "plpc": -0.045,
+   "core": false,
+   "stop": 106.38,
+   "target": 114.83
+  },
+  {
+   "symbol": "DRI",
+   "qty": 35.0,
+   "entry": 212.39,
+   "price": 212.16,
+   "pl": -8.05,
+   "plpc": -0.108,
+   "core": false,
+   "stop": 205.59,
+   "target": 219.72
+  },
+  {
+   "symbol": "ELV",
+   "qty": 15.0,
+   "entry": 426.33,
+   "price": 426.78,
+   "pl": 6.75,
+   "plpc": 0.106,
+   "core": false,
+   "stop": 409.81,
+   "target": 443.08
+  },
+  {
+   "symbol": "HUM",
+   "qty": 11.0,
+   "entry": 415.89,
+   "price": 416.91,
+   "pl": 11.22,
+   "plpc": 0.245,
+   "core": false,
+   "stop": 394.9,
+   "target": 440.32
   },
   {
    "symbol": "J",
    "qty": 49.0,
    "entry": 142.55,
-   "price": 147.14,
-   "pl": 224.91,
-   "plpc": 3.2199999999999998,
+   "price": 146.02,
+   "pl": 170.03,
+   "plpc": 2.434,
    "core": false,
    "stop": 137.51,
    "target": 147.66
   },
   {
+   "symbol": "JPM",
+   "qty": 28.0,
+   "entry": 336.333571,
+   "price": 336.184,
+   "pl": -4.187988,
+   "plpc": -0.044000000000000004,
+   "core": false,
+   "stop": 327.56,
+   "target": 345.41
+  },
+  {
+   "symbol": "MET",
+   "qty": 80.0,
+   "entry": 99.7675,
+   "price": 99.79,
+   "pl": 1.8,
+   "plpc": 0.023,
+   "core": false,
+   "stop": 96.7,
+   "target": 102.94
+  },
+  {
    "symbol": "NDSN",
    "qty": 22.0,
    "entry": 324.83,
-   "price": 321.98,
-   "pl": -62.7,
-   "plpc": -0.877,
+   "price": 322.8664,
+   "pl": -43.1992,
+   "plpc": -0.605,
    "core": false,
    "stop": 313.94,
    "target": 336.21
@@ -46,9 +123,9 @@
    "symbol": "ROST",
    "qty": 31.0,
    "entry": 234.85,
-   "price": 229.43,
-   "pl": -168.02,
-   "plpc": -2.308,
+   "price": 230.755,
+   "pl": -126.945,
+   "plpc": -1.744,
    "core": false,
    "stop": 227.03,
    "target": 243.13
@@ -57,9 +134,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 765.81,
-   "pl": -75.06,
-   "plpc": -0.542,
+   "price": 766.04,
+   "pl": -70.92,
+   "plpc": -0.512,
    "core": true,
    "stop": 708.31
   },
@@ -67,15 +144,44 @@
    "symbol": "STLD",
    "qty": 21.0,
    "entry": 240.52,
-   "price": 237.55,
-   "pl": -62.37,
-   "plpc": -1.2349999999999999,
+   "price": 242.78,
+   "pl": 47.46,
+   "plpc": 0.9400000000000001,
    "core": false,
    "stop": 229.41,
    "target": 252.92
   }
  ],
- "pending": [],
+ "pending": [
+  {
+   "symbol": "ROK",
+   "qty": "15",
+   "limit": 432.14,
+   "stop": 415.61,
+   "target": 448.81
+  },
+  {
+   "symbol": "CPAY",
+   "qty": "18",
+   "limit": 396.17,
+   "stop": 382.6,
+   "target": 410.06
+  },
+  {
+   "symbol": "LYV",
+   "qty": "46",
+   "limit": 171.76,
+   "stop": 166.34,
+   "target": 177.19
+  },
+  {
+   "symbol": "DAL",
+   "qty": "61",
+   "limit": 79.1,
+   "stop": 75.05,
+   "target": 83.2
+  }
+ ],
  "history": [
   {
    "d": "2026-10-09",
@@ -136,6 +242,11 @@
    "d": "2026-10-24",
    "e": 99677.33,
    "spy": null
+  },
+  {
+   "d": "2026-10-27",
+   "e": 99947.61,
+   "spy": 98390.64
   }
  ],
  "closed": [
