@@ -1,17 +1,16 @@
-run_utc=2026-10-27 01:36
-last_bar=2026-10-26
+run_utc=2026-10-28 01:36
+last_bar=2026-10-27
 mode=full_scan
 crosscheck_ok=3/3
 regime_ok=True
-technical_candidates=1
-analyst_checked=1
+technical_candidates=3
+analyst_checked=3
 analyst_no_data=0
 analyst_rejected=0
-earnings_blocked=0
+earnings_blocked=2
 earnings_no_data=0
-open_slots_used=5/18
+open_slots_used=0/18
 paused=False
-drawdown_pct=0.17
+drawdown_pct=0.00
 signals_sent=1
-✅ ADI: הלימיט התמלא ב-382.87
-📨 AME: נשלחה הוראה לחשבון הדמה (28 מניות)
+📨 ROST: נשלחה הוראה לחשבון הדמה (29 מניות)

@@ -59,3 +59,4 @@ signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_dat
 2026-10-27,ABNB,168.8,162.21,175.56,37,timeout,,168.8,,168.67,-0.02,c5b77cef-5a2b-41a4-a811-fb9555c51b1a,1,168.8,168.67,-0.02,now
 2026-10-27,MET,99.82,96.7,102.94,80,timeout,,99.77,,100.0,0.07,d6d1701b-3ee0-466f-a386-6ca02e593bc9,1,99.77,100.0,0.07,now
 2026-10-27,ROK,432.14,415.61,448.81,15,expired,,,,,,15979c08-ec49-4259-a801-9159e95e2ac9,1,,,,now
+2026-10-27,ROST,230.09,221.55,238.71,29,pending,,,,,,cc252272-b248-43d7-a5b7-b437aa81de66,,,,,
