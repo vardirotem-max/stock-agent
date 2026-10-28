@@ -1,10 +1,10 @@
 {
- "updated": "2026-10-28 14:04 UTC",
- "equity": 100360.49,
- "cash": 41729.43,
- "buying_power": 300379.52,
- "day_pl": -9.610000000000582,
- "day_pct": -0.009574564536650438,
+ "updated": "2026-10-28 14:09 UTC",
+ "equity": 100380.81,
+ "cash": 31914.25,
+ "buying_power": 298473.64,
+ "day_pl": 10.709999999991851,
+ "day_pct": 0.01067050844822497,
  "peak": 100374.96,
  "paused": false,
  "dd_limit": 5.0,
@@ -13,20 +13,20 @@
    "symbol": "ABNB",
    "qty": 39.0,
    "entry": 168.1,
-   "price": 168.04,
-   "pl": -2.34,
-   "plpc": -0.036000000000000004,
+   "price": 167.955,
+   "pl": -5.655,
+   "plpc": -0.086,
    "core": false,
-   "stop": 162.21,
+   "stop": 161.88,
    "target": 174.67
   },
   {
    "symbol": "CSCO",
-   "qty": 41.0,
-   "entry": 110.5,
-   "price": 110.701,
-   "pl": 8.241,
-   "plpc": 0.182,
+   "qty": 59.0,
+   "entry": 110.496949,
+   "price": 110.555,
+   "pl": 3.425009,
+   "plpc": 0.053,
    "core": false,
    "stop": 106.27,
    "target": 114.74
@@ -35,52 +35,64 @@
    "symbol": "DAL",
    "qty": 60.0,
    "entry": 81.84,
-   "price": 81.705,
-   "pl": -8.1,
-   "plpc": -0.165,
+   "price": 81.79,
+   "pl": -3.0,
+   "plpc": -0.061,
    "core": false,
-   "stop": 75.05,
+   "stop": 77.75,
    "target": 86.03
   },
   {
    "symbol": "HUM",
    "qty": 11.0,
    "entry": 419.0,
-   "price": 417.74,
-   "pl": -13.86,
-   "plpc": -0.301,
+   "price": 417.97,
+   "pl": -11.33,
+   "plpc": -0.246,
    "core": false,
-   "stop": 394.9,
+   "stop": 396.76,
    "target": 441.82
   },
   {
    "symbol": "JPM",
    "qty": 29.0,
    "entry": 336.19,
-   "price": 335.8,
-   "pl": -11.31,
-   "plpc": -0.116,
+   "price": 337.11,
+   "pl": 26.68,
+   "plpc": 0.27399999999999997,
    "core": false,
-   "stop": 327.56,
+   "stop": 327.76,
    "target": 344.81
+  },
+  {
+   "symbol": "LYV",
+   "qty": 46.0,
+   "entry": 170.138261,
+   "price": 169.73,
+   "pl": -18.780006,
+   "plpc": -0.24,
+   "core": false,
+   "stop": 164.78,
+   "target": 175.57
   },
   {
    "symbol": "MNST",
    "qty": 172.0,
    "entry": 45.28,
-   "price": 45.26,
-   "pl": -3.44,
-   "plpc": -0.044000000000000004,
+   "price": 45.29,
+   "pl": 1.72,
+   "plpc": 0.022000000000000002,
    "core": false,
+   "stop": 43.83,
    "target": 46.73
   },
   {
    "symbol": "ROST",
    "qty": 29.0,
    "entry": 229.08,
-   "price": 229.06,
-   "pl": -0.58,
-   "plpc": -0.009000000000000001,
+   "price": 229.105,
+   "pl": 0.725,
+   "plpc": 0.011000000000000001,
    "core": false,
    "stop": 221.55,
    "target": 238.71
@@ -89,9 +101,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 770.8985,
-   "pl": 16.533,
-   "plpc": 0.11900000000000001,
+   "price": 770.63,
+   "pl": 11.7,
+   "plpc": 0.084,
    "core": true,
    "stop": 708.31
   }
@@ -115,22 +127,8 @@
    "symbol": "RTX",
    "qty": "38",
    "limit": 194.23,
-   "target": 200.81,
-   "stop": 187.69
-  },
-  {
-   "symbol": "LYV",
-   "qty": "46",
-   "limit": 170.14,
-   "stop": 164.78,
-   "target": 175.57
-  },
-  {
-   "symbol": "CSCO",
-   "qty": "59",
-   "limit": 110.5,
-   "stop": 106.27,
-   "target": 114.74
+   "stop": 187.69,
+   "target": 200.81
   }
  ],
  "history": [
@@ -202,7 +200,7 @@
   {
    "d": "2026-10-28",
    "e": 100370.1,
-   "spy": 99011.01
+   "spy": 98984.03
   }
  ],
  "closed": [
