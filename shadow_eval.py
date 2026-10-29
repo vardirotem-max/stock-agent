@@ -71,6 +71,8 @@ def sleeve_section():
     L = []
     try:
         import broker
+        if not os.path.exists("momentum_sleeve.json"):
+            return ["סליל מומנטום: עדיין לא נבנה (ייבנה בסבב הקרוב)."]
         st = json.load(open("momentum_sleeve.json", encoding="utf-8"))
         syms, since = set(st.get("symbols", [])), st.get("rebalanced")
         if not syms or not since:
