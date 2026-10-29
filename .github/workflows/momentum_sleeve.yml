@@ -35,11 +35,14 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python momentum_sleeve.py | tee momentum_sleeve_report.txt
+      - run: |
+          python momentum_sleeve.py > momentum_sleeve_report.txt 2>&1 || echo "EXIT CODE $?" >> momentum_sleeve_report.txt
+          cat momentum_sleeve_report.txt
       - name: Save
         if: always()
         run: |
           git config user.name "stock-bot"
           git config user.email "stock-bot@users.noreply.github.com"
-          git add momentum_sleeve.json momentum_sleeve_report.txt 2>/dev/null || true
+          git add -f momentum_sleeve_report.txt
+          [ -f momentum_sleeve.json ] && git add momentum_sleeve.json || true
           for i in 1 2 3 4; do git diff --cached --quiet || (git commit -m "momentum sleeve" -q && git pull --rebase -q && git push -q) && break; sleep 3; done
