@@ -3,11 +3,22 @@
   "paused": false,
   "paused_at": "",
   "lock": {
-    "day": "2026-10-28",
-    "baseline": 100370.1,
-    "cycles": 0,
-    "reentry": false,
-    "closed": [],
-    "stopped": false
+    "day": "2026-10-29",
+    "baseline": 100731.93,
+    "cycles": 1,
+    "reentry": true,
+    "closed": [
+      "ABNB",
+      "CSCO",
+      "DAL",
+      "ELV",
+      "HUM",
+      "LYV",
+      "MNST",
+      "ROST",
+      "SJM"
+    ],
+    "stopped": false,
+    "core_base": -78.84
   }
 }
