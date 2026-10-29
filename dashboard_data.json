@@ -1,23 +1,67 @@
 {
- "updated": "2026-10-29 13:44 UTC",
- "equity": 100747.05,
- "cash": 86909.55,
- "buying_power": 386383.2,
- "day_pl": 491.1849999999977,
- "day_pct": 0.4899314369288995,
+ "updated": "2026-10-29 13:51 UTC",
+ "equity": 100727.81,
+ "cash": 63735.32,
+ "buying_power": 358520.25,
+ "day_pl": 471.94499999999243,
+ "day_pct": 0.47074053971804286,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "APH",
+   "qty": 54.0,
+   "entry": 82.640185,
+   "price": 82.76,
+   "pl": 6.47001,
+   "plpc": 0.145,
+   "core": false,
+   "stop": 78.1,
+   "target": 87.33
+  },
+  {
+   "symbol": "OMC",
+   "qty": 72.0,
+   "entry": 78.82,
+   "price": 78.805,
+   "pl": -1.08,
+   "plpc": -0.019,
+   "core": false,
+   "stop": 75.36,
+   "target": 82.29
+  },
+  {
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 768.75,
-   "pl": -22.14,
-   "plpc": -0.16,
+   "price": 768.08,
+   "pl": -34.2,
+   "plpc": -0.247,
    "core": true,
    "stop": 708.31
+  },
+  {
+   "symbol": "WAB",
+   "qty": 24.0,
+   "entry": 282.44,
+   "price": 282.22,
+   "pl": -5.28,
+   "plpc": -0.078,
+   "core": false,
+   "stop": 272.81,
+   "target": 293.27
+  },
+  {
+   "symbol": "WELL",
+   "qty": 27.0,
+   "entry": 231.78,
+   "price": 231.65,
+   "pl": -3.51,
+   "plpc": -0.055999999999999994,
+   "core": false,
+   "stop": 222.88,
+   "target": 241.07
   }
  ],
  "pending": [],
@@ -95,7 +139,7 @@
   {
    "d": "2026-10-29",
    "e": 100255.87,
-   "spy": 98738.71
+   "spy": 98652.66
   }
  ],
  "closed": [

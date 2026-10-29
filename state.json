@@ -6,7 +6,7 @@
     "day": "2026-10-29",
     "baseline": 100731.93,
     "cycles": 1,
-    "reentry": true,
+    "reentry": false,
     "closed": [
       "ABNB",
       "CSCO",
