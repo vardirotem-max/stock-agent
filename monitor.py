@@ -33,6 +33,15 @@ def main():
     if not ok:
         alerts.append("⚠️ נעילת הרווח היומית לא רצה ב-25 הדקות האחרונות בזמן שהשוק פתוח. הפעל ידנית 'Daily profit cycle' עם loop=1.")
     try:
+        from zoneinfo import ZoneInfo
+        et = now.astimezone(ZoneInfo("America/New_York"))
+        if et.weekday() < 5 and 10 * 60 + 40 <= et.hour * 60 + et.minute < 11 * 60 + 20:
+            open_start = et.replace(hour=9, minute=30, second=0, microsecond=0).astimezone(dt.timezone.utc)
+            if not any(dt.datetime.fromisoformat(x["created_at"].replace("Z", "+00:00")) >= open_start for x in runs("open_now.yml")):
+                alerts.append("⚠️ סבב הפוזיציות היומי לא רץ היום (אין ריצת open_now מאז הפתיחה). בדוק את המשימה המתוזמנת או הפעל ידנית.")
+    except Exception as e:
+        print("open check:", e)
+    try:
         problems, n = broker.audit()
         alerts += problems
     except Exception as e:

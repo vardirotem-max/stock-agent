@@ -13,6 +13,7 @@ import analysts
 import broker
 import config as C
 import earnings
+import shadow
 import state as st
 from data import download, get_sp500
 from notify import send_telegram
@@ -23,6 +24,20 @@ N_NEW = int(os.getenv("N_NEW", "4"))
 ENV_EXCLUDE = {x.strip().upper() for x in os.getenv("EXCLUDE", "").split(",") if x.strip()}
 DRY = os.getenv("DRY") == "1"
 L = []
+
+
+def _sh(kind, c, reason, a=None):
+    """רישום ליומן הלמידה (לא בהרצת בדיקה, ולא מפיל את הריצה)."""
+    if DRY:
+        return
+    try:
+        import zoneinfo
+        shadow.log(kind, c, reason, a, SPY_CHG[0], _dt_now(zoneinfo.ZoneInfo("America/New_York")).replace(tzinfo=None))
+    except Exception as e:
+        print("shadow:", e)
+
+
+SPY_CHG = [None]
 
 
 def out(s=""):
@@ -105,9 +120,11 @@ def main(n_new=None, exclude=()):
     if C.USE_MARKET_FILTER and not spy_ok:
         out("שוק בלתי מתאים - לא נפתחות פוזיציות.")
         return finish()
+    spy_chg = None
     try:
         sp = broker.snapshots(["SPY"])["SPY"]
         spy_chg = sp["latestTrade"]["p"] / sp["prevDailyBar"]["c"] - 1
+        SPY_CHG[0] = spy_chg
         out(f"SPY היום: {spy_chg * 100:+.2f}%")
         if spy_chg <= -0.015:
             out("השוק כולו יורד חזק (SPY -1.5% ומטה) - לא פותח פוזיציות חדשות.")
@@ -174,16 +191,20 @@ def main(n_new=None, exclude=()):
         a = analysts.get_analyst(c["ticker"])
         if a is None or a["n"] < C.ANALYST_MIN_OPINIONS:
             rejected.append(f"{c['ticker']}: אין מספיק אנליסטים")
+            _sh("rej_analyst", c, "אין מספיק אנליסטים", a)
             continue
         if not analysts.passes(a, c["entry"]):
             rejected.append(f"{c['ticker']}: קונצנזוס/יעד אנליסטים לא מספיק ({analysts.describe(a, c['entry'])})")
+            _sh("rej_analyst", c, "קונצנזוס/יעד לא מספיק", a)
             continue
         if not a["target"] or a["target"] < c["target"]:
             rejected.append(f"{c['ticker']}: יעד האנליסטים {a['target']} נמוך מהיעד שלנו {c['target']}")
+            _sh("rej_target", c, "יעד אנליסטים נמוך מהיעד שלנו", a)
             continue
         ed = earnings.next_earnings(c["ticker"])
         if earnings.blocked(ed):
             rejected.append(f"{c['ticker']}: {earnings.describe(ed)} - חסום")
+            _sh("rej_earnings", c, earnings.describe(ed), a)
             continue
         c["analyst"], c["earn"] = a, ed
         c["score"] = (a["target"] / c["entry"] - 1) * 100 - a["mean"] * 3 + c["mom"] * 10
@@ -197,11 +218,15 @@ def main(n_new=None, exclude=()):
         sec = c["analyst"].get("sector") or c["ticker"]
         if per_sector.get(sec, 0) >= 2:
             out(f"  דילוג על {c['ticker']}: כבר 2 מניות מסקטור {sec}")
+            _sh("rej_sector", c, f"תקרת סקטור {sec}", c["analyst"])
             continue
         per_sector[sec] = per_sector.get(sec, 0) + 1
         picked.append(c)
         if len(picked) >= want:
             break
+    for c in chosen:
+        if c not in picked and c.get("analyst") and (c["analyst"].get("sector") or c["ticker"]) in per_sector and per_sector[c["analyst"].get("sector") or c["ticker"]] < 2:
+            _sh("not_picked", c, "לא נבחר: אין מקום", c["analyst"])
     chosen = picked
     out("")
     out(f"נדחו אחרי בדיקת אנליסטים/דוחות ({len(rejected)}):")
@@ -226,6 +251,7 @@ def main(n_new=None, exclude=()):
         if qty < 1:
             continue
         placed += 1
+        _sh("accepted", c, "נשלח", c["analyst"])
         oid = "DRY"
         if not DRY:
             oid = broker.place_bracket(c["ticker"], qty, c["entry"], c["stop"], c["target"],

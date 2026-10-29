@@ -71,3 +71,17 @@ def test_momentum_select_ranks_and_filters():
     px = pd.DataFrame({"UP": up, "MID": mid, "DOWN": down})
     vol = pd.DataFrame(1_000_000.0, index=idx, columns=px.columns)
     assert select(px, vol, 2) == ["UP", "MID"]
+
+
+def test_shadow_log_dedupes_and_stats(tmp_path, monkeypatch):
+    import csv
+    import shadow
+    import shadow_eval
+    monkeypatch.chdir(tmp_path)
+    c = {"ticker": "ABC", "live": 100.0, "entry": 100.05, "stop": 97.0, "target": 103.0, "rsi": 40.0, "mom": 0.2, "tier": 1}
+    shadow.log("accepted", c, "x", {"mean": 2.0, "target": 120, "sector": "Tech"}, 0.003)
+    shadow.log("accepted", c, "x")  # כפילות ביום ובסוג - נדלגת
+    rows = list(csv.DictReader(open("shadow_log.csv", encoding="utf-8")))
+    assert len(rows) == 1 and rows[0]["sector"] == "Tech"
+    rows[0]["r5"], rows[0]["outcome"] = "1.0", "target"
+    assert "+1.00R" in shadow_eval.stat(rows)
