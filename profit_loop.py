@@ -30,6 +30,8 @@ while time.time() < end:
     clock = broker._req("GET", "/v2/clock").json()
     if not clock.get("is_open"):
         print("השוק סגור - יוצא"); break
+    sh("git", "fetch", "-q", "origin", "main")
+    sh("git", "checkout", "origin/main", "--", "momentum_sleeve.json")  # רשימת הסליל עדכנית לפני כל מחזור
     subprocess.run([sys.executable, "profit_lock.py"])
     i += 1
     if i % 5 == 0:

@@ -67,7 +67,17 @@ ENTRY_PREMIUM = 0.0005            # לימיט כניסה = מחיר חי + 0.05
 NEW_ENTRY_MAX_DAY_LOSS = 500.0    # לא פותחים פוזיציות חדשות אם החשבון כבר ירד כך ביום (שווי פחות סגירה קודמת)
 
 # --- ליבת SPY (החזקה ארוכה, מחוץ למנגנוני הנעילה/תקרה) ---
-CORE_SYMBOLS = ("SPY",)
+def _sleeve_symbols():
+    """מניות סליל המומנטום (נשמרות בקובץ ע"י momentum_sleeve.py). מוחרגות מנעילת הרווח, התקרה והביקורת כמו ליבת SPY."""
+    import json, os
+    try:
+        p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "momentum_sleeve.json")
+        return tuple(json.load(open(p, encoding="utf-8")).get("symbols", []))
+    except Exception:
+        return ()
+
+
+CORE_SYMBOLS = ("SPY",) + _sleeve_symbols()
 CORE_PCT = 30.0                   # אחוז מהשווי שמוחזק ב-SPY
 CORE_STOP_PCT = 8.0               # סטופ הגנה מתחת למחיר הקנייה
 
@@ -75,3 +85,9 @@ REENTRY_COOLDOWN_HOURS = 3      # לא קונים שוב מניה שנמכרה �
 
 NO_ENTRY_FIRST_MINUTES = 15       # לא פותחים פוזיציות חדשות ב-15 הדקות הראשונות של המסחר
 WEEKLY_LOSS_LIMIT = 1500.0        # אם החשבון ירד כך מתחילת השבוע: אין פוזיציות חדשות עד שבוע הבא
+
+# --- סליל מומנטום (מחקר 5: מומנטום 12-1 מעל SMA200, טופ N, איזון חודשי) ---
+MOM_SLEEVE_PCT = 20.0             # אחוז מהשווי שמוקצה לסליל (שווה משקל בין המניות)
+MOM_N = 20                        # מספר מניות
+MOM_STOP_PCT = 25.0               # סטופ הגנה GTC מתחת למחיר הקנייה (בסליל מפוזר: הפסד מקסימלי קטן לכל מניה)
+MOM_REBAL_DAYS = 28               # איזון מחדש לכל היותר פעם בכמה ימים

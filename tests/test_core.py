@@ -59,3 +59,15 @@ def test_config_sanity():
 
 def test_paper_only():
     assert "paper-api" in broker.BASE
+
+
+def test_momentum_select_ranks_and_filters():
+    import numpy as np, pandas as pd
+    from momentum_sleeve import select
+    idx = pd.bdate_range("2025-01-01", periods=300)
+    up = pd.Series(np.linspace(50, 200, 300), index=idx)      # מומנטום חזק
+    mid = pd.Series(np.linspace(50, 100, 300), index=idx)     # מומנטום בינוני
+    down = pd.Series(np.linspace(200, 80, 300), index=idx)    # מתחת ל-SMA200
+    px = pd.DataFrame({"UP": up, "MID": mid, "DOWN": down})
+    vol = pd.DataFrame(1_000_000.0, index=idx, columns=px.columns)
+    assert select(px, vol, 2) == ["UP", "MID"]
