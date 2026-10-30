@@ -1,16 +1,16 @@
-run_utc=2026-10-29 01:56
-last_bar=2026-10-28
+run_utc=2026-10-30 02:07
+last_bar=2026-10-29
 mode=full_scan
 crosscheck_ok=3/3
 regime_ok=True
 technical_candidates=2
 analyst_checked=2
 analyst_no_data=0
-analyst_rejected=1
+analyst_rejected=0
 earnings_blocked=1
-earnings_no_data=0
-open_slots_used=11/18
+earnings_no_data=1
+open_slots_used=0/18
 paused=False
-drawdown_pct=0.00
-signals_sent=0
-✅ ROST: הלימיט התמלא ב-228.0
+drawdown_pct=0.67
+signals_sent=1
+📨 GRMN: נשלחה הוראה לחשבון הדמה (18 מניות)
