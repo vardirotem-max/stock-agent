@@ -85,3 +85,11 @@ def test_shadow_log_dedupes_and_stats(tmp_path, monkeypatch):
     assert len(rows) == 1 and rows[0]["sector"] == "Tech"
     rows[0]["r5"], rows[0]["outcome"] = "1.0", "target"
     assert "+1.00R" in shadow_eval.stat(rows)
+
+
+def test_industry_cap_and_kill_threshold():
+    from momentum_sleeve import breached, cap_by_group
+    ranked = ["A", "B", "C", "D", "E", "F"]
+    groups = {"A": "semi", "B": "semi", "C": "semi", "D": "semi", "E": "bank"}
+    assert cap_by_group(ranked, groups, 3, 5) == ["A", "B", "C", "E", "F"]
+    assert breached(-80, 1000, 8) and not breached(-79, 1000, 8) and not breached(50, 0, 8)

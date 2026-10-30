@@ -114,6 +114,12 @@ def main():
     lock = state.get("lock") or {}
     if lock.get("day") != day:  # יום חדש: מתחילים מחדש מהסגירה הקודמת
         lock = {"day": day, "baseline": last_eq, "cycles": 0, "reentry": False, "closed": [], "stopped": False}
+    try:  # מפסק סליל המומנטום (הפסד מצטבר גדול מהעלות)
+        import momentum_sleeve
+        if not DRY and momentum_sleeve.kill_if_needed():
+            out("מפסק סליל המומנטום הופעל.")
+    except Exception as e:
+        out(f"בדיקת מפסק הסליל: {e}")
     core_now = core_pl()
     gain = equity - lock["baseline"] - (core_now - lock.get("core_base", 0.0))
     out(f"{day}: שווי {equity:,.2f}$, בסיס {lock['baseline']:,.2f}$, רווח מהבסיס {gain:+,.2f}$ (יעד +{C.DAILY_PROFIT_TARGET:,.0f}$, "
