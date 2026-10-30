@@ -1,7 +1,5 @@
 {
  "symbols": [
-  "AMD",
-  "BE",
   "BIIB",
   "BMY",
   "CNC",
@@ -11,11 +9,7 @@
   "FTNT",
   "HPE",
   "ILMN",
-  "KEYS",
-  "LITE",
-  "MPC",
   "MRK",
-  "MRNA",
   "MRVL",
   "MU",
   "NTAP",
@@ -23,10 +17,9 @@
   "PSX",
   "ROST",
   "STT",
-  "STX",
   "TGT",
   "TXN",
   "VLO"
  ],
- "rebalanced": "2026-10-29"
+ "rebalanced": "2026-10-30"
 }
