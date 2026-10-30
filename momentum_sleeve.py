@@ -151,7 +151,11 @@ def main():
     if len(target) < C.MOM_N // 2:
         print("מעט מדי מניות עומדות בתנאים - לא מבצעים", target)
         return
-    cur = set(st["symbols"])
+    posn0 = {p["symbol"] for p in broker._req("GET", "/v2/positions").json()}
+    stopped = set(st["symbols"]) - posn0          # נסגרו (סטופ) מאז האיזון: לא קונים אותן שוב עד האיזון הבא
+    cur = set(st["symbols"]) & posn0
+    ok = [t for t in ok if t not in stopped]
+    target = cap_by_group(ok, groups, C.MOM_PER_INDUSTRY, C.MOM_N)
     drop, add = sorted(cur - set(target)), [t for t in target if t not in cur]
     acc = broker._req("GET", "/v2/account").json()
     eq, cash = float(acc["equity"]), float(acc["cash"])
