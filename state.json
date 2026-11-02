@@ -3,11 +3,11 @@
   "paused": false,
   "paused_at": "",
   "lock": {
-    "day": "2026-10-30",
-    "baseline": 100992.61,
+    "day": "2026-11-02",
+    "baseline": 99221.61,
     "cycles": 0,
     "reentry": false,
     "closed": [],
-    "stopped": true
+    "stopped": false
   }
 }
