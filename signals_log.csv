@@ -95,3 +95,7 @@ signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_dat
 2026-11-03,BNY,148.19,144.15,152.29,61,timeout,,148.12,,148.99,0.22,298d670f-71f9-4bea-9448-594713cbf291,1,148.12,148.99,0.22,now
 2026-11-03,PSX,271.94,257.33,286.65,17,timeout,,,,,,e56a3ee0-d745-46f0-9039-5f218ad64bf6,1,268.37,,,
 2026-11-03,ELV,413.75,396.17,431.61,14,expired,,,,,,bb455256-e2b2-42ea-809a-bd502fe88edc,1,,,,
+2026-11-04,KMI,31.86,30.59,33.14,196,pending,,,,,,fe1659cf-cd2e-4bc0-b6d7-c421cc06dfb3,,,,,now
+2026-11-04,CVX,219.25,212.02,226.6,34,pending,,,,,,fa5e3bec-f31c-4c62-a8cc-0c722ff43873,,,,,now
+2026-11-04,IQV,266.75,253.1,280.64,18,pending,,,,,,3accdad8-cf69-4cfc-a080-e85c5f3c1bd7,,,,,now
+2026-11-04,EQIX,1027.08,981.65,1077.08,5,pending,,,,,,5e92172c-6bed-4f85-afff-ad35de9edbf7,,,,,now
