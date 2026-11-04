@@ -11,7 +11,7 @@
       "DVA",
       "VTR"
     ],
-    "stopped": false,
+    "stopped": true,
     "core_base": -3.3463999999999876
   }
 }
