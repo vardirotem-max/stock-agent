@@ -1,19 +1,18 @@
-run_utc=2026-11-03 03:40
-last_bar=2026-11-02
+run_utc=2026-11-04 02:38
+last_bar=2026-11-03
 mode=full_scan
 crosscheck_ok=3/3
 regime_ok=True
-technical_candidates=9
-analyst_checked=9
-analyst_no_data=0
+technical_candidates=8
+analyst_checked=8
+analyst_no_data=1
 analyst_rejected=2
 earnings_blocked=4
-earnings_no_data=2
+earnings_no_data=1
 open_slots_used=2/18
 paused=False
-drawdown_pct=1.99
-signals_sent=3
-✅ VLO: הלימיט התמלא ב-392.68
-📨 CNC: נשלחה הוראה לחשבון הדמה (60 מניות)
-📨 ELV: נשלחה הוראה לחשבון הדמה (13 מניות)
-📨 JCI: נשלחה הוראה לחשבון הדמה (31 מניות)
+drawdown_pct=1.64
+signals_sent=2
+✅ CNC: הלימיט התמלא ב-66.12
+📨 PSX: נשלחה הוראה לחשבון הדמה (17 מניות)
+📨 ELV: נשלחה הוראה לחשבון הדמה (14 מניות)
