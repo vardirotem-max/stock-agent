@@ -99,3 +99,10 @@ signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_dat
 2026-11-04,CVX,219.25,212.02,226.6,34,pending,,,,,,fa5e3bec-f31c-4c62-a8cc-0c722ff43873,,,,,now
 2026-11-04,IQV,266.75,253.1,280.64,18,pending,,,,,,3accdad8-cf69-4cfc-a080-e85c5f3c1bd7,,,,,now
 2026-11-04,EQIX,1027.08,981.65,1077.08,5,pending,,,,,,5e92172c-6bed-4f85-afff-ad35de9edbf7,,,,,now
+2026-11-04,UNH,403.26,387.75,418.88,16,pending,,,,,,3741a564-5bcd-4925-809f-44056724fc63,,,,,now
+2026-11-04,WAB,287.06,276.22,297.93,23,pending,,,,,,40c21692-c194-42ce-8b44-0dd22e8f844d,,,,,now
+2026-11-04,RTX,198.19,191.07,205.33,35,pending,,,,,,9bae516c-99dc-4c1a-a632-6137802f568c,,,,,now
+2026-11-04,ELV,426.11,408.48,443.97,14,pending,,,,,,943451c5-83c9-41ea-9246-ec75b68d765c,,,,,now
+2026-11-04,GPC,127.23,122.02,132.55,47,pending,,,,,,a22f41da-2cb3-4389-8a1b-413aee0329d5,,,,,now
+2026-11-04,STLD,246.07,234.11,258.57,20,pending,,,,,,5cf26a75-d2d3-4fd7-bc43-ef9e032e3375,,,,,now
+2026-11-04,AIG,80.33,78.29,82.38,122,pending,,,,,,f63587c8-1f22-4d82-81c8-01863b3d8379,,,,,now
