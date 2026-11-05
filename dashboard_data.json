@@ -1,33 +1,59 @@
 {
- "updated": "2026-11-05 14:13 UTC",
- "equity": 99097.63,
- "cash": 85305.13,
- "buying_power": 352362.67,
- "day_pl": -10.080000000001746,
- "day_pct": -0.010170752608451699,
+ "updated": "2026-11-05 14:40 UTC",
+ "equity": 98918.36,
+ "cash": 70867.61,
+ "buying_power": 348976.09,
+ "day_pl": -189.35000000000582,
+ "day_pct": -0.19105476254068005,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "IFF",
+   "qty": 67.0,
+   "entry": 87.67,
+   "price": 87.7754,
+   "pl": 7.0618,
+   "plpc": 0.12,
+   "core": false,
+   "stop": 83.95,
+   "target": 91.4
+  },
+  {
+   "symbol": "IQV",
+   "qty": 17.0,
+   "entry": 263.622941,
+   "price": 263.03,
+   "pl": -10.079997,
+   "plpc": -0.22499999999999998,
+   "core": false,
+   "stop": 249.62,
+   "target": 278.5
+  },
+  {
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 766.25,
-   "pl": -67.14,
-   "plpc": -0.484,
+   "price": 759.83,
+   "pl": -182.7,
+   "plpc": -1.318,
    "core": true,
    "stop": 708.31
+  },
+  {
+   "symbol": "STLD",
+   "qty": 17.0,
+   "entry": 240.12,
+   "price": 236.55,
+   "pl": -60.69,
+   "plpc": -1.4869999999999999,
+   "core": false,
+   "stop": 225.88,
+   "target": 254.83
   }
  ],
  "pending": [
-  {
-   "symbol": "STLD",
-   "qty": "17",
-   "limit": 240.12,
-   "stop": 225.88,
-   "target": 254.83
-  },
   {
    "symbol": "XOM",
    "qty": "36",
@@ -36,25 +62,11 @@
    "target": 176.21
   },
   {
-   "symbol": "IQV",
-   "qty": "17",
-   "limit": 263.79,
-   "stop": 249.62,
-   "target": 278.5
-  },
-  {
    "symbol": "CVX",
    "qty": "32",
    "limit": 216.96,
    "stop": 209.24,
    "target": 224.77
-  },
-  {
-   "symbol": "IFF",
-   "qty": "67",
-   "limit": 87.67,
-   "stop": 83.95,
-   "target": 91.4
   }
  ],
  "history": [
@@ -156,7 +168,7 @@
   {
    "d": "2026-11-05",
    "e": 99107.71,
-   "spy": null
+   "spy": 97596.87
   }
  ],
  "closed": [
