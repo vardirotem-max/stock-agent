@@ -1,98 +1,21 @@
 {
- "updated": "2026-11-05 16:17 UTC",
- "equity": 97715.63,
- "cash": 37917.91,
- "buying_power": 306068.78,
- "day_pl": -1392.0800000000017,
- "day_pct": -1.404613223330457,
+ "updated": "2026-11-05 17:13 UTC",
+ "equity": 97484.82,
+ "cash": 79858.37,
+ "buying_power": 368787.55,
+ "day_pl": -1622.8899999999994,
+ "day_pct": -1.637501259992789,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
-   "symbol": "ADI",
-   "qty": 10.0,
-   "entry": 391.86,
-   "price": 380.63,
-   "pl": -112.3,
-   "plpc": -2.866,
-   "core": false,
-   "stop": 368.02,
-   "target": 417.04
-  },
-  {
-   "symbol": "EQIX",
-   "qty": 4.0,
-   "entry": 1014.52,
-   "price": 1005.245,
-   "pl": -37.1,
-   "plpc": -0.914,
-   "core": false,
-   "stop": 963.38,
-   "target": 1077.24
-  },
-  {
-   "symbol": "GL",
-   "qty": 46.0,
-   "entry": 163.92,
-   "price": 160.4225,
-   "pl": -160.885,
-   "plpc": -2.1340000000000003,
-   "core": false,
-   "stop": 158.51,
-   "target": 169.35
-  },
-  {
-   "symbol": "GPC",
-   "qty": 46.0,
-   "entry": 128.43,
-   "price": 125.34,
-   "pl": -142.14,
-   "plpc": -2.406,
-   "core": false,
-   "stop": 123.32,
-   "target": 134.09
-  },
-  {
-   "symbol": "IEX",
-   "qty": 28.0,
-   "entry": 233.22,
-   "price": 228.48,
-   "pl": -132.72,
-   "plpc": -2.032,
-   "core": false,
-   "stop": 224.86,
-   "target": 242.45
-  },
-  {
-   "symbol": "IFF",
-   "qty": 67.0,
-   "entry": 87.67,
-   "price": 88.21,
-   "pl": 36.18,
-   "plpc": 0.616,
-   "core": false,
-   "stop": 83.95,
-   "target": 91.4
-  },
-  {
-   "symbol": "IQV",
-   "qty": 17.0,
-   "entry": 263.622941,
-   "price": 264.25,
-   "pl": 10.660003,
-   "plpc": 0.23800000000000002,
-   "core": false,
-   "stop": 249.62,
-   "target": 278.5
-  },
-  {
    "symbol": "NUE",
    "qty": 17.0,
    "entry": 258.605294,
-   "price": 254.5,
-   "pl": -69.789998,
-   "plpc": -1.587,
+   "price": 252.675,
+   "pl": -100.814998,
+   "plpc": -2.2929999999999997,
    "core": true,
    "stop": 244.73,
    "target": 273.33
@@ -101,40 +24,14 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 743.325,
-   "pl": -479.79,
-   "plpc": -3.4619999999999997,
+   "price": 740.6099,
+   "pl": -528.6618,
+   "plpc": -3.814,
    "core": true,
    "stop": 708.31
-  },
-  {
-   "symbol": "URI",
-   "qty": 4.0,
-   "entry": 1107.355,
-   "price": 1079.88,
-   "pl": -109.9,
-   "plpc": -2.481,
-   "core": false,
-   "stop": 1046.67,
-   "target": 1169.88
   }
  ],
- "pending": [
-  {
-   "symbol": "XOM",
-   "qty": "36",
-   "limit": 169.27,
-   "stop": 162.42,
-   "target": 176.21
-  },
-  {
-   "symbol": "CVX",
-   "qty": "32",
-   "limit": 216.96,
-   "stop": 209.24,
-   "target": 224.77
-  }
- ],
+ "pending": [],
  "history": [
   {
    "d": "2026-10-09",
@@ -234,7 +131,7 @@
   {
    "d": "2026-11-05",
    "e": 99107.71,
-   "spy": 95512.29
+   "spy": 95119.26
   }
  ],
  "closed": [
