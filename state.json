@@ -8,6 +8,6 @@
     "cycles": 0,
     "reentry": false,
     "closed": [],
-    "stopped": false
+    "stopped": true
   }
 }
