@@ -1,21 +1,32 @@
 {
- "updated": "2026-11-06 14:15 UTC",
- "equity": 97256.81,
- "cash": 79857.41,
- "buying_power": 344254.96,
- "day_pl": 28.839999999996508,
- "day_pct": 0.029662246367991134,
+ "updated": "2026-11-06 14:41 UTC",
+ "equity": 97384.89,
+ "cash": 67787.81,
+ "buying_power": 347832.04,
+ "day_pl": 156.91999999999825,
+ "day_pct": 0.16139388696482942,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "CVX",
+   "qty": 30.0,
+   "entry": 211.62,
+   "price": 212.344,
+   "pl": 21.72,
+   "plpc": 0.34199999999999997,
+   "core": false,
+   "stop": 204.71,
+   "target": 221.26
+  },
+  {
    "symbol": "NUE",
    "qty": 17.0,
    "entry": 258.605294,
-   "price": 246.0,
-   "pl": -214.289998,
-   "plpc": -4.874,
+   "price": 249.35,
+   "pl": -157.339998,
+   "plpc": -3.579,
    "core": true,
    "stop": 244.73,
    "target": 273.33
@@ -24,11 +35,33 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 734.3,
-   "pl": -642.24,
-   "plpc": -4.634,
+   "price": 738.33,
+   "pl": -569.7,
+   "plpc": -4.109999999999999,
    "core": true,
    "stop": 708.31
+  },
+  {
+   "symbol": "TXN",
+   "qty": 2.0,
+   "entry": 278.15,
+   "price": 279.1,
+   "pl": 1.9,
+   "plpc": 0.34199999999999997,
+   "core": true,
+   "stop": 260.15,
+   "target": 297.38
+  },
+  {
+   "symbol": "UNH",
+   "qty": 13.0,
+   "entry": 391.684616,
+   "price": 395.345,
+   "pl": 47.584992,
+   "plpc": 0.935,
+   "core": false,
+   "stop": 376.8,
+   "target": 414.95
   }
  ],
  "pending": [
@@ -45,27 +78,6 @@
    "limit": 1043.78,
    "stop": 974.87,
    "target": 1127.11
-  },
-  {
-   "symbol": "IFF",
-   "qty": "65",
-   "limit": 86.36,
-   "stop": 82.56,
-   "target": 90.21
-  },
-  {
-   "symbol": "CVX",
-   "qty": "30",
-   "limit": 212.93,
-   "stop": 204.71,
-   "target": 221.26
-  },
-  {
-   "symbol": "UNH",
-   "qty": "13",
-   "limit": 395.72,
-   "stop": 376.8,
-   "target": 414.95
   }
  ],
  "history": [
@@ -172,7 +184,7 @@
   {
    "d": "2026-11-06",
    "e": 97227.97,
-   "spy": null
+   "spy": 94837.33
   }
  ],
  "closed": [
