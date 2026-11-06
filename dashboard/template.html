@@ -1,145 +1,197 @@
 <title>מאזן הבוט</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Heebo:wght@400;500;600;700&display=swap">
 <style>
-/* פריסה: שפת העיצוב של אפל. כותרת גדולה, רשימות מקובצות עם פינות עגולות על רקע אפור-בהיר, צבעי מערכת, גופן מערכת, מרווחים נדיבים, ללא אפקטים. */
+/* פריסה: Liquid Glass. סרגל צד צף משמאל לכרטיסים (בנייד: סרגל תחתון צף), רשת של כרטיסי זכוכית מעל רקע גרדיאנט חי. ערכת צבעים כהה כברירת מחדל, בהירה לפי מערכת ההפעלה. */
 :root{
-  --bg:#f2f2f7; --card:#ffffff; --fill:#e9e9ee; --sep:rgba(60,60,67,.14);
-  --ink:#000000; --ink2:rgba(60,60,67,.6); --ink3:rgba(60,60,67,.3);
-  --blue:#007aff; --green:#34c759; --red:#ff3b30; --orange:#ff9500;
-  --sans:-apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display',system-ui,'Heebo','Segoe UI',sans-serif;
-  color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --sep:rgba(84,84,88,.55);
-  --ink:#ffffff; --ink2:rgba(235,235,245,.6); --ink3:rgba(235,235,245,.3);
-  --blue:#0a84ff; --green:#30d158; --red:#ff453a; --orange:#ff9f0a; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --sep:rgba(84,84,88,.55);
-  --ink:#ffffff; --ink2:rgba(235,235,245,.6); --ink3:rgba(235,235,245,.3);
-  --blue:#0a84ff; --green:#30d158; --red:#ff453a; --orange:#ff9f0a; color-scheme:dark}
+  --base:#060a1c; --blob1:#3a4bff; --blob2:#12a8c9; --blob3:#7a3df0;
+  --glass:rgba(255,255,255,.08); --glass-hi:rgba(255,255,255,.13); --edge:rgba(255,255,255,.15); --edge-hi:rgba(255,255,255,.42);
+  --shadow:0 20px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.2); --shadow-hi:0 28px 56px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.3);
+  --ink:#f4f6ff; --ink2:rgba(236,240,255,.66); --ink3:rgba(236,240,255,.34); --sep:rgba(255,255,255,.1); --fill:rgba(255,255,255,.1);
+  --accent:#7d96ff; --accent-glow:rgba(125,150,255,.55); --green:#43e0a0; --red:#ff6577; --orange:#ffb454;
+  --sans:'Inter','SF Pro Display',-apple-system,BlinkMacSystemFont,'Heebo','Segoe UI',system-ui,sans-serif;
+  color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){
+  --base:#e6ecff; --blob1:#9db0ff; --blob2:#8fdcf0; --blob3:#d2b3ff;
+  --glass:rgba(255,255,255,.55); --glass-hi:rgba(255,255,255,.75); --edge:rgba(255,255,255,.8); --edge-hi:#fff;
+  --shadow:0 18px 40px rgba(40,60,140,.16),inset 0 1px 0 rgba(255,255,255,.9); --shadow-hi:0 26px 54px rgba(40,60,140,.24),inset 0 1px 0 #fff;
+  --ink:#0b1230; --ink2:rgba(11,18,48,.64); --ink3:rgba(11,18,48,.34); --sep:rgba(11,18,48,.1); --fill:rgba(11,18,48,.07);
+  --accent:#3550f0; --accent-glow:rgba(53,80,240,.4); --green:#0e9c68; --red:#e0344a; --orange:#c97a0a; color-scheme:light}}
+:root[data-theme="light"]{
+  --base:#e6ecff; --blob1:#9db0ff; --blob2:#8fdcf0; --blob3:#d2b3ff;
+  --glass:rgba(255,255,255,.55); --glass-hi:rgba(255,255,255,.75); --edge:rgba(255,255,255,.8); --edge-hi:#fff;
+  --shadow:0 18px 40px rgba(40,60,140,.16),inset 0 1px 0 rgba(255,255,255,.9); --shadow-hi:0 26px 54px rgba(40,60,140,.24),inset 0 1px 0 #fff;
+  --ink:#0b1230; --ink2:rgba(11,18,48,.64); --ink3:rgba(11,18,48,.34); --sep:rgba(11,18,48,.1); --fill:rgba(11,18,48,.07);
+  --accent:#3550f0; --accent-glow:rgba(53,80,240,.4); --green:#0e9c68; --red:#e0344a; --orange:#c97a0a; color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.3;letter-spacing:-.011em;
-  -webkit-font-smoothing:antialiased;padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-main{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--base);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.35;letter-spacing:-.011em;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+  padding-block:20px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* רקע חי */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.75;animation:drift 26s ease-in-out infinite alternate}
+.bg i:nth-child(1){width:52vmax;height:52vmax;background:radial-gradient(circle,var(--blob1),transparent 68%);top:-18vmax;inset-inline-start:-12vmax}
+.bg i:nth-child(2){width:46vmax;height:46vmax;background:radial-gradient(circle,var(--blob2),transparent 68%);bottom:-16vmax;inset-inline-end:-10vmax;animation-duration:32s;animation-delay:-8s}
+.bg i:nth-child(3){width:38vmax;height:38vmax;background:radial-gradient(circle,var(--blob3),transparent 68%);top:34%;inset-inline-start:36%;animation-duration:38s;animation-delay:-16s;opacity:.5}
+@keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(6vmax,4vmax,0) scale(1.14)}}
+@media (prefers-reduced-motion:reduce){.bg i{animation:none}html{scroll-behavior:auto}*{transition:none!important}}
 bdi,.n{direction:ltr;unicode-bidi:isolate;display:inline-block;font-variant-numeric:tabular-nums}
 .g{color:var(--green)}.r{color:var(--red)}.s2{color:var(--ink2)}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:start}
-button:focus-visible{outline:3px solid color-mix(in srgb,var(--blue) 55%,transparent);outline-offset:2px;border-radius:10px}
-/* title */
-.title{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:0 4px}
-.title h1{margin:0;font-size:34px;font-weight:700;letter-spacing:-.022em;line-height:1.1}
-.title small{font-size:13px;color:var(--ink2);padding-bottom:4px;display:flex;align-items:center;gap:6px}
-.title small i{width:8px;height:8px;border-radius:50%;background:var(--green)}
-.title small.off i{background:var(--red)}
-/* summary */
-.sum{padding:0 4px}
-.sum .lab{font-size:15px;color:var(--ink2)}
-.big{font-size:clamp(40px,12.5vw,52px);font-weight:700;letter-spacing:-.035em;line-height:1.05;direction:ltr;text-align:right;font-variant-numeric:tabular-nums;margin-top:2px}
-.chg{font-size:17px;font-weight:600;margin-top:4px;display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
-.chg .s2{font-weight:400;font-size:15px}
-.chartw{margin:18px -4px 0;touch-action:pan-y}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:12px}
+/* מבנה */
+.shell{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:232px minmax(0,1fr);gap:20px;align-items:start}
+.side{position:sticky;top:20px;display:flex;flex-direction:column;gap:18px;padding:18px 14px;border-radius:26px}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 6px;font-weight:700;font-size:17px;letter-spacing:-.02em}
+.brand .lg{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(145deg,var(--accent),var(--blob2));box-shadow:0 6px 18px var(--accent-glow),inset 0 1px 0 rgba(255,255,255,.45);color:#fff}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:999px;color:var(--ink2);font-weight:500;position:relative;transition:all .3s cubic-bezier(.16,1,.3,1)}
+.nav button svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav button:hover{background:var(--fill);color:var(--ink)}
+.nav button:active{transform:scale(.96)}
+.nav button[aria-current="true"]{color:var(--ink);background:var(--glass-hi);box-shadow:inset 0 1px 0 var(--edge-hi),0 0 22px var(--accent-glow);border:1px solid var(--edge);padding:9px 11px}
+.live{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:16px;background:var(--fill);font-size:12.5px;color:var(--ink2);margin-top:2px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);flex:none}
+.live.off i{background:var(--red);box-shadow:0 0 10px var(--red)}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:20px;align-items:start}
+.c-hero{grid-column:span 8}.c-today{grid-column:span 4}.c-pos{grid-column:span 7}.c-side{grid-column:span 5;display:flex;flex-direction:column;gap:20px}
+.c-ord{grid-column:span 6}.c-closed{grid-column:span 6}
+/* זכוכית */
+.glass{position:relative;background:var(--glass);border:1px solid var(--edge);border-radius:26px;box-shadow:var(--shadow);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+  transition:all .3s cubic-bezier(.16,1,.3,1)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,0) 38%);opacity:.55;-webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%)}
+.card{padding:22px}
+.card:hover{transform:translateY(-3px);background:var(--glass-hi);border-color:var(--edge-hi);box-shadow:var(--shadow-hi);-webkit-backdrop-filter:blur(34px) saturate(180%);backdrop-filter:blur(34px) saturate(180%)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:color-mix(in srgb,var(--base) 78%,#fff 22%)}}
+.card>*{position:relative}
+.card h2{margin:0 0 14px;font-size:13px;font-weight:600;color:var(--ink2);display:flex;justify-content:space-between;align-items:center;letter-spacing:.01em}
+.card h2 .tg{font-weight:500;background:var(--fill);padding:3px 10px;border-radius:999px;font-size:12px;color:var(--ink)}
+/* ראשי */
+.lab{font-size:13px;color:var(--ink2);font-weight:500}
+.big{font-size:clamp(38px,6vw,56px);font-weight:700;letter-spacing:-.04em;line-height:1.05;direction:ltr;text-align:right;font-variant-numeric:tabular-nums;margin-top:4px}
+.chg{font-size:16px;font-weight:600;margin-top:6px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.chg .s2{font-weight:400;font-size:14px}
+.chartw{margin:18px -6px 0;touch-action:pan-y}
 svg.ch{width:100%;height:auto;display:block;overflow:visible}
-.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--fill);border-radius:9px;padding:2px;margin-top:14px}
-.seg button{text-align:center;padding:6px 0;border-radius:7px;font-size:13px;font-weight:600;color:var(--ink)}
-.seg button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 3px rgba(0,0,0,.14),0 0 0 .5px rgba(0,0,0,.04)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{background:#636366}}
-:root[data-theme="dark"] .seg button[aria-pressed="true"]{background:#636366}
-/* grouped lists */
-.sec h2{margin:0 0 8px;padding:0 16px;font-size:13px;font-weight:400;color:var(--ink2);text-transform:none;display:flex;justify-content:space-between}
-.grp{background:var(--card);border-radius:12px;overflow:hidden}
-.li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 16px;min-height:48px;position:relative}
-.li+.li::before,.pos+.pos::before{content:"";position:absolute;top:0;inset-inline:16px;border-top:.5px solid var(--sep)}
+.seg{display:inline-grid;grid-template-columns:1fr 1fr;background:var(--fill);border-radius:999px;padding:3px;margin-top:14px;border:1px solid var(--sep)}
+.seg button{text-align:center;padding:7px 18px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink2);transition:all .3s cubic-bezier(.16,1,.3,1)}
+.seg button:active{transform:scale(.95)}
+.seg button[aria-pressed="true"]{color:#fff;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 92%,#fff),var(--accent));box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 4px 16px var(--accent-glow)}
+/* רשימות */
+.li{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:11px 0;position:relative}
+.li+.li{border-top:1px solid var(--sep)}
 .li .k{color:var(--ink)}
 .li .v{font-weight:600;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
 .li .v.n2{font-weight:400;color:var(--ink2)}
-/* cycle */
-.cyc{display:flex;align-items:center;gap:16px;padding:16px}
+.cyc{display:flex;align-items:center;gap:16px;margin-top:14px;padding:14px;border-radius:20px;background:var(--fill)}
 .cyc svg{width:64px;height:64px;flex:none}
-.cyc .tx{min-width:0}
-.cyc b{display:block;font-size:17px;font-weight:600}
-.cyc span{display:block;font-size:15px;color:var(--ink2);margin-top:2px}
-/* positions */
+.cyc .tx{min-width:0}.cyc b{display:block;font-size:15px;font-weight:600}
+.cyc span{display:block;font-size:13px;color:var(--ink2);margin-top:3px}
+/* פוזיציות */
 .pos{position:relative}
-.pos>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 16px;min-height:60px}
-.pos .sy{font-size:17px;font-weight:600}
-.pos .tag{font-size:11px;font-weight:600;color:var(--ink2);background:var(--fill);padding:2px 7px;border-radius:6px;margin-inline-start:8px;vertical-align:1px}
-.pos .sb{font-size:14px;color:var(--ink2);margin-top:1px}
+.pos+.pos{border-top:1px solid var(--sep)}
+.pos>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 6px;margin:0 -6px;width:calc(100% + 12px);border-radius:16px;transition:background .3s cubic-bezier(.16,1,.3,1)}
+.pos>button:hover{background:var(--fill)}
+.pos .sy{font-size:16px;font-weight:600}
+.pos .tag{font-size:11px;font-weight:600;color:var(--ink);background:var(--fill);padding:2px 8px;border-radius:999px;margin-inline-start:8px;vertical-align:1px;border:1px solid var(--sep)}
+.pos .sb{font-size:13px;color:var(--ink2);margin-top:1px}
 .pos .rt{display:flex;align-items:center;gap:10px;text-align:left;direction:ltr}
-.pos .rt b{display:block;font-size:17px;font-weight:600}
-.pos .rt span{display:block;font-size:14px;font-weight:500}
-.pos .chev{width:8px;height:13px;stroke:var(--ink3);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.pos .rt b{display:block;font-size:16px;font-weight:600}
+.pos .rt span{display:block;font-size:13px;font-weight:600}
+.pos .chev{width:8px;height:13px;stroke:var(--ink3);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .3s cubic-bezier(.16,1,.3,1)}
 .pos.open .chev{transform:rotate(90deg)}
-.det{display:none;padding:2px 16px 16px}
+.det{display:none;padding:2px 0 16px}
 .pos.open .det{display:block}
-.rail{position:relative;height:6px;border-radius:3px;direction:ltr;margin:20px 2px 10px;background:linear-gradient(90deg,var(--red) var(--e),var(--green) var(--e));opacity:.85}
-.rail .nw{position:absolute;top:50%;left:var(--c);width:16px;height:16px;border-radius:50%;transform:translate(-50%,-50%);background:var(--card);border:2px solid var(--ink);opacity:1}
-.rail .tk{position:absolute;top:-3px;bottom:-3px;left:var(--e);width:2px;background:var(--card)}
-.lv{display:flex;justify-content:space-between;direction:ltr;font-size:13px;color:var(--ink2)}
+.rail{position:relative;height:7px;border-radius:4px;direction:ltr;margin:20px 2px 10px;background:linear-gradient(90deg,var(--red) var(--e),var(--green) var(--e));opacity:.9}
+.rail .nw{position:absolute;top:50%;left:var(--c);width:17px;height:17px;border-radius:50%;transform:translate(-50%,-50%);background:var(--ink);border:3px solid var(--base);box-shadow:0 2px 10px rgba(0,0,0,.35)}
+.rail .tk{position:absolute;top:-3px;bottom:-3px;left:var(--e);width:2px;background:var(--ink2)}
+.lv{display:flex;justify-content:space-between;direction:ltr;font-size:12.5px;color:var(--ink2)}
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin-top:16px}
-.dgrid small{display:block;font-size:13px;color:var(--ink2)}
+.dgrid small{display:block;font-size:12.5px;color:var(--ink2)}
 .dgrid b{font-weight:600;direction:ltr;unicode-bidi:isolate;display:block;text-align:right}
-.empty{padding:16px;color:var(--ink2);font-size:15px}
+.empty{padding:6px 0;color:var(--ink2);font-size:14px}
 .ord .li{align-items:flex-start}
-.ord .l{font-size:14px;color:var(--ink2);margin-top:2px}
+.ord .l{font-size:13px;color:var(--ink2);margin-top:2px}
 .ord .rt{text-align:left;direction:ltr}
-/* bars */
-.bar{height:6px;border-radius:3px;background:var(--fill);overflow:hidden;direction:ltr;margin:6px 16px 14px}
-.bar i{display:block;height:100%;background:var(--blue);width:var(--w);border-radius:3px}
+/* חשיפה וסיכון */
+.bar{height:8px;border-radius:4px;background:var(--fill);overflow:hidden;direction:ltr;margin:6px 0 10px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--blob2));width:var(--w);border-radius:4px;box-shadow:0 0 14px var(--accent-glow)}
 .bar i.o{background:var(--orange)}.bar i.r{background:var(--red)}
-.stack{display:flex;height:10px;border-radius:5px;overflow:hidden;direction:ltr;gap:2px;margin:14px 16px 6px}
-.stack i{display:block;height:100%}
+.stack{display:flex;height:12px;border-radius:6px;overflow:hidden;direction:ltr;gap:3px;margin:2px 0 8px}
+.stack i{display:block;height:100%;border-radius:3px}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:8px}
-.note{font-size:13px;color:var(--ink2);padding:8px 16px 0}
-.foot{font-size:13px;color:var(--ink2);text-align:center;margin:0}
+.note{font-size:12.5px;color:var(--ink2);padding:0 0 8px}
+.foot{font-size:12.5px;color:var(--ink2);text-align:center;margin:22px 0 0}
+/* מסכים קטנים: סרגל צד הופך לסרגל תחתון צף */
+@media (max-width:980px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;z-index:20;top:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));inset-inline:max(14px,env(safe-area-inset-left,0px));max-width:520px;margin:0 auto;flex-direction:row;padding:8px;border-radius:999px;gap:0}
+  .brand,.live{display:none}
+  .nav{flex-direction:row;width:100%;justify-content:space-between}
+  .nav button{flex:1;flex-direction:column;gap:3px;padding:7px 4px;font-size:11px;justify-content:center;border-radius:999px}
+  .nav button[aria-current="true"]{padding:6px 3px}
+  .c-hero,.c-today,.c-pos,.c-side,.c-ord,.c-closed{grid-column:1/-1}
+  .grid{gap:16px}.card{padding:18px}
+}
 </style>
-<main dir="rtl" lang="he">
- <div class="title"><h1>התיק</h1><small id="live"><i></i><span id="stamp"></span></small></div>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="shell" dir="rtl" lang="he">
+ <aside class="side glass" aria-label="ניווט">
+  <div class="brand"><span class="lg"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-6 4 3 8-9"/><path d="M14 5h6v6"/></svg></span>מאזן הבוט</div>
+  <nav class="nav" id="nav">
+   <button data-t="s-over" aria-current="true"><svg viewBox="0 0 24 24"><path d="M3 12l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span>סקירה</span></button>
+   <button data-t="s-pos"><svg viewBox="0 0 24 24"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg><span>פוזיציות</span></button>
+   <button data-t="s-ord"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>הוראות</span></button>
+   <button data-t="s-closed"><svg viewBox="0 0 24 24"><path d="M5 12l4 4 10-10"/></svg><span>עסקאות</span></button>
+   <button data-t="s-risk"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><span>סיכון</span></button>
+  </nav>
+  <div class="live" id="live"><i></i><span id="stamp"></span></div>
+ </aside>
 
- <section class="sum">
-  <div class="lab">שווי החשבון</div>
-  <div class="big" id="val"></div>
-  <div class="chg" id="chg"></div>
-  <div class="chartw" id="chart"></div>
-  <div class="seg" id="seg"><button data-m="a" aria-pressed="true">התיק</button><button data-m="s" aria-pressed="false">התיק מול SPY</button></div>
- </section>
+ <main>
+  <div class="grid">
+   <section class="glass card c-hero" id="s-over">
+    <div class="lab">שווי החשבון</div>
+    <div class="big" id="val"></div>
+    <div class="chg" id="chg"></div>
+    <div class="chartw" id="chart"></div>
+    <div class="seg" id="seg"><button data-m="a" aria-pressed="true">התיק</button><button data-m="s" aria-pressed="false">התיק מול SPY</button></div>
+   </section>
 
- <section class="sec">
-  <h2><span>היום</span></h2>
-  <div class="grp" id="today"></div>
- </section>
+   <section class="glass card c-today">
+    <h2><span>היום</span></h2>
+    <div id="today"></div>
+    <div class="cyc" id="cyc"></div>
+   </section>
 
- <section class="sec">
-  <h2><span>מחזור יומי של הבוט</span></h2>
-  <div class="grp cyc" id="cyc"></div>
- </section>
+   <section class="glass card c-pos" id="s-pos">
+    <h2><span>פוזיציות</span><span class="tg" id="ph"></span></h2>
+    <div id="pos"></div>
+   </section>
 
- <section class="sec">
-  <h2><span>פוזיציות</span><span id="ph"></span></h2>
-  <div class="grp" id="pos"></div>
- </section>
+   <div class="c-side" id="s-risk">
+    <section class="glass card"><h2><span>חשיפה</span></h2><div id="exp"></div></section>
+    <section class="glass card"><h2><span>סיכון</span></h2><div id="risk"></div></section>
+   </div>
 
- <section class="sec">
-  <h2><span>הוראות ממתינות</span><span id="oh"></span></h2>
-  <div class="grp ord" id="ord"></div>
- </section>
+   <section class="glass card c-ord ord" id="s-ord">
+    <h2><span>הוראות ממתינות</span><span class="tg" id="oh"></span></h2>
+    <div id="ord"></div>
+   </section>
 
- <section class="sec">
-  <h2><span>עסקאות סגורות</span><span id="ch2"></span></h2>
-  <div class="grp" id="closed"></div>
- </section>
-
- <section class="sec">
-  <h2><span>חשיפה</span></h2>
-  <div class="grp" id="exp"></div>
- </section>
-
- <section class="sec">
-  <h2><span>סיכון</span></h2>
-  <div class="grp" id="risk"></div>
- </section>
- <p class="foot">מסחר דמה בלבד. לא ייעוץ השקעות.</p>
-</main>
+   <section class="glass card c-closed" id="s-closed">
+    <h2><span>עסקאות סגורות</span><span class="tg" id="ch2"></span></h2>
+    <div id="closed"></div>
+   </section>
+  </div>
+  <p class="foot">מסחר דמה בלבד. לא ייעוץ השקעות.</p>
+ </main>
+</div>
 <script>
 const D=/*DATA*/null;
 const $=id=>document.getElementById(id);
@@ -155,7 +207,15 @@ const corePl=core.reduce((a,p)=>a+p.pl,0),botDay=D.day_pl-corePl;
 const unreal=D.positions.reduce((a,p)=>a+p.pl,0),tot=D.equity-start;
 
 $('stamp').textContent=D.paused?'הבוט מושהה':'עודכן '+D.updated.slice(11,16)+' UTC';
-$('live').className=D.paused?'off':'';
+$('live').className='live'+(D.paused?' off':'');
+
+/* סרגל ניווט */
+const navBtns=[...document.querySelectorAll('#nav button')];
+navBtns.forEach(b=>b.onclick=()=>{const t=$(b.dataset.t);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});mark(b.dataset.t)});
+function mark(id){navBtns.forEach(x=>x.setAttribute('aria-current',x.dataset.t===id))}
+if('IntersectionObserver' in window){
+ const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)mark(e.target.id)})},{rootMargin:'-30% 0px -55% 0px'});
+ navBtns.forEach(b=>{const t=$(b.dataset.t);if(t)io.observe(t)})}
 
 /* summary + chart */
 const pts=hist.map(p=>({d:p.d,e:p.e,spy:p.spy}));pts.push({d:'now',e:D.equity,spy:null});
@@ -166,19 +226,23 @@ function head(i){
  $('val').textContent='$'+f(p.e);
  $('chg').innerHTML=`<span class="${cc(diff)}">${B(sg(diff)+'$')} ${B('('+sg(pc)+'%)')}</span><span class="s2">${i===pts.length-1?'מתחילת הפעילות':'מתחילת הפעילות · '+dm(p.d)}</span>`}
 function chart(){
- const W=560,H=190,T=10,Bt=10,n=pts.length;
+ const W=640,H=210,T=12,Bt=12,n=pts.length;
  const vs=pts.flatMap(p=>[p.e,mode==='s'?p.spy:null].filter(v=>v!=null));
  let lo=Math.min(...vs),hi=Math.max(...vs);const pad=(hi-lo||300)*.2;lo-=pad;hi+=pad;
  const x=i=>W*(n==1?1:i/(n-1)),y=v=>T+(H-T-Bt)*(1-(v-lo)/(hi-lo));
  const line=k=>pts.map((p,i)=>p[k]==null?null:[x(i),y(p[k])]).filter(Boolean).map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' ');
  const e=[x(n-1),y(pts[n-1].e)],up=pts[n-1].e>=pts[0].e,col=up?'var(--green)':'var(--red)',b=y(pts[0].e);
- let grid='';for(let t=0;t<=3;t++){const yy=T+(H-T-Bt)*t/3;grid+=`<line x1="0" x2="${W}" y1="${yy}" y2="${yy}" stroke="var(--sep)" stroke-width=".7"/>`}
- $('chart').innerHTML=`<svg class="ch" id="svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="עקומת שווי החשבון">${grid}
-  <line x1="0" x2="${W}" y1="${b}" y2="${b}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 4"/>
-  ${mode==='s'?`<path d="${line('spy')}" fill="none" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`:''}
-  <path d="${line('e')}" fill="none" stroke="${col}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+ let grid='';for(let t=0;t<=3;t++){const yy=T+(H-T-Bt)*t/3;grid+=`<line x1="0" x2="${W}" y1="${yy}" y2="${yy}" stroke="var(--sep)" stroke-width=".8"/>`}
+ const area=line('e')+` L${x(n-1).toFixed(1)} ${H} L0 ${H} Z`;
+ $('chart').innerHTML=`<svg class="ch" id="svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="עקומת שווי החשבון"><defs>
+  <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${col}" stop-opacity=".38"/><stop offset="1" stop-color="${col}" stop-opacity="0"/></linearGradient>
+  <filter id="gl" x="-5%" y="-30%" width="110%" height="160%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>${grid}
+  <line x1="0" x2="${W}" y1="${b}" y2="${b}" stroke="var(--ink3)" stroke-width="1" stroke-dasharray="3 5"/>
+  <path d="${area}" fill="url(#ag)" stroke="none"/>
+  ${mode==='s'?`<path d="${line('spy')}" fill="none" stroke="var(--ink2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="5 5"/>`:''}
+  <path d="${line('e')}" fill="none" stroke="${col}" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round" filter="url(#gl)"/>
   <line id="cur" y1="${T}" y2="${H-Bt}" stroke="var(--ink3)" stroke-width="1" opacity="0"/>
-  <circle id="dot" cx="${e[0]}" cy="${e[1]}" r="5" fill="${col}" stroke="var(--bg)" stroke-width="2.5"/></svg>`;
+  <circle id="dot" cx="${e[0]}" cy="${e[1]}" r="5.5" fill="${col}" stroke="var(--ink)" stroke-width="2"/></svg>`;
  const svg=$('svg');
  const mv=ev=>{const r=svg.getBoundingClientRect();let i=Math.round((ev.clientX-r.left)/r.width*(n-1));i=Math.max(0,Math.min(n-1,i));
   $('dot').setAttribute('cx',x(i));$('dot').setAttribute('cy',y(pts[i].e));$('cur').setAttribute('x1',x(i));$('cur').setAttribute('x2',x(i));$('cur').setAttribute('opacity',1);head(i)};
@@ -194,17 +258,17 @@ $('today').innerHTML=row('רווח או הפסד היום',`<span class="${cc(D.
  row('רווח לא ממומש',`<span class="${cc(unreal)}">${sg(unreal)}$</span>`)+
  row('מזומן','$'+f(D.cash))+row('כוח קנייה','$'+f(D.buying_power),'n2');
 
-/* cycle ring (Apple Fitness style, small) */
+/* cycle ring */
 (function(){
- const R=26,C=2*Math.PI*R,p=Math.max(0,Math.min(1,botDay/TARGET)),col=botDay>=TARGET?'var(--green)':'var(--blue)';
- $('cyc').innerHTML=`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${R}" fill="none" stroke="var(--fill)" stroke-width="8"/>
-  <circle cx="32" cy="32" r="${R}" fill="none" stroke="${col}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C*p} ${C}" transform="rotate(-90 32 32)"/></svg>
-  <div class="tx"><b>${B('<span class="'+cc(botDay)+'">'+sg(botDay)+'$</span> מתוך '+TARGET+'$')}</b>
-  <span>${botDay>=TARGET?'היעד הושג. הבוט סוגר את הפוזיציות שלו ופותח סיבוב חדש.':'כשמגיעים ליעד הבוט סוגר את הפוזיציות שלו ופותח סיבוב חדש. ליבת SPY לא נספרת.'}</span></div>`})();
+ const R=26,C=2*Math.PI*R,p=Math.max(0,Math.min(1,botDay/TARGET)),col=botDay>=TARGET?'var(--green)':'var(--accent)';
+ $('cyc').innerHTML=`<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${R}" fill="none" stroke="var(--sep)" stroke-width="8"/>
+  <circle cx="32" cy="32" r="${R}" fill="none" stroke="${col}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${C*p} ${C}" transform="rotate(-90 32 32)" style="filter:drop-shadow(0 0 6px ${col})"/></svg>
+  <div class="tx"><b>${B('<span class="'+cc(botDay)+'">'+sg(botDay)+'$</span>')} מתוך ${B(TARGET+'$')}</b>
+  <span>${botDay>=TARGET?'היעד הושג. הבוט סוגר את הפוזיציות שלו ופותח סיבוב חדש.':'מחזור יומי של הבוט. ליבת SPY וסליל המומנטום לא נספרים.'}</span></div>`})();
 
 /* positions */
 const rows=D.positions.slice().sort((a,b)=>b.pl-a.pl);
-$('ph').innerHTML=rows.length?B(rows.length+' / '+MAXPOS):'';
+$('ph').innerHTML=rows.length?B(rows.length):'';
 function detail(p){
  let rail='';
  if(p.stop&&p.target&&p.target>p.stop){const q=v=>Math.max(0,Math.min(100,(v-p.stop)/(p.target-p.stop)*100));
@@ -220,32 +284,33 @@ document.querySelectorAll('.pos>button').forEach(b=>b.onclick=()=>{const el=b.pa
 
 /* orders */
 $('oh').textContent=D.pending.length?D.pending.length+' ממתינות':'';
+$('oh').hidden=!D.pending.length;
 $('ord').innerHTML=D.pending.length?D.pending.map(o=>`<div class="li"><div><div style="font-weight:600">${o.symbol}</div><div class="l">${B(o.qty+' מניות')} · קנייה בלימיט</div></div>
  <div class="rt"><div class="v" style="font-weight:600">${f(o.limit)}</div><div class="l">סטופ ${o.stop?f(o.stop):'—'} · יעד ${o.target?f(o.target):'—'}</div></div></div>`).join(''):'<div class="empty">אין הוראות ממתינות. הסיבוב הבא נפתח עם פתיחת המסחר.</div>';
 
 /* closed trades */
 (function(){
  const c=(D.closed||[]).slice().reverse();
- if(!c.length){$('closed').innerHTML='<div class="empty">אין עדיין עסקאות סגורות.</div>';return}
+ if(!c.length){$('closed').innerHTML='<div class="empty">אין עדיין עסקאות סגורות.</div>';$('ch2').hidden=true;return}
  const n=c.length,w=c.filter(t=>t.R>0).length,usd=c.reduce((a,t)=>a+t.usd,0);
  $('ch2').innerHTML=B(n+' אחרונות');
  const names={target:'יעד',stopped:'סטופ',timeout:'נסגרה'};
  $('closed').innerHTML=row('הצלחה',`${f(w/n*100,0)}%`)+row('סה"כ מהעסקאות האלה',`<span class="${cc(usd)}">${sg(usd,0)}$</span>`)+
-  c.slice(0,10).map(t=>`<div class="li"><div><div style="font-weight:600">${t.ticker}</div><div class="l s2" style="font-size:14px">${names[t.status]||t.status}</div></div><div class="v ${cc(t.usd)}">${sg(t.usd,0)}$ <span class="s2" style="font-weight:400">${sg(t.R,2)}R</span></div></div>`).join('');
+  c.slice(0,10).map(t=>`<div class="li"><div><div style="font-weight:600">${t.ticker}</div><div class="s2" style="font-size:13px">${names[t.status]||t.status}</div></div><div class="v ${cc(t.usd)}">${sg(t.usd,0)}$ <span class="s2" style="font-weight:400">${sg(t.R,2)}R</span></div></div>`).join('');
 })();
 
 /* exposure */
 const val=a=>a.reduce((s,p)=>s+p.qty*p.price,0);
 const vb=val(bot),vc=val(core),cash=D.cash,tt=vb+vc+cash||1;
 const part=(c,v)=>v/tt>.004?`<i style="width:${v/tt*100}%;background:${c}"></i>`:'';
-$('exp').innerHTML=`<div class="stack">${part('var(--blue)',vb)}${part('var(--orange)',vc)}${part('var(--ink3)',cash)}</div>`+
- [['var(--blue)','פוזיציות הבוט',vb],['var(--orange)','ליבת SPY',vc],['var(--ink3)','מזומן',cash]].map(([c,l,v])=>`<div class="li"><span class="k"><span class="dot" style="background:${c}"></span>${l}</span><span class="v">$${f(v,0)} <span class="s2" style="font-weight:400">${f(v/tt*100,0)}%</span></span></div>`).join('');
+$('exp').innerHTML=`<div class="stack">${part('var(--accent)',vb)}${part('var(--orange)',vc)}${part('var(--ink3)',cash)}</div>`+
+ [['var(--accent)','פוזיציות הבוט',vb],['var(--orange)','ליבת SPY וסליל',vc],['var(--ink3)','מזומן',cash]].map(([c,l,v])=>`<div class="li"><span class="k"><span class="dot" style="background:${c}"></span>${l}</span><span class="v">$${f(v,0)} <span class="s2" style="font-weight:400">${f(v/tt*100,0)}%</span></span></div>`).join('');
 
 /* risk */
 const dd=D.peak?Math.max(0,(D.peak-D.equity)/D.peak*100):0,lim=D.dd_limit||5,k=dd/lim;
 const pend=D.pending.reduce((a,o)=>a+(+o.qty)*o.limit,0);
 $('risk').innerHTML=row('ירידה מהשיא',`<span class="${k>.6?'r':''}">${f(dd,2)}%</span>`)+
  `<div class="bar"><i class="${k>.8?'r':k>.5?'o':''}" style="--w:${Math.min(100,k*100)}%"></i></div>`+
- `<div class="note" style="padding-top:0;padding-bottom:12px">הבוט נעצר אוטומטית ב־${B(f(lim,0)+'%')} ירידה מהשיא (${B('$'+f(D.peak,0))}).</div>`+
+ `<div class="note">הבוט נעצר אוטומטית ב־${B(f(lim,0)+'%')} ירידה מהשיא (${B('$'+f(D.peak,0))}).</div>`+
  row('מההתחלה',`<span class="${cc(tot)}">${sg(tot)}$</span>`)+row('הוראות שממתינות לביצוע','$'+f(pend,0),'n2');
 </script>
