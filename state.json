@@ -4,10 +4,16 @@
   "paused_at": "",
   "lock": {
     "day": "2026-11-09",
-    "baseline": 97268.21,
-    "cycles": 0,
+    "baseline": 98454.38,
+    "cycles": 1,
     "reentry": false,
-    "closed": [],
-    "stopped": false
+    "closed": [
+      "CI",
+      "DVA",
+      "LYV",
+      "UNP"
+    ],
+    "stopped": false,
+    "core_base": 700.7299899999999
   }
 }
