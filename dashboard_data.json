@@ -1,32 +1,54 @@
 {
- "updated": "2026-11-09 14:20 UTC",
- "equity": 97457.73,
- "cash": 65758.35,
- "buying_power": 320367.51,
- "day_pl": 189.51999999998952,
- "day_pct": 0.19484269320879813,
+ "updated": "2026-11-09 14:41 UTC",
+ "equity": 97630.37,
+ "cash": 54813.78,
+ "buying_power": 318770.49,
+ "day_pl": 362.15999999998894,
+ "day_pct": 0.37233130947921106,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "COP",
+   "qty": 39.0,
+   "entry": 134.26,
+   "price": 134.12,
+   "pl": -5.46,
+   "plpc": -0.104,
+   "core": false,
+   "stop": 129.9,
+   "target": 142.68
+  },
+  {
    "symbol": "CVX",
    "qty": 30.0,
    "entry": 211.62,
-   "price": 211.13,
-   "pl": -14.7,
-   "plpc": -0.232,
+   "price": 210.78,
+   "pl": -25.2,
+   "plpc": -0.39699999999999996,
    "core": false,
    "stop": 204.71,
    "target": 221.26
   },
   {
+   "symbol": "PM",
+   "qty": 29.0,
+   "entry": 196.842414,
+   "price": 194.895,
+   "pl": -56.475006,
+   "plpc": -0.989,
+   "core": false,
+   "stop": 189.35,
+   "target": 206.5
+  },
+  {
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 741.79,
-   "pl": -507.42,
-   "plpc": -3.6609999999999996,
+   "price": 745.625,
+   "pl": -438.39,
+   "plpc": -3.163,
    "core": true,
    "stop": 708.31
   },
@@ -34,9 +56,9 @@
    "symbol": "TXN",
    "qty": 13.0,
    "entry": 278.073846,
-   "price": 280.55,
-   "pl": 32.190002,
-   "plpc": 0.89,
+   "price": 287.045,
+   "pl": 116.625002,
+   "plpc": 3.2259999999999995,
    "core": true,
    "stop": 260.15,
    "target": 297.38
@@ -45,9 +67,9 @@
    "symbol": "UNH",
    "qty": 13.0,
    "entry": 391.684615,
-   "price": 395.47,
-   "pl": 49.210005,
-   "plpc": 0.966,
+   "price": 395.16,
+   "pl": 45.180005,
+   "plpc": 0.8869999999999999,
    "core": false,
    "stop": 376.8,
    "target": 414.95
@@ -56,9 +78,9 @@
    "symbol": "URI",
    "qty": 3.0,
    "entry": 1043.383333,
-   "price": 1075.0,
-   "pl": 94.850001,
-   "plpc": 3.0300000000000002,
+   "price": 1106.7,
+   "pl": 189.950001,
+   "plpc": 6.068,
    "core": false,
    "stop": 974.87,
    "target": 1127.11
@@ -80,25 +102,11 @@
    "target": 102.0
   },
   {
-   "symbol": "PM",
-   "qty": "29",
-   "limit": 197.88,
-   "stop": 189.35,
-   "target": 206.5
-  },
-  {
    "symbol": "UNP",
    "qty": "25",
    "limit": 290.16,
    "stop": 280.25,
    "target": 300.16
-  },
-  {
-   "symbol": "COP",
-   "qty": "39",
-   "limit": 136.27,
-   "stop": 129.9,
-   "target": 142.68
   }
  ],
  "history": [
