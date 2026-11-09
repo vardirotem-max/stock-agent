@@ -1,10 +1,10 @@
 {
- "updated": "2026-11-08 21:47 UTC",
- "equity": 97268.21,
+ "updated": "2026-11-09 14:20 UTC",
+ "equity": 97457.73,
  "cash": 65758.35,
- "buying_power": 319836.86,
- "day_pl": 0.0,
- "day_pct": 0.0,
+ "buying_power": 320367.51,
+ "day_pl": 189.51999999998952,
+ "day_pct": 0.19484269320879813,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
@@ -13,9 +13,9 @@
    "symbol": "CVX",
    "qty": 30.0,
    "entry": 211.62,
-   "price": 212.61,
-   "pl": 29.7,
-   "plpc": 0.468,
+   "price": 211.13,
+   "pl": -14.7,
+   "plpc": -0.232,
    "core": false,
    "stop": 204.71,
    "target": 221.26
@@ -24,9 +24,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 735.29,
-   "pl": -624.42,
-   "plpc": -4.505,
+   "price": 741.79,
+   "pl": -507.42,
+   "plpc": -3.6609999999999996,
    "core": true,
    "stop": 708.31
   },
@@ -34,9 +34,9 @@
    "symbol": "TXN",
    "qty": 13.0,
    "entry": 278.073846,
-   "price": 277.36,
-   "pl": -9.279998,
-   "plpc": -0.257,
+   "price": 280.55,
+   "pl": 32.190002,
+   "plpc": 0.89,
    "core": true,
    "stop": 260.15,
    "target": 297.38
@@ -45,9 +45,9 @@
    "symbol": "UNH",
    "qty": 13.0,
    "entry": 391.684615,
-   "price": 394.15,
-   "pl": 32.050005,
-   "plpc": 0.629,
+   "price": 395.47,
+   "pl": 49.210005,
+   "plpc": 0.966,
    "core": false,
    "stop": 376.8,
    "target": 414.95
@@ -56,9 +56,9 @@
    "symbol": "URI",
    "qty": 3.0,
    "entry": 1043.383333,
-   "price": 1055.57,
-   "pl": 36.560001,
-   "plpc": 1.168,
+   "price": 1075.0,
+   "pl": 94.850001,
+   "plpc": 3.0300000000000002,
    "core": false,
    "stop": 974.87,
    "target": 1127.11
@@ -73,11 +73,11 @@
    "target": 51.0
   },
   {
-   "symbol": "UNP",
-   "qty": "25",
-   "limit": 290.16,
-   "stop": 280.25,
-   "target": 300.16
+   "symbol": "MET",
+   "qty": "67",
+   "limit": 98.27,
+   "stop": 94.58,
+   "target": 102.0
   },
   {
    "symbol": "PM",
@@ -87,18 +87,18 @@
    "target": 206.5
   },
   {
+   "symbol": "UNP",
+   "qty": "25",
+   "limit": 290.16,
+   "stop": 280.25,
+   "target": 300.16
+  },
+  {
    "symbol": "COP",
    "qty": "39",
    "limit": 136.27,
    "stop": 129.9,
    "target": 142.68
-  },
-  {
-   "symbol": "MET",
-   "qty": "67",
-   "limit": 98.27,
-   "stop": 94.58,
-   "target": 102.0
   }
  ],
  "history": [
