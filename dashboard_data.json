@@ -1,21 +1,32 @@
 {
- "updated": "2026-11-10 14:18 UTC",
- "equity": 98322.1,
- "cash": 69700.3,
- "buying_power": 348191.38,
- "day_pl": -106.5799999999872,
- "day_pct": -0.10828144804947827,
+ "updated": "2026-11-10 14:40 UTC",
+ "equity": 98374.36,
+ "cash": 64440.52,
+ "buying_power": 347369.45,
+ "day_pl": -54.31999999999243,
+ "day_pct": -0.05518716699237705,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "EOG",
+   "qty": 36.0,
+   "entry": 146.105,
+   "price": 146.805,
+   "pl": 25.2,
+   "plpc": 0.479,
+   "core": false,
+   "stop": 141.63,
+   "target": 155.37
+  },
+  {
    "symbol": "MRK",
    "qty": 37.0,
    "entry": 146.80973,
-   "price": 149.74,
-   "pl": 108.41999,
-   "plpc": 1.9959999999999998,
+   "price": 147.635,
+   "pl": 30.53499,
+   "plpc": 0.562,
    "core": true,
    "stop": 140.23,
    "target": 153.63
@@ -24,9 +35,9 @@
    "symbol": "NUE",
    "qty": 16.0,
    "entry": 251.15,
-   "price": 246.5,
-   "pl": -74.4,
-   "plpc": -1.851,
+   "price": 252.95,
+   "pl": 28.8,
+   "plpc": 0.717,
    "core": true,
    "stop": 236.21,
    "target": 266.85
@@ -35,9 +46,9 @@
    "symbol": "ROST",
    "qty": 24.0,
    "entry": 234.4275,
-   "price": 236.04,
-   "pl": 38.7,
-   "plpc": 0.688,
+   "price": 235.49,
+   "pl": 25.5,
+   "plpc": 0.453,
    "core": true,
    "stop": 224.66,
    "target": 245.37
@@ -46,9 +57,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 748.47,
-   "pl": -387.18,
-   "plpc": -2.794,
+   "price": 749.3,
+   "pl": -372.24,
+   "plpc": -2.686,
    "core": true,
    "stop": 708.31
   }
@@ -60,13 +71,6 @@
    "limit": 193.12,
    "stop": 184.48,
    "target": 202.05
-  },
-  {
-   "symbol": "EOG",
-   "qty": "36",
-   "limit": 148.43,
-   "stop": 141.63,
-   "target": 155.37
   }
  ],
  "history": [
@@ -183,7 +187,7 @@
   {
    "d": "2026-11-10",
    "e": 98428.68,
-   "spy": null
+   "spy": 96240.54
   }
  ],
  "closed": [

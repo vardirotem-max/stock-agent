@@ -3,17 +3,11 @@
   "paused": false,
   "paused_at": "",
   "lock": {
-    "day": "2026-11-09",
-    "baseline": 98454.38,
-    "cycles": 1,
+    "day": "2026-11-10",
+    "baseline": 98428.68,
+    "cycles": 0,
     "reentry": false,
-    "closed": [
-      "CI",
-      "DVA",
-      "LYV",
-      "UNP"
-    ],
-    "stopped": false,
-    "core_base": 700.7299899999999
+    "closed": [],
+    "stopped": false
   }
 }
