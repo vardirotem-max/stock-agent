@@ -1,21 +1,32 @@
 {
- "updated": "2026-11-10 15:17 UTC",
- "equity": 98756.92,
- "cash": 54177.79,
- "buying_power": 336287.03,
- "day_pl": 328.24000000000524,
- "day_pct": 0.3334800385416174,
+ "updated": "2026-11-10 16:16 UTC",
+ "equity": 98541.81,
+ "cash": 48935.19,
+ "buying_power": 334639.3,
+ "day_pl": 113.13000000000466,
+ "day_pct": 0.11493601255244373,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "AME",
+   "qty": 22.0,
+   "entry": 238.3,
+   "price": 237.9501,
+   "pl": -7.6978,
+   "plpc": -0.147,
+   "core": false,
+   "stop": 227.08,
+   "target": 249.8
+  },
+  {
    "symbol": "DVA",
    "qty": 24.0,
    "entry": 182.79875,
-   "price": 182.58,
-   "pl": -5.25,
-   "plpc": -0.12,
+   "price": 180.06,
+   "pl": -65.73,
+   "plpc": -1.498,
    "core": false,
    "stop": 172.91,
    "target": 193.64
@@ -24,9 +35,9 @@
    "symbol": "MRK",
    "qty": 37.0,
    "entry": 146.80973,
-   "price": 146.8,
-   "pl": -0.36001,
-   "plpc": -0.006999999999999999,
+   "price": 145.76,
+   "pl": -38.84001,
+   "plpc": -0.715,
    "core": true,
    "stop": 140.23,
    "target": 153.63
@@ -35,9 +46,9 @@
    "symbol": "NUE",
    "qty": 16.0,
    "entry": 251.15,
-   "price": 258.7,
-   "pl": 120.8,
-   "plpc": 3.006,
+   "price": 256.58,
+   "pl": 86.88,
+   "plpc": 2.162,
    "core": true,
    "stop": 236.21,
    "target": 266.85
@@ -46,9 +57,9 @@
    "symbol": "PM",
    "qty": 30.0,
    "entry": 195.16,
-   "price": 194.99,
-   "pl": -5.1,
-   "plpc": -0.087,
+   "price": 194.08,
+   "pl": -32.4,
+   "plpc": -0.553,
    "core": false,
    "stop": 186.96,
    "target": 203.53
@@ -57,9 +68,9 @@
    "symbol": "ROST",
    "qty": 24.0,
    "entry": 234.4275,
-   "price": 235.59,
-   "pl": 27.9,
-   "plpc": 0.496,
+   "price": 236.62,
+   "pl": 52.62,
+   "plpc": 0.935,
    "core": true,
    "stop": 224.66,
    "target": 245.37
@@ -68,9 +79,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 750.8,
-   "pl": -345.24,
-   "plpc": -2.491,
+   "price": 748.025,
+   "pl": -395.19,
+   "plpc": -2.851,
    "core": true,
    "stop": 708.31
   },
@@ -78,23 +89,15 @@
    "symbol": "UNH",
    "qty": 14.0,
    "entry": 400.16,
-   "price": 400.53,
-   "pl": 5.18,
-   "plpc": 0.092,
+   "price": 399.03,
+   "pl": -15.82,
+   "plpc": -0.28200000000000003,
    "core": false,
    "stop": 383.74,
    "target": 418.36
   }
  ],
- "pending": [
-  {
-   "symbol": "AME",
-   "qty": "22",
-   "limit": 238.44,
-   "stop": 227.08,
-   "target": 249.8
-  }
- ],
+ "pending": [],
  "history": [
   {
    "d": "2026-10-09",
@@ -209,7 +212,7 @@
   {
    "d": "2026-11-10",
    "e": 98428.68,
-   "spy": 96431.92
+   "spy": 96071.0
   }
  ],
  "closed": [
