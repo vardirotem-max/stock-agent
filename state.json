@@ -3,24 +3,11 @@
   "paused": false,
   "paused_at": "",
   "lock": {
-    "day": "2026-11-10",
-    "baseline": 98802.36,
-    "cycles": 1,
+    "day": "2026-11-11",
+    "baseline": 98793.43,
+    "cycles": 0,
     "reentry": false,
-    "closed": [
-      "ADI",
-      "AMCR",
-      "APH",
-      "COP",
-      "ELV",
-      "EOG",
-      "JPM",
-      "LYV",
-      "SW",
-      "UNP",
-      "URI"
-    ],
-    "stopped": false,
-    "core_base": 51.9844
+    "closed": [],
+    "stopped": false
   }
 }

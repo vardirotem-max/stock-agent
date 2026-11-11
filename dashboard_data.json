@@ -1,10 +1,10 @@
 {
- "updated": "2026-11-11 14:17 UTC",
- "equity": 98733.88,
- "cash": 48933.98,
- "buying_power": 325594.19,
- "day_pl": -59.54999999998836,
- "day_pct": -0.060277287669826186,
+ "updated": "2026-11-11 14:40 UTC",
+ "equity": 98815.61,
+ "cash": 43138.14,
+ "buying_power": 324671.54,
+ "day_pl": 22.180000000007567,
+ "day_pct": 0.022450885651006922,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
@@ -13,9 +13,9 @@
    "symbol": "AME",
    "qty": 22.0,
    "entry": 238.3,
-   "price": 238.31,
-   "pl": 0.22,
-   "plpc": 0.004,
+   "price": 239.5425,
+   "pl": 27.335,
+   "plpc": 0.521,
    "core": false,
    "stop": 227.08,
    "target": 249.8
@@ -24,20 +24,31 @@
    "symbol": "DVA",
    "qty": 24.0,
    "entry": 182.79875,
-   "price": 179.11,
-   "pl": -88.53,
-   "plpc": -2.018,
+   "price": 178.96,
+   "pl": -92.13,
+   "plpc": -2.1,
    "core": false,
    "stop": 172.91,
    "target": 193.64
   },
   {
+   "symbol": "MNST",
+   "qty": 128.0,
+   "entry": 45.28,
+   "price": 45.36,
+   "pl": 10.24,
+   "plpc": 0.17700000000000002,
+   "core": false,
+   "stop": 43.4,
+   "target": 47.29
+  },
+  {
    "symbol": "MRK",
    "qty": 37.0,
    "entry": 146.80973,
-   "price": 146.9504,
-   "pl": 5.20479,
-   "plpc": 0.096,
+   "price": 146.46,
+   "pl": -12.94001,
+   "plpc": -0.23800000000000002,
    "core": true,
    "stop": 140.23,
    "target": 153.63
@@ -46,9 +57,9 @@
    "symbol": "NUE",
    "qty": 16.0,
    "entry": 251.15,
-   "price": 251.6,
-   "pl": 7.2,
-   "plpc": 0.179,
+   "price": 257.85,
+   "pl": 107.2,
+   "plpc": 2.6679999999999997,
    "core": true,
    "stop": 236.21,
    "target": 266.85
@@ -57,9 +68,9 @@
    "symbol": "PM",
    "qty": 30.0,
    "entry": 195.16,
-   "price": 192.77,
-   "pl": -71.7,
-   "plpc": -1.225,
+   "price": 193.6,
+   "pl": -46.8,
+   "plpc": -0.799,
    "core": false,
    "stop": 186.96,
    "target": 203.53
@@ -68,9 +79,9 @@
    "symbol": "ROST",
    "qty": 24.0,
    "entry": 234.4275,
-   "price": 238.95,
-   "pl": 108.54,
-   "plpc": 1.9290000000000003,
+   "price": 238.98,
+   "pl": 109.26,
+   "plpc": 1.942,
    "core": true,
    "stop": 224.66,
    "target": 245.37
@@ -79,9 +90,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 757.17,
-   "pl": -230.58,
-   "plpc": -1.664,
+   "price": 756.64,
+   "pl": -240.12,
+   "plpc": -1.733,
    "core": true,
    "stop": 708.31
   },
@@ -89,9 +100,9 @@
    "symbol": "UNH",
    "qty": 14.0,
    "entry": 400.16,
-   "price": 403.48,
-   "pl": 46.48,
-   "plpc": 0.83,
+   "price": 399.9108,
+   "pl": -3.4888,
+   "plpc": -0.062,
    "core": false,
    "stop": 383.74,
    "target": 418.36
@@ -104,13 +115,6 @@
    "limit": 236.12,
    "stop": 221.0,
    "target": 251.75
-  },
-  {
-   "symbol": "MNST",
-   "qty": "128",
-   "limit": 45.34,
-   "stop": 43.4,
-   "target": 47.29
   }
  ],
  "history": [
@@ -232,7 +236,7 @@
   {
    "d": "2026-11-11",
    "e": 98793.43,
-   "spy": null
+   "spy": 97183.3
   }
  ],
  "closed": [
