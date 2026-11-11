@@ -1,43 +1,97 @@
 {
- "updated": "2026-11-11 14:50 UTC",
- "equity": 98872.56,
- "cash": 43138.14,
- "buying_power": 324831.01,
- "day_pl": 79.13000000000466,
- "day_pct": 0.08009641936716304,
+ "updated": "2026-11-11 14:56 UTC",
+ "equity": 98822.22,
+ "cash": 6340.03,
+ "buying_power": 258975.16,
+ "day_pl": 28.79000000000815,
+ "day_pct": 0.029141613971706573,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "AMCR",
+   "qty": 129.0,
+   "entry": 44.82,
+   "price": 44.76,
+   "pl": -7.74,
+   "plpc": -0.134,
+   "core": false,
+   "stop": 42.79,
+   "target": 46.76
+  },
+  {
    "symbol": "AME",
    "qty": 22.0,
    "entry": 238.3,
-   "price": 240.325,
-   "pl": 44.55,
-   "plpc": 0.8500000000000001,
+   "price": 240.9225,
+   "pl": 57.695,
+   "plpc": 1.101,
    "core": false,
    "stop": 227.08,
    "target": 249.8
   },
   {
+   "symbol": "CFG",
+   "qty": 108.0,
+   "entry": 65.49,
+   "price": 65.57,
+   "pl": 8.64,
+   "plpc": 0.122,
+   "core": false,
+   "stop": 62.74,
+   "target": 67.8
+  },
+  {
+   "symbol": "COP",
+   "qty": 41.0,
+   "entry": 136.5,
+   "price": 136.62,
+   "pl": 4.92,
+   "plpc": 0.08800000000000001,
+   "core": false,
+   "stop": 129.06,
+   "target": 142.61
+  },
+  {
+   "symbol": "CVX",
+   "qty": 33.0,
+   "entry": 212.04,
+   "price": 212.155,
+   "pl": 3.795,
+   "plpc": 0.054,
+   "core": false,
+   "stop": 204.71,
+   "target": 219.64
+  },
+  {
    "symbol": "DVA",
    "qty": 24.0,
    "entry": 182.79875,
-   "price": 180.0,
-   "pl": -67.17,
-   "plpc": -1.5310000000000001,
+   "price": 180.865,
+   "pl": -46.41,
+   "plpc": -1.058,
    "core": false,
    "stop": 172.91,
    "target": 193.64
   },
   {
+   "symbol": "KMB",
+   "qty": 51.0,
+   "entry": 108.54,
+   "price": 108.33,
+   "pl": -10.71,
+   "plpc": -0.193,
+   "core": false,
+   "target": 113.51
+  },
+  {
    "symbol": "MNST",
    "qty": 128.0,
    "entry": 45.28,
-   "price": 45.5501,
-   "pl": 34.5728,
-   "plpc": 0.597,
+   "price": 45.24,
+   "pl": -5.12,
+   "plpc": -0.08800000000000001,
    "core": false,
    "stop": 43.4,
    "target": 47.29
@@ -46,20 +100,31 @@
    "symbol": "MRK",
    "qty": 37.0,
    "entry": 146.80973,
-   "price": 146.48,
-   "pl": -12.20001,
-   "plpc": -0.22499999999999998,
+   "price": 146.19,
+   "pl": -22.93001,
+   "plpc": -0.422,
    "core": true,
    "stop": 140.23,
    "target": 153.63
   },
   {
+   "symbol": "MSFT",
+   "qty": 11.0,
+   "entry": 528.55,
+   "price": 527.83,
+   "pl": -7.92,
+   "plpc": -0.136,
+   "core": false,
+   "stop": 493.93,
+   "target": 551.33
+  },
+  {
    "symbol": "NUE",
    "qty": 16.0,
    "entry": 251.15,
-   "price": 257.9275,
-   "pl": 108.44,
-   "plpc": 2.699,
+   "price": 258.37,
+   "pl": 115.52,
+   "plpc": 2.875,
    "core": true,
    "stop": 236.21,
    "target": 266.85
@@ -68,9 +133,9 @@
    "symbol": "PM",
    "qty": 30.0,
    "entry": 195.16,
-   "price": 193.985,
-   "pl": -35.25,
-   "plpc": -0.602,
+   "price": 193.935,
+   "pl": -36.75,
+   "plpc": -0.628,
    "core": false,
    "stop": 186.96,
    "target": 203.53
@@ -79,9 +144,9 @@
    "symbol": "ROST",
    "qty": 24.0,
    "entry": 234.4275,
-   "price": 239.205,
-   "pl": 114.66,
-   "plpc": 2.038,
+   "price": 238.33,
+   "pl": 93.66,
+   "plpc": 1.6650000000000003,
    "core": true,
    "stop": 224.66,
    "target": 245.37
@@ -90,9 +155,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 756.19,
-   "pl": -248.22,
-   "plpc": -1.791,
+   "price": 756.52,
+   "pl": -242.28,
+   "plpc": -1.748,
    "core": true,
    "stop": 708.31
   },
@@ -100,15 +165,43 @@
    "symbol": "UNH",
    "qty": 14.0,
    "entry": 400.16,
-   "price": 398.455,
-   "pl": -23.87,
-   "plpc": -0.426,
+   "price": 397.36,
+   "pl": -39.2,
+   "plpc": -0.7000000000000001,
    "core": false,
    "stop": 383.74,
    "target": 418.36
   }
  ],
  "pending": [
+  {
+   "symbol": "STT",
+   "qty": "38",
+   "limit": 173.93,
+   "target": 180.51,
+   "stop": 167.5
+  },
+  {
+   "symbol": "IEX",
+   "qty": "26",
+   "limit": 237.18,
+   "stop": 227.81,
+   "target": 246.8
+  },
+  {
+   "symbol": "VRTX",
+   "qty": "10",
+   "limit": 541.69,
+   "target": 566.69,
+   "stop": 517.54
+  },
+  {
+   "symbol": "URI",
+   "qty": "3",
+   "limit": 1121.4,
+   "stop": 1054.61,
+   "target": 1204.73
+  },
   {
    "symbol": "STLD",
    "qty": "16",
@@ -236,7 +329,7 @@
   {
    "d": "2026-11-11",
    "e": 98793.43,
-   "spy": 97124.86
+   "spy": 97165.3
   }
  ],
  "closed": [
