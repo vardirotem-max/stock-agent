@@ -166,3 +166,6 @@ signal_date,ticker,entry,stop,target,shares,status,fill_date,fill_price,exit_dat
 2026-11-11,STT,173.93,167.5,180.51,38,pending,,,,,,6b853139-2c0b-42cd-ae9e-8f183c08936d,,173.93,,,now
 2026-11-11,AMCR,44.82,42.89,46.76,129,pending,,,,,,13bb1922-9bdd-457b-9030-67c0e28d8fe9,,44.82,,,now
 2026-11-11,KMB,108.61,103.75,113.51,51,pending,,,,,,f31f020b-1985-4a6a-979d-ab0986193efc,,108.54,,,now
+2026-11-12,XOM,168.07,161.71,174.48,39,pending,,,,,,1ef8fa5a-b31d-4168-a788-1ef455721bec,,,,,now
+2026-11-12,APH,79.69,73.84,85.64,42,pending,,,,,,d774e3c4-18a9-4c1f-8f51-27b376d9c2ee,,,,,now
+2026-11-12,SW,44.07,41.99,46.15,120,pending,,,,,,99e4eede-ca2e-444d-89b5-6906984bf9b1,,,,,now
