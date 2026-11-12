@@ -1,32 +1,42 @@
 {
- "updated": "2026-11-12 16:15 UTC",
- "equity": 99727.51,
- "cash": 55903.16,
- "buying_power": 334442.2,
- "day_pl": 357.54499999999825,
- "day_pct": 0.3598119411635078,
+ "updated": "2026-11-12 17:13 UTC",
+ "equity": 99705.18,
+ "cash": 49149.56,
+ "buying_power": 333031.38,
+ "day_pl": 335.2149999999965,
+ "day_pct": 0.3373403623519406,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
  "positions": [
   {
    "symbol": "CVS",
-   "qty": 29.0,
+   "qty": 56.0,
    "entry": 89.2,
-   "price": 89.2,
-   "pl": 0.0,
-   "plpc": 0.0,
+   "price": 89.47,
+   "pl": 15.12,
+   "plpc": 0.303,
    "core": false,
-   "target": 93.66,
-   "stop": 84.77
+   "target": 93.66
+  },
+  {
+   "symbol": "JCI",
+   "qty": 30.0,
+   "entry": 144.84,
+   "price": 144.155,
+   "pl": -20.55,
+   "plpc": -0.473,
+   "core": false,
+   "stop": 138.63,
+   "target": 153.25
   },
   {
    "symbol": "MRK",
    "qty": 37.0,
    "entry": 146.80973,
-   "price": 147.72,
-   "pl": 33.67999,
-   "plpc": 0.62,
+   "price": 148.87,
+   "pl": 76.22999,
+   "plpc": 1.403,
    "core": true,
    "stop": 140.23,
    "target": 153.63
@@ -35,9 +45,9 @@
    "symbol": "NUE",
    "qty": 16.0,
    "entry": 251.15,
-   "price": 262.83,
-   "pl": 186.88,
-   "plpc": 4.651000000000001,
+   "price": 262.6,
+   "pl": 183.2,
+   "plpc": 4.559,
    "core": true,
    "stop": 236.21,
    "target": 266.85
@@ -46,9 +56,9 @@
    "symbol": "RL",
    "qty": 14.0,
    "entry": 392.86,
-   "price": 392.775,
-   "pl": -1.19,
-   "plpc": -0.022000000000000002,
+   "price": 392.31,
+   "pl": -7.7,
+   "plpc": -0.13999999999999999,
    "core": false,
    "target": 411.05
   },
@@ -56,9 +66,9 @@
    "symbol": "ROST",
    "qty": 24.0,
    "entry": 234.4275,
-   "price": 237.93,
-   "pl": 84.06,
-   "plpc": 1.494,
+   "price": 237.22,
+   "pl": 67.02,
+   "plpc": 1.191,
    "core": true,
    "stop": 224.66,
    "target": 245.37
@@ -67,9 +77,9 @@
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 762.18,
-   "pl": -140.4,
-   "plpc": -1.013,
+   "price": 760.77,
+   "pl": -165.78,
+   "plpc": -1.196,
    "core": true,
    "stop": 708.31
   },
@@ -77,9 +87,9 @@
    "symbol": "STT",
    "qty": 38.0,
    "entry": 173.93,
-   "price": 174.69,
-   "pl": 28.88,
-   "plpc": 0.437,
+   "price": 174.51,
+   "pl": 22.04,
+   "plpc": 0.333,
    "core": true,
    "stop": 167.5,
    "target": 180.51
@@ -87,25 +97,11 @@
  ],
  "pending": [
   {
-   "symbol": "JCI",
-   "qty": "30",
-   "limit": 144.92,
-   "stop": 138.63,
-   "target": 153.25
-  },
-  {
    "symbol": "IQV",
    "qty": "19",
    "limit": 269.61,
    "stop": 256.56,
    "target": 282.77
-  },
-  {
-   "symbol": "CVS",
-   "qty": "56",
-   "limit": 89.2,
-   "target": 93.66,
-   "stop": 84.77
   }
  ],
  "history": [
@@ -232,7 +228,7 @@
   {
    "d": "2026-11-12",
    "e": 99369.97,
-   "spy": 97891.01
+   "spy": 97715.04
   }
  ],
  "closed": [
