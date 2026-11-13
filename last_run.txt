@@ -1,20 +1,21 @@
-run_utc=2026-11-12 03:18
-last_bar=2026-11-11
+run_utc=2026-11-13 02:52
+last_bar=2026-11-12
 mode=full_scan
 crosscheck_ok=3/3
 regime_ok=True
-technical_candidates=0
-analyst_checked=0
+technical_candidates=6
+analyst_checked=6
 analyst_no_data=0
-analyst_rejected=0
+analyst_rejected=1
 earnings_blocked=0
-earnings_no_data=0
-open_slots_used=16/18
+earnings_no_data=2
+open_slots_used=1/18
 paused=False
-drawdown_pct=1.02
-signals_sent=0
-✅ DVA: הלימיט התמלא ב-177.09
-✅ PM: הלימיט התמלא ב-193.4
-✅ UNH: הלימיט התמלא ב-400.5
-✅ MNST: הלימיט התמלא ב-45.14
-✅ STLD: הלימיט התמלא ב-236.12
+drawdown_pct=1.06
+signals_sent=5
+✅ STT: הלימיט התמלא ב-173.63
+📨 GPN: נשלחה הוראה לחשבון הדמה (38 מניות)
+📨 CVX: נשלחה הוראה לחשבון הדמה (32 מניות)
+📨 AMCR: נשלחה הוראה לחשבון הדמה (125 מניות)
+📨 XOM: נשלחה הוראה לחשבון הדמה (37 מניות)
+📨 PM: נשלחה הוראה לחשבון הדמה (31 מניות)
