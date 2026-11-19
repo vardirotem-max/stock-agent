@@ -1,10 +1,10 @@
 {
- "updated": "2026-11-19 14:13 UTC",
- "equity": 97189.62,
- "cash": 39761.9,
- "buying_power": 293598.64,
- "day_pl": 458.5599999999977,
- "day_pct": 0.4740566266926029,
+ "updated": "2026-11-19 14:40 UTC",
+ "equity": 96578.09,
+ "cash": 21977.11,
+ "buying_power": 288337.68,
+ "day_pl": -152.97000000000116,
+ "day_pct": -0.15813948487693733,
  "peak": 100566.78,
  "paused": false,
  "dd_limit": 5.0,
@@ -13,20 +13,31 @@
    "symbol": "AMCR",
    "qty": 132.0,
    "entry": 43.56,
-   "price": 43.9311,
-   "pl": 48.9852,
-   "plpc": 0.852,
+   "price": 42.71,
+   "pl": -112.2,
+   "plpc": -1.951,
    "core": false,
    "stop": 41.89,
    "target": 45.66
   },
   {
+   "symbol": "CNC",
+   "qty": 49.0,
+   "entry": 67.449592,
+   "price": 66.2156,
+   "pl": -60.465608,
+   "plpc": -1.83,
+   "core": true,
+   "stop": 62.42,
+   "target": 72.55
+  },
+  {
    "symbol": "EMR",
    "qty": 32.0,
    "entry": 160.64,
-   "price": 164.2,
-   "pl": 113.92,
-   "plpc": 2.2159999999999997,
+   "price": 162.625,
+   "pl": 63.52,
+   "plpc": 1.236,
    "core": false,
    "stop": 152.96,
    "target": 168.46
@@ -35,20 +46,31 @@
    "symbol": "GDDY",
    "qty": 37.0,
    "entry": 106.71,
-   "price": 105.2,
-   "pl": -55.87,
-   "plpc": -1.415,
+   "price": 103.345,
+   "pl": -124.505,
+   "plpc": -3.1530000000000005,
    "core": false,
    "stop": 99.99,
    "target": 113.47
   },
   {
+   "symbol": "INCY",
+   "qty": 44.0,
+   "entry": 117.65,
+   "price": 117.0,
+   "pl": -28.6,
+   "plpc": -0.5519999999999999,
+   "core": false,
+   "stop": 112.2,
+   "target": 123.48
+  },
+  {
    "symbol": "IQV",
    "qty": 18.0,
    "entry": 264.343333,
-   "price": 259.0,
-   "pl": -96.179994,
-   "plpc": -2.021,
+   "price": 258.48,
+   "pl": -105.539994,
+   "plpc": -2.218,
    "core": false,
    "stop": 251.48,
    "target": 278.62
@@ -57,9 +79,9 @@
    "symbol": "MSFT",
    "qty": 11.0,
    "entry": 515.040909,
-   "price": 516.07,
-   "pl": 11.320001,
-   "plpc": 0.2,
+   "price": 519.62,
+   "pl": 50.370001,
+   "plpc": 0.889,
    "core": false,
    "stop": 495.6,
    "target": 540.72
@@ -68,9 +90,9 @@
    "symbol": "NUE",
    "qty": 16.0,
    "entry": 251.15,
-   "price": 251.02,
-   "pl": -2.08,
-   "plpc": -0.052,
+   "price": 250.84,
+   "pl": -4.96,
+   "plpc": -0.123,
    "core": true,
    "stop": 236.21,
    "target": 266.85
@@ -79,9 +101,9 @@
    "symbol": "PKG",
    "qty": 27.0,
    "entry": 244.45,
-   "price": 241.0,
-   "pl": -93.15,
-   "plpc": -1.411,
+   "price": 239.56,
+   "pl": -132.03,
+   "plpc": -2.0,
    "core": false,
    "stop": 235.28,
    "target": 253.71
@@ -90,20 +112,31 @@
    "symbol": "RL",
    "qty": 13.0,
    "entry": 378.13,
-   "price": 386.0,
-   "pl": 102.31,
-   "plpc": 2.081,
+   "price": 379.465,
+   "pl": 17.355,
+   "plpc": 0.35300000000000004,
    "core": false,
    "stop": 359.87,
    "target": 397.37
   },
   {
+   "symbol": "SOLV",
+   "qty": 61.0,
+   "entry": 86.47,
+   "price": 85.745,
+   "pl": -44.225,
+   "plpc": -0.8380000000000001,
+   "core": false,
+   "stop": 82.44,
+   "target": 90.58
+  },
+  {
    "symbol": "SPY",
    "qty": 18.0,
    "entry": 769.98,
-   "price": 738.1657,
-   "pl": -572.6574,
-   "plpc": -4.132000000000001,
+   "price": 736.0045,
+   "pl": -611.559,
+   "plpc": -4.413,
    "core": true,
    "stop": 708.31
   },
@@ -111,49 +144,32 @@
    "symbol": "URI",
    "qty": 3.0,
    "entry": 1082.036667,
-   "price": 1104.98,
-   "pl": 68.829999,
-   "plpc": 2.12,
+   "price": 1088.85,
+   "pl": 20.439999,
+   "plpc": 0.63,
    "core": false,
    "stop": 1016.81,
    "target": 1165.85
+  },
+  {
+   "symbol": "XYZ",
+   "qty": 51.0,
+   "entry": 78.99,
+   "price": 78.745,
+   "pl": -12.495,
+   "plpc": -0.31,
+   "core": false,
+   "stop": 74.13,
+   "target": 83.91
   }
  ],
  "pending": [
-  {
-   "symbol": "XYZ",
-   "qty": "51",
-   "limit": 79.01,
-   "stop": 74.13,
-   "target": 83.91
-  },
   {
    "symbol": "RVTY",
    "qty": "23",
    "limit": 152.43,
    "stop": 141.6,
    "target": 163.3
-  },
-  {
-   "symbol": "INCY",
-   "qty": "44",
-   "limit": 117.8,
-   "stop": 112.2,
-   "target": 123.48
-  },
-  {
-   "symbol": "CNC",
-   "qty": "49",
-   "limit": 67.45,
-   "stop": 62.42,
-   "target": 72.55
-  },
-  {
-   "symbol": "SOLV",
-   "qty": "61",
-   "limit": 86.48,
-   "stop": 82.44,
-   "target": 90.58
   },
   {
    "symbol": "WAT",
@@ -312,7 +328,7 @@
   {
    "d": "2026-11-19",
    "e": 96731.06,
-   "spy": null
+   "spy": 94528.43
   }
  ],
  "closed": [
