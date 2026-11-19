@@ -1,25 +1,26 @@
-run_utc=2026-11-18 03:49
-last_bar=2026-11-17
+run_utc=2026-11-19 03:47
+last_bar=2026-11-18
 mode=full_scan
 crosscheck_ok=3/3
 regime_ok=True
-technical_candidates=22
-analyst_checked=5
+technical_candidates=13
+analyst_checked=6
 analyst_no_data=0
-analyst_rejected=0
+analyst_rejected=1
 earnings_blocked=0
-earnings_no_data=2
-open_slots_used=5/18
+earnings_no_data=4
+open_slots_used=9/18
 paused=False
-drawdown_pct=3.72
+drawdown_pct=3.69
 signals_sent=5
-✅ VEEV: הלימיט התמלא ב-297.76
-✅ IQV: הלימיט התמלא ב-263.79
-✅ MSFT: הלימיט התמלא ב-514.57
-✅ EMR: הלימיט התמלא ב-160.65
-✅ AMCR: הלימיט התמלא ב-43.41
-📨 WAT: נשלחה הוראה לחשבון הדמה (11 מניות)
-📨 PKG: נשלחה הוראה לחשבון הדמה (27 מניות)
-📨 RL: נשלחה הוראה לחשבון הדמה (13 מניות)
-📨 GDDY: נשלחה הוראה לחשבון הדמה (37 מניות)
-📨 URI: נשלחה הוראה לחשבון הדמה (3 מניות)
+✅ VEEV: נסגר בפועל (stopped) -0.8R
+✅ WAT: הלימיט התמלא ב-449.78
+✅ PKG: הלימיט התמלא ב-242.27
+✅ RL: הלימיט התמלא ב-375.23
+✅ GDDY: הלימיט התמלא ב-106.21
+✅ URI: הלימיט התמלא ב-1082.52
+📨 RVTY: נשלחה הוראה לחשבון הדמה (23 מניות)
+📨 INCY: נשלחה הוראה לחשבון הדמה (44 מניות)
+📨 CNC: נשלחה הוראה לחשבון הדמה (49 מניות)
+📨 SOLV: נשלחה הוראה לחשבון הדמה (61 מניות)
+📨 XYZ: נשלחה הוראה לחשבון הדמה (51 מניות)
