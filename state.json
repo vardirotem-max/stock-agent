@@ -1,7 +1,7 @@
 {
   "peak_equity": 100566.78,
-  "paused": false,
-  "paused_at": "",
+  "paused": true,
+  "paused_at": "2026-11-19",
   "lock": {
     "day": "2026-11-19",
     "baseline": 96731.06,
