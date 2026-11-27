@@ -1,21 +1,30 @@
 {
- "updated": "2026-11-27 14:55 UTC",
- "equity": 95073.17,
+ "updated": "2026-11-27 15:01 UTC",
+ "equity": 95052.37,
  "cash": 90939.89,
- "buying_power": 375332.74,
- "day_pl": 159.8399999999965,
- "day_pct": 0.16840627127927818,
+ "buying_power": 372775.04,
+ "day_pl": 139.0399999999936,
+ "day_pct": 0.14649154128297215,
  "peak": 100566.78,
  "paused": true,
  "dd_limit": 5.0,
  "positions": [
   {
+   "symbol": "MRNA",
+   "qty": 1.0,
+   "entry": 216.67,
+   "price": 216.39,
+   "pl": -0.28,
+   "plpc": -0.129,
+   "core": false
+  },
+  {
    "symbol": "NUE",
    "qty": 16.0,
    "entry": 251.15,
-   "price": 258.33,
-   "pl": 114.88,
-   "plpc": 2.859,
+   "price": 257.03,
+   "pl": 94.08,
+   "plpc": 2.341,
    "core": true,
    "stop": 236.21,
    "target": 266.85
