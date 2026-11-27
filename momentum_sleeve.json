@@ -1,19 +1,25 @@
 {
  "symbols": [
-  "BIIB",
-  "BMY",
-  "CNC",
-  "FTNT",
-  "ILMN",
-  "MRK",
-  "MRVL",
-  "MU",
-  "NTAP",
+  "APA",
+  "CF",
+  "COP",
+  "CRL",
+  "CRWD",
+  "CVX",
+  "EOG",
+  "HST",
+  "HUM",
+  "MPC",
+  "MRNA",
   "NUE",
-  "PSX",
-  "STT",
-  "TXN",
-  "VLO"
+  "P",
+  "PANW",
+  "RVTY",
+  "TGT",
+  "TRGP",
+  "VTRS",
+  "XOM",
+  "ZBRA"
  ],
  "rebalanced": "2026-10-30"
 }
