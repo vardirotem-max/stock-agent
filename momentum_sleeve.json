@@ -8,7 +8,6 @@
   "CVX",
   "EOG",
   "HST",
-  "HUM",
   "MPC",
   "MRNA",
   "NUE",
@@ -21,5 +20,5 @@
   "XOM",
   "ZBRA"
  ],
- "rebalanced": "2026-10-30"
+ "rebalanced": "2026-11-27"
 }

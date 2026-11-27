@@ -1,1 +1,47 @@
-איזון אחרון לפני 27 ימים - אין צורך (מינימום 28).
+error: cannot pull with rebase: You have unstaged changes.
+error: Please commit or stash them.
+דילוג על OKTA: דוח 2026-12-01
+דילוג על NTAP: דוח 2026-12-01
+דילוג על VEEV: דוח 2026-12-03
+תעשיות: {'MRNA': 'Biotechnology', 'MPC': 'Oil & Gas Refining & Marketing', 'APA': 'Oil & Gas E&P', 'PANW': 'Software - Infrastructure', 'CRL': 'Diagnostics & Research', 'CRWD': 'Software - Infrastructure', 'VTRS': 'Drug Manufacturers - Specialty & Generic', 'TRGP': 'Oil & Gas Midstream', 'TGT': 'Discount Stores', 'NUE': 'Steel', 'COP': 'Oil & Gas E&P', 'HUM': 'Healthcare Plans', 'P': 'Computer Hardware', 'XOM': 'Oil & Gas Integrated', 'CVX': 'Oil & Gas Integrated', 'EOG': 'Oil & Gas E&P', 'RVTY': 'Diagnostics & Research', 'CF': 'Agricultural Inputs', 'ZBRA': 'Communication Equipment', 'HST': 'REIT - Hotel & Motel'}
+יעד: ['MRNA', 'MPC', 'APA', 'PANW', 'CRL', 'CRWD', 'VTRS', 'TRGP', 'TGT', 'NUE', 'COP', 'HUM', 'P', 'XOM', 'CVX', 'EOG', 'RVTY', 'CF', 'ZBRA', 'HST']
+למכור: []
+לקנות: ['MRNA', 'MPC', 'APA', 'PANW', 'CRL', 'CRWD', 'VTRS', 'TRGP', 'TGT', 'COP', 'HUM', 'P', 'XOM', 'CVX', 'EOG', 'RVTY', 'CF', 'ZBRA', 'HST']
+סכום למניה ~384$ | מזומן 90,940$
+קנייה MRNA 1 200
+קנייה MPC 1 200
+קנייה APA 8 200
+קנייה PANW 1 200
+קנייה CRL 1 200
+קנייה CRWD 1 200
+קנייה VTRS 19 200
+קנייה TRGP 1 200
+קנייה TGT 2 200
+קנייה COP 2 200
+דילוג HUM (יקר מדי / אין מזומן)
+קנייה P 3 200
+קנייה XOM 2 200
+קנייה CVX 1 200
+קנייה EOG 2 200
+קנייה RVTY 2 200
+קנייה CF 3 200
+קנייה ZBRA 1 200
+קנייה HST 15 200
+סטופ MRNA 200
+סטופ MPC 200
+סטופ APA 200
+סטופ PANW 200
+סטופ CRL 200
+סטופ CRWD 200
+סטופ VTRS 200
+סטופ TRGP 200
+סטופ TGT 200
+סטופ COP 200
+סטופ P 200
+סטופ XOM 200
+סטופ CVX 200
+סטופ EOG 200
+סטופ RVTY 200
+סטופ CF 200
+סטופ ZBRA 200
+סטופ HST 200
